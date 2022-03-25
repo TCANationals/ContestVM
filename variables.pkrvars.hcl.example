@@ -1,0 +1,7 @@
+# Set local variables here
+# These will override defaults
+
+vcenter_username = ""
+vcenter_password = ""
+vcenter_server = ""
+vcenter_host = ""
