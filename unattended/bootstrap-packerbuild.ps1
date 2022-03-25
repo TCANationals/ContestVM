@@ -32,6 +32,9 @@ Create-PackerStagingDirectories
 if (-not (Test-Path "$PackerScripts\windows-env.ps1" )) {
   Copy-Item A:\windows-env.ps1 $PackerScripts\windows-env.ps1
 }
+if (-not (Test-Path "$PackerScripts\choco-cleaner.ps1" )) {
+  Copy-Item A:\choco-cleaner.ps1 $PackerScripts\choco-cleaner.ps1
+}
 
 # Create Scheduled Task so this repeatedly until we have finished.
 if (-not (Test-Path "$PackerLogs\BootstrapSchedTask.installed")) {

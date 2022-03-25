@@ -16,6 +16,10 @@ Foreach ($Key in $SubKeys)
     Set-ItemProperty -Path $Key.PSPath -Name $CleanMgrStateFlags -Value $CleanMgrStateFlagNoAction
 }
 
+# Clean Chocolatey
+Write-Output "Cleaning up Chocolatey"
+PowerShell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& 'C:\Packer\Scripts\choco-cleaner.ps1'"
+
 # Cleanup Windows Update area after all that
 # Clean the WinSxS area - actual action depends on OS Level - full DISM commands only available from 2012R2 and later.
 Write-Output "Cleaning up WinxSx updates"
@@ -43,9 +47,9 @@ If ($WindowsVersion -like $WindowsServer2008) {
 ElseIf ( $WindowsServerCore ) {
   Write-Output "Skipping Clean-Mgr as GUI not installed (Core Installation)."
 }
-# ElseIf ($WindowsVersion -like $WindowsServer2016) {
-#   Write-Output "Skipping Clean-Mgr for Win-10/2016 as it tends to hang"
-# }
+ElseIf ($WindowsVersion -like $WindowsServer2016) {
+  Write-Output "Skipping Clean-Mgr for Win-10/2016 as it tends to hang"
+}
 else {
   # Set registry keys for all the other cleanup areas we want to address with cleanmgr - fairly comprehensive cleanup
   $cleankeyprefix = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
@@ -111,6 +115,3 @@ Write-Output "Cleaning Complete"
 Write-Output "Starting Free Space $SpaceAtStart GB"
 Write-Output "Current Free Space $SpaceAtEnd GB"
 Write-Output "Reclaimed $SpaceReclaimed GB"
-
-# Sleep to let console log catch up (and get captured by packer)
-Start-Sleep -Seconds 20

@@ -38,7 +38,7 @@ source "vsphere-iso" "win_10_sysprep" {
   winrm_username          = var.os_username
   winrm_password          = var.os_password_workstation
 
-  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM", timestamp())}"
+  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh", timestamp())}"
   vm_version              = var.vm_version
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
@@ -70,11 +70,20 @@ source "vsphere-iso" "win_10_sysprep" {
   // Only expose files needed for autounattend to run
   // Everything else is controlled by packer & winrm
   floppy_files = [
-    "unattended/autounattend.xml",
+    "unattended/AddTrust_External_CA_Root.cer",
     "unattended/bootstrap-base.bat",
     "unattended/bootstrap-packerbuild.ps1",
+    "unattended/choco-cleaner.ps1",
     "unattended/windows-env.ps1",
   ]
+
+  // Add template for autounattend.xml file
+  floppy_content = {
+    "autounattend.xml" = templatefile("../unattended/autounattend.xml.tpl", {
+      winrm_password = var.os_password_workstation,
+      winrm_username = var.os_username
+    })
+  }
 
   boot_wait    = "3s"
   boot_command = [
@@ -147,6 +156,11 @@ build {
     timeout           = "15m"
   }
 
+  provisioner "windows-restart" { # A restart before choco to settle the VM once more.
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
+
   provisioner "powershell" {
     pause_before      = "15s"
     elevated_user     = var.os_username
@@ -163,7 +177,7 @@ build {
     timeout           = "1h"
   }
 
-  provisioner "windows-restart" { # A restart before choco to settle the VM once more.
+  provisioner "windows-restart" { # A restart before finalize to settle the VM once more.
     pause_before    = "10s"
     restart_timeout = "1h"
   }
@@ -174,5 +188,10 @@ build {
     elevated_password = var.os_password_workstation
     script            = "scripts/sysprep_win_10.ps1"
     timeout           = "15m"
+  }
+
+  provisioner "windows-restart" { # Final restart before snapshotting (will end on logon screen)
+    pause_before    = "10s"
+    restart_timeout = "1h"
   }
 }

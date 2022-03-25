@@ -115,23 +115,23 @@
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>WinAdminPass123</Value>
+                            <Value>${winrm_password}</Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Description>Local administrator account.</Description>
                         <DisplayName>Packer</DisplayName>
                         <Group>Administrators</Group>
-                        <Name>Packer</Name>
+                        <Name>${winrm_username}</Name>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
             <AutoLogon>
                 <Password>
-                    <Value>WinAdminPass123</Value>
+                    <Value>${winrm_password}</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
-                <Username>Packer</Username>
+                <Username>${winrm_username}</Username>
             </AutoLogon>
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
@@ -141,17 +141,6 @@
                 <ProtectYourPC>3</ProtectYourPC>
             </OOBE>
             <FirstLogonCommands>
-                <!-- 
-               <SynchronousCommand wcm:action="add">
-                    <CommandLine>Powershell -ExecutionPolicy Bypass -File a:\install_vmware_tools.ps1</CommandLine>
-                    <Description>PS1 Script to install VMware Tools for connectivity due to VMNet adapters, performance gains etc.</Description>
-                    <Order>4</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>Powershell -ExecutionPolicy Bypass -File a:\configure_winrm_win10.ps1</CommandLine>
-                    <Description>Configure WinRM connectivity. Required for Packer connectivity.</Description>
-                    <Order>5</Order>
-                </SynchronousCommand> -->
                 <SynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <CommandLine>cmd.exe /c PowerShell -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine"</CommandLine>
@@ -173,7 +162,7 @@
                     <Order>4</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c wmic useraccount where &quot;name=&apos;Packer&apos;&quot; set PasswordExpires=FALSE</CommandLine>
+                    <CommandLine>cmd.exe /c wmic useraccount where &quot;name=&apos;${winrm_username}&apos;&quot; set PasswordExpires=FALSE</CommandLine>
                     <Description>Disable Administrator Password reset</Description>
                     <Order>5</Order>
                 </SynchronousCommand>
@@ -191,7 +180,7 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap-packerbuild.ps1 -HyperVisor vmware -AdminUsername &quot;Packer&quot; -AdminPassword &quot;WinAdminPass123&quot; &gt;&gt; C:\Packer\Logs\bootstrap-packerbuild.log 2>&amp;1</CommandLine>
+                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap-packerbuild.ps1 -HyperVisor vmware -AdminUsername &quot;${winrm_username}&quot; -AdminPassword &quot;${winrm_password}&quot; &gt;&gt; C:\Packer\Logs\bootstrap-packerbuild.log 2>&amp;1</CommandLine>
                     <Description>Start PSWindowsUpdate</Description>
                     <Order>9</Order>
                 </SynchronousCommand>

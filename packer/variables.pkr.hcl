@@ -20,7 +20,7 @@ variable "os_username" {
 variable "os_password_workstation" {
     description = "Local workstation password for login, WinRM or SSH etc."
     type    = string
-    default = "WinAdminPass123" # must match autounattend.xml
+    default = "Packer123"
     sensitive = true
 }
 variable "vcenter_server" {

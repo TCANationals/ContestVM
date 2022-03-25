@@ -49,5 +49,3 @@ catch {
 
     Exit 1
 }
-
-Start-Sleep -Seconds 10

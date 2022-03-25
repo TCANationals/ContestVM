@@ -22,5 +22,6 @@ choco install winrar -y
 choco install notepadplusplus -y
 choco install googlechrome -y
 choco install microsoft-windows-terminal -y
+choco install microsoft-office-deployment -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
 
 #choco install $APP1 -s $CholateyServer -y
