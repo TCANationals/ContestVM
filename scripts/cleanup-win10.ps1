@@ -1,11 +1,15 @@
 $ErrorActionPreference = 'Stop'
 
-. C:\Packer\Scripts\windows-env.ps1
+. C:\Packer\Scripts\tca-env.ps1
 
 if (Test-Path "$PackerLogs\Mock.Platform" ) {
   Write-Output "Test Platform Build - exiting"
   exit 0
 }
+
+# Clean up all downloads & ensure we have all folders
+#Remove-Tree $PackerDownloads
+#Create-PackerStagingDirectories
 
 $SpaceAtStart = [Math]::Round( ((Get-WmiObject win32_logicaldisk | where { $_.DeviceID -eq $env:SystemDrive }).FreeSpace)/1GB, 2)
 
@@ -19,6 +23,13 @@ Foreach ($Key in $SubKeys)
 # Clean Chocolatey
 Write-Output "Cleaning up Chocolatey"
 PowerShell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& 'C:\Packer\Scripts\choco-cleaner.ps1'"
+
+# Clean desktop shortcuts
+Remove-Shortcuts
+
+# Remove Active Setup for Chrome & Edge
+Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{9459C573-B17A-45AE-9F64-1857B5D58CEE}" -Force -ea SilentlyContinue -wa SilentlyContinue #edge
+Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{8A69D345-D564-463c-AFF1-A69D9E530F96}" -Force -ea SilentlyContinue -wa SilentlyContinue #chrome
 
 # Cleanup Windows Update area after all that
 # Clean the WinSxS area - actual action depends on OS Level - full DISM commands only available from 2012R2 and later.

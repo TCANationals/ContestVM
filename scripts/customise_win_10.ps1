@@ -4,6 +4,10 @@ $ErrorActionPreference = "Stop"
 #Start-Transcript C:\customise.txt
 
 try {
+    # Install EndpointManagement extensions
+    Write-Host "Installing AdminToolbox.EndpointManagement"
+    Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+
     # Disable screensaver and screen off
     Write-Host "Disabling Screensaver"
     Set-ItemProperty "HKCU:\Control Panel\Desktop" -Name ScreenSaveActive -Value 0 -Type DWord

@@ -23,6 +23,12 @@ variable "os_password_workstation" {
     default = "Packer123"
     sensitive = true
 }
+variable "tca_private_url" {
+    description = "Base URL for private TCA files."
+    type        = string
+    sensitive   = true
+    default     = "https://www.tcanationals.com/my_url"
+}
 variable "vcenter_server" {
     description = "vCenter server to connect."
     type    = string

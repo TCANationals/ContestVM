@@ -14,6 +14,14 @@ try {
     # finalize image (except for zero disk space 7 & release IP 11)
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
     #Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /quiet /quit"
+    # Disable CTRL+ALT+DEL logon (OSOT will re-enable)
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
+
+    # Setup task to delete Packer user profile on reboot (task will enable WinRM once finished)
+    Write-Output "Ensure WinRM is disabled"
+    Set-Service -StartupType Disabled -Name WinRM
+    Write-Output "Create Clean Scheduled Task"
+    schtasks /create /tn PackerClean /rl HIGHEST /ru "SYSTEM" /F /SC ONSTART /DELAY 0000:20 /TR 'cmd /c c:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe -sta -WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -NoProfile -File C:\Packer\Scripts\clean-profiles.ps1 >> C:\Packer\Logs\clean-packerbuild.log 2>&1'
 }
 catch {
     Write-Host

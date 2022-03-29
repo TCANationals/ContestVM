@@ -1,6 +1,7 @@
 # Set local variables here
 # These will override defaults
 
+tca_private_url = ""
 vcenter_username = ""
 vcenter_password = ""
 vcenter_server = ""

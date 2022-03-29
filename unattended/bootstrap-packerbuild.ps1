@@ -35,6 +35,12 @@ if (-not (Test-Path "$PackerScripts\windows-env.ps1" )) {
 if (-not (Test-Path "$PackerScripts\choco-cleaner.ps1" )) {
   Copy-Item A:\choco-cleaner.ps1 $PackerScripts\choco-cleaner.ps1
 }
+if (-not (Test-Path "$PackerScripts\clean-profiles.ps1" )) {
+  Copy-Item A:\clean-profiles.ps1 $PackerScripts\clean-profiles.ps1
+}
+if (-not (Test-Path "$PackerScripts\tca-env.ps1" )) {
+  Copy-Item A:\tca-env.ps1 $PackerScripts\tca-env.ps1
+}
 
 # Create Scheduled Task so this repeatedly until we have finished.
 if (-not (Test-Path "$PackerLogs\BootstrapSchedTask.installed")) {
@@ -178,6 +184,10 @@ catch {
 
 Write-Output "Enable WSMandCredSSP"
 Enable-WSManCredSSP -Force -Role Server
+
+# Upgrade NuGet and PowershellGet
+Install-PackageProvider -Name NuGet -Force
+Install-Module -Name PowerShellGet -Force
 
 # Needed for Win-2008r2
 # Generally increase all of these parameters to improve file upload reliability
