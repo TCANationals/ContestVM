@@ -91,11 +91,6 @@ else {
   Start-Process -Wait "cleanmgr" -ArgumentList "/sagerun:$CleanMgrSageSet"
 }
 
-# Now that all Update operations are complete, disable Windows Update and STOP it.
-Write-Output "Stopping and Disabling Windows Update"
-net stop wuauserv
-Set-Service wuauserv -StartupType Disabled
-
 # Clean up files (including those not addressed by cleanmgr)
 # Use Try/Catch in preference to SilentlyContinue as this needs to be PS 2 compatible
 # to avoid aborting on locked files etc in Win-2008r2

@@ -50,7 +50,12 @@ source "vsphere-iso" "win_10_sysprep" {
   video_ram               = "131072" # 128MB in bytes
   cdrom_type              = "sata"
   remove_cdrom            = true
-  disk_controller_type    = ["lsilogic-sas"]
+  NestedHV                = true
+  disk_controller_type    = ["pvscsi"]
+
+  configuration_parameters = {
+    "devices.hotplug" = "false",
+  }
     
   network_adapters {
     network               = var.vm_network
@@ -111,48 +116,48 @@ build {
     restart_timeout = "15m"
   }
 
-  // provisioner "windows-update" {
-  //   pause_before = "1m"
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    pause_before = "10s"
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
 
-  // provisioner "windows-update" {
-  //   pause_before = "1m"
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    pause_before = "1m"
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
 
-  // // Not pausing on these since they're not likely to yield anything...
-  // provisioner "windows-update" {
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  // Not pausing on these since they're not likely to yield anything...
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
 
-  // provisioner "windows-update" {
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
 
   provisioner "powershell" {
     pause_before      = "20s"
@@ -223,7 +228,23 @@ build {
     timeout           = "1h"
   }
 
-  provisioner "windows-restart" { # A restart before finalize to settle the VM once more.
+  provisioner "windows-restart" {
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
+
+  provisioner "windows-update" {
+    pause_before = "1m"
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
+
+  provisioner "windows-restart" { # One final restart before finalizing the image
     pause_before    = "10s"
     restart_timeout = "1h"
   }

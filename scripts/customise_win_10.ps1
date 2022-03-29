@@ -27,9 +27,24 @@ try {
     $p = Get-CimInstance -Name root\cimv2\power -Class win32_PowerPlan -Filter "ElementName = 'High Performance'"      
     powercfg /setactive ([string]$p.InstanceID).Replace("Microsoft:PowerPlan\{","").Replace("}","")
 
+    # Load HKEY_USERS hive
+    Write-Host "Loading HKEY_USERS..."
+    New-PSDrive -PSProvider Registry -Name HKU -Root HKEY_USERS
+    # Setup HKU Default keys if not exist
+    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced")){
+        # code to create new key
+        New-Item "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "Advanced" -Force
+    }
+
     # Show file extensions in Windows Explorer.
     Write-Host "Enabling file extensions in Windows Explorer..."
     Set-Itemproperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0 -Verbose
+    Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0 -Verbose
+
+    # Show all notifications in task bar
+    Write-Host "Enabling file extensions in Windows Explorer..."
+    Set-Itemproperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
+    Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
 
     # Disable Cortana search bar
     #Write-Host "Disabling Cortana search bar in taskbar..."
