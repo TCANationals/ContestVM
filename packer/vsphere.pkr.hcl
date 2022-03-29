@@ -55,6 +55,7 @@ source "vsphere-iso" "win_10_sysprep" {
 
   configuration_parameters = {
     "devices.hotplug" = "false",
+    "mks.enable3d" = "true", # enable 3d support
   }
     
   network_adapters {
@@ -79,6 +80,8 @@ source "vsphere-iso" "win_10_sysprep" {
     "unattended/bootstrap-base.bat",
     "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
+    "unattended/logon.bgi",
+    "unattended/susa_black.bmp",
     "unattended/windows-env.ps1",
   ]
 
@@ -234,7 +237,6 @@ build {
   }
 
   provisioner "windows-update" {
-    pause_before = "1m"
     timeout = "1h"
     search_criteria = "IsInstalled=0"
     filters = [

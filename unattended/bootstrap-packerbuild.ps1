@@ -42,6 +42,14 @@ if (-not (Test-Path "$PackerScripts\tca-env.ps1" )) {
   Copy-Item A:\tca-env.ps1 $PackerScripts\tca-env.ps1
 }
 
+# Copy binary config files
+if (-not (Test-Path "$PackerConfig\logon.bgi" )) {
+  Copy-Item A:\logon.bgi $PackerConfig\logon.bgi
+}
+if (-not (Test-Path "$PackerConfig\susa_black.bmp" )) {
+  Copy-Item A:\susa_black.bmp $PackerConfig\susa_black.bmp
+}
+
 # Create Scheduled Task so this repeatedly until we have finished.
 if (-not (Test-Path "$PackerLogs\BootstrapSchedTask.installed")) {
   Write-Output "Create Bootstrap Scheduled Task"

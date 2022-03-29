@@ -1,4 +1,6 @@
-﻿# Install the core system apps
+﻿. C:\Packer\Scripts\tca-env.ps1
+
+# Install the core system apps
 choco install laps -y --params='"/ALL"'
 choco install sysinternals -y
 choco install vlc -y
@@ -12,3 +14,6 @@ choco install powerbi -y
 choco install tableau-desktop -y
 choco install vscode -y
 choco install speedtest -y
+
+# Setup bginfo on logon
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BGInfo" -Value '"C:\ProgramData\chocolatey\bin\Bginfo64.exe" "$PackerConfig\logon.bgi" /timer:0 /silent /nolicprompt' -ea SilentlyContinue -wa SilentlyContinue
