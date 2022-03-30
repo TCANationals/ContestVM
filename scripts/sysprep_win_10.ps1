@@ -27,8 +27,12 @@ try {
     reg add "HKU\temp\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "EnableAutoTray" /t REG_DWORD /d 0 /f
     reg unload "hku\temp"
 
+    # Update local group policies
+    $MachineGPDir = "$env:windir\system32\GroupPolicy\Machine\registry.pol"
+    $UserGPDir = "$env:windir\system32\GroupPolicy\User\registry.pol"
+
     # Disable Wallpaper setting
-    Remove-RegistryValueForAllUsers -RegistryInstance @{'Name' = 'Wallpaper'; 'Path' = 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'}
+    Remove-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\System' -ValueName 'WallPaper'
 
     # Setup task to delete Packer user profile on reboot (task will enable WinRM once finished)
     Write-Output "Ensure WinRM is disabled"

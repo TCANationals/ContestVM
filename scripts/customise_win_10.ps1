@@ -7,6 +7,8 @@ try {
     # Install EndpointManagement extensions
     Write-Host "Installing AdminToolbox.EndpointManagement"
     Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+    Write-Host "Installing PolicyFileEditor"
+    Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
 
     # Disable screensaver and screen off
     Write-Host "Disabling Screensaver"
