@@ -27,6 +27,23 @@ try {
     reg add "HKU\temp\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "EnableAutoTray" /t REG_DWORD /d 0 /f
     reg unload "hku\temp"
 
+    # Add desktop shortcuts
+    Create-Shortcut -Name "Access" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\MSACCESS.exe"
+    Create-Shortcut -Name "Excel" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\EXCEL.exe"
+    Create-Shortcut -Name "Google Chrome" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Google\Chrome\Application\chrome.exe"
+    Create-Shortcut -Name "Outlook" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\OUTLOOK.exe"
+    Create-Shortcut -Name "PowerPoint" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\POWERPNT.exe"
+    Create-Shortcut -Name "Power BI Desktop" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Power BI Desktop\bin\PBIDesktop.exe"
+    Create-Shortcut -Name "Publisher" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\MSPUB.exe"
+    Create-Shortcut -Name "Visio" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\VISIO.exe"
+    Create-Shortcut -Name "Word" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\WINWORD.exe"
+    Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"
+    Create-Shortcut -Name "VMware Player" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
+    Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
+
+    # Add start menu shortcuts
+    Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Immidio\Flex Profiles\Flex+ Self-Support.exe"
+
     # Update local group policies
     $MachineGPDir = "$env:windir\system32\GroupPolicy\Machine\registry.pol"
     $UserGPDir = "$env:windir\system32\GroupPolicy\User\registry.pol"

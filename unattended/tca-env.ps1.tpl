@@ -339,7 +339,7 @@ Function Get-Shortcuts
  .Parameter RunAsAdministrator
   Include this switch if you want the shortcut to be set to Run As Administrator
 #>
-Function New-Shortcut {
+Function Create-Shortcut {
   Param (
       [Parameter(Mandatory=$true)]
       [string] $Name,
@@ -386,7 +386,7 @@ Function New-Shortcut {
               Remove-Item $filename -force
           }
 
-          $tempfilename = Join-Path $containerHelperFolder "$([Guid]::NewGuid().ToString()).lnk"
+          $tempfilename = Join-Path "$ENV:LOCALAPPDATA\temp" "$([Guid]::NewGuid().ToString()).lnk"
           $Shell =  New-object -comobject WScript.Shell
           $Shortcut = $Shell.CreateShortcut($tempfilename)
           $Shortcut.TargetPath = $TargetPath
