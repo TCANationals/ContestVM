@@ -93,49 +93,14 @@ $startup = "$env:appdata\Microsoft\Windows\Start Menu\Programs\Startup"
 # Common variable definitions for packer installations and staging
 $PackerStaging = "C:\Packer"
 $PackerDownloads = "$PackerStaging\Downloads"
-$PackerPuppet = "$PackerStaging\puppet"
-$PuppetModulesPath = "$PackerPuppet\modules"
-$PuppetHieradata = "$PackerPuppet\data"
 $PackerScripts = "$PackerStaging\Scripts"
-$SysInternals = "$PackerStaging\SysInternals"
 $PackerLogs = "$PackerStaging\Logs"
 $PackerConfig = "$PackerStaging\Config"
-$CygwinDownloads = "$PackerDownloads\Cygwin"
-$PackerPsModules = "$PackerStaging\PsModules"
-$PackerAcceptance = "$PackerStaging\Acceptance"
-
-$WSLDir = "$PackerStaging\wsl"
-
-# Load in the build parameters injected from the Packer Build.
-$PackerBuildFile = "$PuppetHieradata\build.json"
-if (Test-Path "$PuppetHieradata\build.json") {
-  $PackerBuildData = Get-Content -Path "$PuppetHieradata\build.json"
-
-  [System.Reflection.Assembly]::LoadWithPartialName("System.Web.Extensions")
-  $ser = New-Object System.Web.Script.Serialization.JavaScriptSerializer
-  $Global:PackerBuildParams = $ser.DeserializeObject($PackerBuildData)
-}
-
-# For Puppet modules configuration
-$ModulesPath = ''
-$PuppetPath = "$ENV:PROGRAMFILES\Puppet Labs\Puppet\bin\puppet.bat"
-
-$7zip = "$ENV:PROGRAMFILES\7-Zip\7z.exe"
 
 if ($ENV:PROCESSOR_ARCHITECTURE -eq 'x86') {
   $ARCH = 'x86'
 } else {
   $ARCH = 'x86_64'
-}
-
-# Work out what CYGDIR is and set it as a Windows Environment Variable
-# Note - need seperate Prefix var for environment variables due to cygwin/git-for-win idiosyncrasies
-if ($ARCH -eq 'x86') {
-  $CygWinDir = "C:\cygwin"
-  $CygEnvPrefix = "C:/cygwin"
-} else {
-  $CygWinDir = "C:\cygwin64"
-  $CygEnvPrefix = "C:/cygwin64"
 }
 
 # Cleanmgr Registry "SageSet" Value - setting this to "random" value and associated constants
@@ -160,16 +125,9 @@ Function Create-PackerStagingDirectories {
 
     New-Item -ItemType Directory -Force -Path $PackerStaging
 
-    New-Item -ItemType Directory -Force -Path $PuppetModulesPath
-    New-Item -ItemType Directory -Force -Path $PuppetHieradata
     New-Item -ItemType Directory -Force -Path $PackerDownloads
-    New-Item -ItemType Directory -Force -Path $CygwinDownloads
     New-Item -ItemType Directory -Force -Path $PackerConfig
     New-Item -ItemType Directory -Force -Path $PackerScripts
-    New-Item -ItemType Directory -Force -Path $PackerPsModules
-    New-Item -ItemType Directory -Force -Path $SysInternals
-    New-Item -ItemType Directory -Force -Path $PackerAcceptance
-    New-Item -ItemType Directory -Force -Path $WSLDir
 
     Touch-File "$PackerLogs/StagingDirectories.installed"
   }
@@ -705,62 +663,6 @@ Function Enable-RemoteDesktop {
   }
   catch {
      throw "There was a problem enabling Remote Desktop NLA. Make sure your operating system supports Remote Desktop NLA and there is no group policy preventing you from enabling it."
-  }
-}
-
-# Helper Function to install PS Windows Update - mainly for Appveyor Installs
-Function Install-PSWindowsUpdate {
-
-  $webDeployURL="https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/file/41459/47/PSWindowsUpdate.zip"
-  $zipPath="$($env:USERPROFILE)\Downloads\PSWindowsUpdate.zip"
-  $targetDir="C:\Windows\System32\WindowsPowerShell\v1.0\Modules\"
-  $explorerExe = "$env:windir\explorer.exe"
-  $FileExists = Test-Path $explorerExe
-
-  Write-Output "Starting PSWindowsUpdate module installation`n"
-
-  (New-Object System.Net.WebClient).DownloadFile($webDeployURL, $zipPath)
-
-  If ($FileExists -eq $False) {
-    Write-Output "We have Identified your OS as Server Core`n"
-    [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem") > $null
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $targetDir)
-  }
-  Else {
-    Write-Output "We have Identified your OS as Server with graphical UI`n"
-    $shell = new-object -com shell.application
-    $zipFile = $shell.NameSpace($zipPath)
-    $destinationFolder = $shell.NameSpace($targetDir)
-    $copyFlags = 0x00
-    $copyFlags += 0x04 # Hide progress dialogs
-    $copyFlags += 0x10 # Overwrite existing files
-    $destinationFolder.CopyHere($zipFile.Items(), $copyFlags)
-  }
-
-  Write-Output "Ended PSWindowsUpdate Installation`n"
-}
-
-# Helper to import PsWindowsUpdate Module.
-Function Import-PsWindowsUpdateModule {
-
-  # Using PS Version checking here as need slightly different import methods for
-  # the version - see notes associated with each branch below.
-
-  if ($psversiontable.psversion.major -eq 2)
-  {
-    # Powershell 2.0 requires the use of the "Import-Module" command, whereas later versions
-    # auto-import provided the PSModulePath env variable contains the module path.
-    # Also set this alias for PS2 removes a benign error that causes Pester to barf.
-    Write-Output "Importing PSWindowsUpdate module - PS2"
-    Set-Alias -Name Unblock-File -Scope Global -Value Get-ChildItem
-    Import-Module -Global -Name "$PackerPsModules\PSWindowsUpdate\PSWindowsUpdate.psd1"
-  } else {
-    # PS3+ uses auto import based on the PSModulesPath
-    # Also because 2.0.0.4 uses an assembly .dll for the functionality, the update
-    # to PSModulesPath is essential - just using the import command gives a
-    # runtime reference error.
-    Write-Output "Adding $PackerPsModules to PsModulePath for this session PS3+"
-    $Env:PSModulePath += ";$PackerPsModules"
   }
 }
 

@@ -16,6 +16,17 @@ TCA-DownloadFile "$LSStudentFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$LSStudentFilename"" /qn ADVANCED_OPTIONS=1 STEALTH_MODE=1 AD_SECURE_MODE=1 CHANNEL=1 ONLY_INSTALL_UPGRADE=1"
 Remove-Item -Path "$PackerDownloads\$LSStudentFilename"
 
+# Google Chrome
+$ChromeFilename = "googlechromestandaloneenterprise64.msi"
+Download-File "https://dl.google.com/tag/s/dl/chrome/install/googlechromestandaloneenterprise64.msi" "$PackerDownloads\$ChromeFilename"
+Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ChromeFilename"" /qn"
+Remove-Item -Path "$PackerDownloads\$ChromeFilename"
+
+# MS PowerBI
+Download-File "https://download.microsoft.com/download/8/8/0/880BCA75-79DD-466A-927D-1ABF1F5454B0/PBIDesktopSetup_x64.exe" "$PackerDownloads\PBIDesktopSetup_x64.exe"
+Start-Process -Wait -FilePath "$PackerDownloads\PBIDesktopSetup_x64.exe" -ArgumentList "-quiet -norestart ACCEPT_EULA=1"
+Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
+
 # Pearson Certiport Compass, for IC3 exam
 # This generates a random admin account since Certiport needs local admin to run
 $CertAdminPass = Get-RandomPassword 8
