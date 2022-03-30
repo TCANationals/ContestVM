@@ -10,7 +10,7 @@ try {
 
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoLogonCount -Value 0
     netsh advfirewall set allprofiles state on
-    C:\Packer\Downloads\OSOT.exe -o all-item -SyncHkcuToHku Enable -VisualEffect Balanced -Notification Disable -WindowsSearch SearchBoxAsIcon -StoreApp Keep-all -SmartScreen Disable -Background "#000000" EnableCustomization -v
+    C:\Packer\Downloads\OSOT.exe -o all-item -SyncHkcuToHku Enable -VisualEffect Balanced -Notification Disable -WindowsSearch SearchBoxAsIcon -StoreApp Keep-all -SmartScreen Disable -Background "#000000" -v
     # finalize image (except for zero disk space 7 & release IP 11)
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
     #Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /quiet /quit"
