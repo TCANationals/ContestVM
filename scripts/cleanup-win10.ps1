@@ -4,26 +4,28 @@ $ErrorActionPreference = 'Stop'
 
 # List of allowed shortcuts, all others will be removed
 $AllowedShortcuts = @(
-  'Accessibility'
-  'Accessories'
-  'Administrative Tools'
-  'Access'
-  'Acrobat Reader'
-  'Excel'
-  'Google Chrome'
-  'Notepad'
-  'OneNote'
-  'Outlook'
-  'PowerPoint'
-  'Project'
-  'Publisher'
-  'Tableau'
-  'TCA Timer'
-  'Visio'
-  'Word'
+  'Speech Recognition.lnk'
+  'Calculator.lnk'
+  'Math Input Panel.lnk'
+  'Notepad.lnk'
+  'Paint.lnk'
+  'Snipping Tool.lnk'
+  'Windows Media Player.lnk'
+  'Wordpad.lnk'
+  'Access.lnk'
+  'Acrobat Reader DC.lnk'
+  'Excel.lnk'
+  'Google Chrome.lnk'
+  'Notepad++.lnk'
+  'OneNote.lnk'
+  'Outlook.lnk'
+  'PowerPoint.lnk'
+  'Project.lnk'
+  'Publisher.lnk'
+  'TCA Timer.lnk'
+  'Visio.lnk'
+  'Word.lnk'
 )
-# regex uses the pipe symbol as the logical "OR"
-$RegexAllowedShortcuts = $AllowedShortcuts -join '|'
 
 if (Test-Path "$PackerLogs\Mock.Platform" ) {
   Write-Output "Test Platform Build - exiting"
@@ -52,7 +54,7 @@ Remove-Shortcuts
 
 # Clean remaining shortcuts (leave whitelist)
 $shortcuts = Get-Shortcuts
-$shortcuts | Where-Object{$_.Target -notmatch $RegexAllowedShortcuts} | Remove-Item -ErrorAction SilentlyContinue -Force
+$shortcuts | Where-Object{$_.ShortcutName -notin $AllowedShortcuts} | Remove-Item -ErrorAction SilentlyContinue -Force
 
 # Remove Active Setup for Chrome & Edge
 Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{9459C573-B17A-45AE-9F64-1857B5D58CEE}" -Force -ea SilentlyContinue -wa SilentlyContinue #edge
