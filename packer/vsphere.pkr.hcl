@@ -255,7 +255,7 @@ build {
     pause_before      = "10s"
     elevated_user     = var.os_username
     elevated_password = var.os_password_workstation
-    script            = "scripts/sysprep_win_10.ps1"
+    script            = "scripts/finalize_win_10.ps1"
     timeout           = "15m"
   }
 

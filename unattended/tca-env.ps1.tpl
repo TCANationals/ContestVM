@@ -298,6 +298,29 @@ Function Remove-RegistryValueForAllUsers {
     }
 }
 
+Function Get-Shortcuts
+{
+  $DesktopShortcuts = Get-ChildItem -ErrorAction SilentlyContinue -Recurse -Force "C:\Users" -Include *.url
+  $StartMenuShortcuts = Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.url
+  $StartMenuShortcuts2 = Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.lnk
+
+  $Shortcuts = $DesktopShortcuts + $StartMenuShortcuts + $StartMenuShortcuts2
+
+  $Shell = New-Object -ComObject WScript.Shell
+  foreach ($Shortcut in $Shortcuts)
+  {
+      $Properties = @{
+      ShortcutName = $Shortcut.Name;
+      Path = $Shortcut.FullName;
+      ShortcutDirectory = $shortcut.DirectoryName
+      Target = $Shell.CreateShortcut($Shortcut).targetpath
+      }
+      New-Object PSObject -Property $Properties
+  }
+
+  [Runtime.InteropServices.Marshal]::ReleaseComObject($Shell) | Out-Null
+}
+
 Function Register-NativeMethod
 {
     [CmdletBinding()]

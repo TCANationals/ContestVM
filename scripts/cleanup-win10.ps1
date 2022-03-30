@@ -2,6 +2,29 @@ $ErrorActionPreference = 'Stop'
 
 . C:\Packer\Scripts\tca-env.ps1
 
+# List of allowed shortcuts, all others will be removed
+$AllowedShortcuts = @(
+  'Accessibility'
+  'Accessories'
+  'Administrative Tools'
+  'Access'
+  'Acrobat Reader'
+  'Excel'
+  'Google Chrome'
+  'Notepad'
+  'OneNote'
+  'Outlook'
+  'PowerPoint'
+  'Project'
+  'Publisher'
+  'Tableau'
+  'TCA Timer'
+  'Visio'
+  'Word'
+)
+# regex uses the pipe symbol as the logical "OR"
+$RegexAllowedShortcuts = $AllowedShortcuts -join '|'
+
 if (Test-Path "$PackerLogs\Mock.Platform" ) {
   Write-Output "Test Platform Build - exiting"
   exit 0
@@ -26,6 +49,10 @@ PowerShell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& 'C:\Packer\S
 
 # Clean desktop shortcuts
 Remove-Shortcuts
+
+# Clean remaining shortcuts (leave whitelist)
+$shortcuts = Get-Shortcuts
+$shortcuts | Where-Object{$_.Target -notmatch $RegexAllowedShortcuts} | Remove-Item -ErrorAction SilentlyContinue -Force
 
 # Remove Active Setup for Chrome & Edge
 Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{9459C573-B17A-45AE-9F64-1857B5D58CEE}" -Force -ea SilentlyContinue -wa SilentlyContinue #edge
