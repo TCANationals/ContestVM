@@ -51,7 +51,7 @@ Function Create-NewLocalAdmin {
   [CmdletBinding()]
   param (
       [string] $NewLocalAdmin,
-      [securestring] $Password
+      [securestring] $Password,
       [switch] $HideUser = $true
   )
   begin {
@@ -82,8 +82,6 @@ Function Create-NewLocalAdmin {
       & WMIC USERACCOUNT WHERE "Name='$NewLocalAdmin'" SET PasswordExpires=FALSE
   }
   end {
-    $adsi = [ADSI]"WinNT://$env:COMPUTERNAME"
-    $adsi.Children | where {$_.SchemaClassName -eq 'user' -and $_.Name -eq $NewLocalAdmin }
   }
 }
 
