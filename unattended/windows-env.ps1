@@ -165,6 +165,7 @@ param (
       }
     }
   }
+  Write-Output "Download complete: $file"
 }
 
 # Helper Function to set both User and Default User registry key.

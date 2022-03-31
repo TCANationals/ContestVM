@@ -3,6 +3,10 @@ $ErrorActionPreference = "Stop"
 
 . C:\Packer\Scripts\tca-env.ps1
 
+if (-not (TCA-PrivateUrlSupported)) {
+    Exit 0
+}
+
 $HorizonAgentExe = "VMware-Horizon-Agent-x86_64-2111-8.4.0-19446757.exe"
 
 TCA-DownloadFile "$HorizonAgentExe"

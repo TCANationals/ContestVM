@@ -114,51 +114,47 @@ build {
     restart_timeout = "15m"
   }
 
-  // provisioner "windows-update" {
-  //   pause_before = "10s"
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    pause_before = "5s"
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "include:$true"
+    ]
+  }
 
-  // provisioner "windows-update" {
-  //   pause_before = "1m"
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    pause_before = "1m"
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "include:$true"
+    ]
+  }
 
-  // // Not pausing on these since they're not likely to yield anything...
-  // provisioner "windows-update" {
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  // Not pausing on these since they're not likely to yield anything...
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "include:$true"
+    ]
+  }
 
-  // provisioner "windows-update" {
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "include:$true"
+    ]
+  }
 
   provisioner "powershell" {
-    pause_before      = "20s"
+    pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
     script            = "scripts/customise_win_10.ps1"
@@ -166,12 +162,12 @@ build {
   }
 
   provisioner "windows-restart" { # A restart before choco to settle the VM once more.
-    pause_before    = "10s"
+    pause_before    = "5s"
     restart_timeout = "1h"
   }
 
   provisioner "powershell" {
-    pause_before      = "15s"
+    pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
     script            = "scripts/choco-core.ps1"
@@ -231,20 +227,20 @@ build {
     restart_timeout = "1h"
   }
 
-  // provisioner "windows-update" {
-  //   timeout = "1h"
-  //   search_criteria = "IsInstalled=0"
-  //   filters = [
-  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  //     "exclude:$_.Title -like '*Preview*'",
-  //     "include:$true"
-  //   ]
-  // }
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Preview*'",
+      "include:$true"
+    ]
+  }
 
-  // provisioner "windows-restart" { # One final restart before finalizing the image
-  //   pause_before    = "10s"
-  //   restart_timeout = "1h"
-  // }
+  provisioner "windows-restart" { # One final restart before finalizing the image
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
   provisioner "powershell" {
     pause_before      = "10s"

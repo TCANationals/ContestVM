@@ -11,6 +11,14 @@ $ErrorActionPreference = 'Continue'
 . C:\Packer\Scripts\windows-env.ps1
 . C:\Packer\Scripts\tca-uri.ps1
 
+Function TCA-PrivateUrlSupported {
+    if ($TCAPrivateUrl) {
+        return $true
+    }
+    Write-Host "TCA private downloads not supported, skipping..."
+    return $false
+}
+
 # Function to download the private packages we need
 Function TCA-DownloadFile {
   param (
@@ -50,7 +58,6 @@ Function Create-NewLocalAdmin {
 
         Write-Host "Creating new local user $NewLocalAdmin."
         New-LocalUser "$NewLocalAdmin" -Password $Password -AccountNeverExpires
-        #& NET USER $NewLocalAdmin $Password /add /y /expires:never
         Write-Host "Adding local user $NewLocalAdmin to Administrators."
         Add-LocalGroupMember -Group "Administrators" -Member "$NewLocalAdmin"
 
@@ -304,10 +311,18 @@ Function Get-Shortcuts
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse -Force "C:\Users" -Include *.url
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse -Force "C:\Users" -Include *.lnk
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.url
-  $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.lnk -Exclude "*Administrative Tools*"
+  $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.lnk
+
+  $finalShortcuts = @()
+  foreach ($Shortcut in $Shortcuts)
+  {
+    if (-not ($Shortcut.FullName -like '*Administrative Tools*')) {
+      $finalShortcuts += $Shortcut
+    }
+  }
 
   $Shell = New-Object -ComObject WScript.Shell
-  foreach ($Shortcut in $Shortcuts)
+  foreach ($Shortcut in $finalShortcuts)
   {
       $Properties = @{
       ShortcutName = $Shortcut.Name;

@@ -5,6 +5,10 @@ $ErrorActionPreference = "Stop"
 
 . C:\Packer\Scripts\tca-env.ps1
 
+if (-not (TCA-PrivateUrlSupported)) {
+    Exit 0
+}
+
 # VMware DEM to ensure profiles are stored on central server
 $DEMFilename = "VMwareDynamicEnvironmentManagerEnterprise211110.4x64.msi"
 TCA-DownloadFile "$DEMFilename"
@@ -20,12 +24,12 @@ Remove-Item -Path "$PackerDownloads\$LSStudentFilename"
 
 # Pearson Certiport Compass, for IC3 exam
 # This generates a random admin account since Certiport needs local admin to run
+Write-Output "Creating dedicated admin account for Compass"
 $CertAdminPass = Get-RandomPassword 12
 $CertAdminSecurePass = ConvertTo-SecureString "$CertAdminPass" -AsPlainText -Force
-Write-Output $CertAdminPass | Out-File -FilePath "$PackerLogs\CertiAdminPass.txt"
 Create-NewLocalAdmin "CertiportAdmin" $CertAdminSecurePass
+
 $CompassArgList = ('/Silent Path="C:\Certiport\Compass" /TestCenterID 90063004 /CertiportID 90063004 /TestCenterName "SkillsUSA" /LanguageCode ENU /ImpersonationUser "CertiportAdmin" /ImpersonationPassword "' + $CertAdminPass + '"')
-Write-Output $CompassArgList | Out-File -FilePath "$PackerLogs\CertiArgs.txt"
 $CompassFilename = "Compass_Setup_19.0.2.907.exe"
 TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"

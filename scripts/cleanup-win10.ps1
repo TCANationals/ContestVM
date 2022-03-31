@@ -25,6 +25,9 @@ $AllowedShortcuts = @(
   'TCA Timer.lnk'
   'Visio.lnk'
   'Word.lnk'
+  'Magnify.lnk'
+  'Narrator.lnk'
+  'On-Screen Keyboard.lnk'
 )
 
 if (Test-Path "$PackerLogs\Mock.Platform" ) {
