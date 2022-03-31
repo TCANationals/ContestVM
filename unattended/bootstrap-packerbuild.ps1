@@ -46,6 +46,9 @@ if (-not (Test-Path "$PackerScripts\tca-uri.ps1" )) {
 }
 
 # Copy binary config files
+if (-not (Test-Path "$PackerConfig\defaultassociations.xml" )) {
+  Copy-Item A:\defaultassociations.xml $PackerConfig\defaultassociations.xml
+}
 if (-not (Test-Path "$PackerConfig\logon.bgi" )) {
   Copy-Item A:\logon.bgi $PackerConfig\logon.bgi
 }

@@ -9,7 +9,12 @@
 $ErrorActionPreference = 'Continue'
 
 . C:\Packer\Scripts\windows-env.ps1
-. C:\Packer\Scripts\tca-uri.ps1
+
+# Load private URL if exists
+$TCAPrivateUrl = ""
+if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
+    . C:\Packer\Scripts\tca-uri.ps1
+}
 
 Function TCA-PrivateUrlSupported {
     if ($TCAPrivateUrl) {
@@ -47,6 +52,7 @@ Function Create-NewLocalAdmin {
   param (
       [string] $NewLocalAdmin,
       [securestring] $Password
+      [switch] $HideUser = $true
   )
   begin {
   }
@@ -62,7 +68,9 @@ Function Create-NewLocalAdmin {
         Add-LocalGroupMember -Group "Administrators" -Member "$NewLocalAdmin"
 
         # Hide new account on login screen
-        Hide-LocalUserLogin $NewLocalAdmin
+        if ($HideUser) {
+            Hide-LocalUserLogin $NewLocalAdmin
+        }
         # Setup new profile so this account can be used
         # Create-LocalUserProfile $NewLocalAdmin
       } else {
@@ -74,6 +82,8 @@ Function Create-NewLocalAdmin {
       & WMIC USERACCOUNT WHERE "Name='$NewLocalAdmin'" SET PasswordExpires=FALSE
   }
   end {
+    $adsi = [ADSI]"WinNT://$env:COMPUTERNAME"
+    $adsi.Children | where {$_.SchemaClassName -eq 'user' -and $_.Name -eq $NewLocalAdmin }
   }
 }
 

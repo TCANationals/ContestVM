@@ -13,7 +13,7 @@ try {
     C:\Packer\Downloads\OSOT.exe -o all-item -SyncHkcuToHku Enable -VisualEffect Balanced -Notification Disable -WindowsSearch SearchBoxAsIcon -StoreApp Keep-all -SmartScreen Disable -Background "#000000" -v
     # finalize image (except for zero disk space 7 & release IP 11)
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
-    # Disable CTRL+ALT+DEL logon (OSOT will re-enable)
+    # Disable CTRL+ALT+DEL on logon
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
 
     # Customize default user preferences
@@ -39,9 +39,11 @@ try {
     Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"
     Create-Shortcut -Name "VMware Player" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
     Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2022.1\tableau.exe"
 
     # Add start menu shortcuts
     Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Immidio\Flex Profiles\Flex+ Self-Support.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2022.1\tableau.exe"
 
     # Update local group policies
     $MachineGPDir = "$env:windir\system32\GroupPolicy\Machine\registry.pol"
@@ -49,6 +51,15 @@ try {
 
     # Disable Wallpaper setting
     Remove-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\System' -ValueName 'WallPaper'
+    # Set file associations
+    Set-PolicyFileEntry -Path $MachineGPDir -Key 'Software\Policies\Microsoft\Windows\System' -ValueName 'DefaultAssociationsConfiguration' -Data "$PackerConfig\defaultassociations.xml"
+    # Disable taskbar icons
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Windows\Explorer' -ValueName 'DisableNotificationCenter' -Data '1' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -ValueName 'HideSCANetwork' -Data '1' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -ValueName 'HideSCAHealth' -Data '1' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Search' -ValueName 'SearchboxTaskbarMode' -Data '0' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -ValueName 'ShowTaskViewButton' -Data '0' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $MachineGPDir -Key 'Software\Policies\Microsoft\Windows Defender Security Center\Systray' -ValueName 'HideSystray' -Data '1' -Type 'DWORD'
 
     # Setup task to delete Administrator user profile on reboot (task will enable WinRM once finished)
     Write-Output "Ensure WinRM is disabled"

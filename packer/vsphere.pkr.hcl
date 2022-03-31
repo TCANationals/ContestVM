@@ -82,6 +82,7 @@ source "vsphere-iso" "win_10_sysprep" {
     "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
     "unattended/clean-profiles.ps1",
+    "unattended/defaultassociations.xml",
     "unattended/logon.bgi",
     "unattended/susa_black.bmp",
     "unattended/tca-env.ps1",
@@ -231,8 +232,6 @@ build {
     timeout = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
       "include:$true"
     ]
   }

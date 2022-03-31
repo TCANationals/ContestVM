@@ -9,7 +9,7 @@ choco install winrar -y
 choco install notepadplusplus -y
 choco install microsoft-windows-terminal -y
 choco install microsoft-office-deployment -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
-choco install tableau-desktop -y
+choco install tableau-desktop --version=2022.1.0 -y # update finalize when changing version
 choco install vscode -y
 choco install speedtest -y
 
