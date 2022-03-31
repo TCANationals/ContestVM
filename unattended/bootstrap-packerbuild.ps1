@@ -41,6 +41,9 @@ if (-not (Test-Path "$PackerScripts\clean-profiles.ps1" )) {
 if (-not (Test-Path "$PackerScripts\tca-env.ps1" )) {
   Copy-Item A:\tca-env.ps1 $PackerScripts\tca-env.ps1
 }
+if (-not (Test-Path "$PackerScripts\tca-uri.ps1" )) {
+  Copy-Item A:\tca-uri.ps1 $PackerScripts\tca-uri.ps1
+}
 
 # Copy binary config files
 if (-not (Test-Path "$PackerConfig\logon.bgi" )) {
@@ -53,7 +56,7 @@ if (-not (Test-Path "$PackerConfig\susa_black.bmp" )) {
 # Create Scheduled Task so this repeatedly until we have finished.
 if (-not (Test-Path "$PackerLogs\BootstrapSchedTask.installed")) {
   Write-Output "Create Bootstrap Scheduled Task"
-  schtasks /create /tn PackerBootstrap /rl HIGHEST /ru "$AdminUsername" /RP "$AdminPassword" /F /SC ONSTART /DELAY 0000:20 /TR 'cmd /c c:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe -sta -WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -NoProfile -File A:\bootstrap-packerbuild.ps1 >> C:\Packer\Logs\bootstrap-packerbuild.log 2>&1'
+  schtasks /create /tn PackerBootstrap /rl HIGHEST /RU SYSTEM /F /SC ONSTART /DELAY 0000:20 /TR 'cmd /c c:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe -sta -WindowStyle Hidden -ExecutionPolicy Bypass -NonInteractive -NoProfile -File A:\bootstrap-packerbuild.ps1 >> C:\Packer\Logs\bootstrap-packerbuild.log 2>&1'
   Touch-File "$PackerLogs\BootstrapSchedTask.installed"
 }
 

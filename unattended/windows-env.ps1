@@ -96,6 +96,7 @@ $PackerDownloads = "$PackerStaging\Downloads"
 $PackerScripts = "$PackerStaging\Scripts"
 $PackerLogs = "$PackerStaging\Logs"
 $PackerConfig = "$PackerStaging\Config"
+$PackerTemp = "$PackerStaging\Temp"
 
 if ($ENV:PROCESSOR_ARCHITECTURE -eq 'x86') {
   $ARCH = 'x86'
@@ -128,6 +129,7 @@ Function Create-PackerStagingDirectories {
     New-Item -ItemType Directory -Force -Path $PackerDownloads
     New-Item -ItemType Directory -Force -Path $PackerConfig
     New-Item -ItemType Directory -Force -Path $PackerScripts
+    New-Item -ItemType Directory -Force -Path $PackerTemp
 
     Touch-File "$PackerLogs/StagingDirectories.installed"
   }

@@ -6,7 +6,7 @@
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <servicing/>
     <settings pass="windowsPE">    
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+        <component name="Microsoft-Windows-Setup" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <DiskConfiguration>
                 <WillShowUI>OnError</WillShowUI>
                 <Disk wcm:action="add">
@@ -92,7 +92,7 @@
                 </ProductKey>
             </UserData>
         </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+        <component name="Microsoft-Windows-International-Core-WinPE" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
            <SetupUILanguage>
                 <UILanguage>en-US</UILanguage>
             </SetupUILanguage>
@@ -123,29 +123,32 @@
             <UserLocale>en-US</UserLocale>
             <SystemLocale>en-US</SystemLocale>
         </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-            <UserAccounts>
-                <LocalAccounts>
-                    <LocalAccount wcm:action="add">
-                        <Password>
-                            <Value>${winrm_password}</Value>
-                            <PlainText>true</PlainText>
-                        </Password>
-                        <Description>Local administrator account.</Description>
-                        <DisplayName>Packer</DisplayName>
-                        <Group>Administrators</Group>
-                        <Name>${winrm_username}</Name>
-                    </LocalAccount>
-                </LocalAccounts>
-            </UserAccounts>
-            <AutoLogon>
-                <Password>
-                    <Value>${winrm_password}</Value>
-                    <PlainText>true</PlainText>
-                </Password>
-                <Enabled>true</Enabled>
-                <Username>${winrm_username}</Username>
-            </AutoLogon>
+        <component name="Microsoft-Windows-Shell-Setup" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<UserAccounts>
+				<AdministratorPassword>
+					<PlainText>true</PlainText>
+					<Value>AdminPass123</Value>
+				</AdministratorPassword>
+				<LocalAccounts>
+					<LocalAccount wcm:action="add">
+						<DisplayName>Administrator</DisplayName>
+						<Group>Administrators</Group>
+						<Name>Administrator</Name>
+						<Password>
+							<PlainText>true</PlainText>
+							<Value></Value>
+						</Password>
+					</LocalAccount>
+				</LocalAccounts>
+			</UserAccounts>
+			<AutoLogon>
+				<Enabled>true</Enabled>
+				<Username>Administrator</Username>
+				<Password>
+					<PlainText>true</PlainText>
+					<Value>AdminPass123</Value>
+				</Password>
+			</AutoLogon>
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
                 <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
@@ -175,7 +178,7 @@
                     <Order>4</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c wmic useraccount where &quot;name=&apos;${winrm_username}&apos;&quot; set PasswordExpires=FALSE</CommandLine>
+                    <CommandLine>cmd.exe /c wmic useraccount where &quot;name=&apos;Administrator&apos;&quot; set PasswordExpires=FALSE</CommandLine>
                     <Description>Disable Administrator Password reset</Description>
                     <Order>5</Order>
                 </SynchronousCommand>
@@ -193,7 +196,7 @@
                     <Order>8</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap-packerbuild.ps1 -HyperVisor vmware -AdminUsername &quot;${winrm_username}&quot; -AdminPassword &quot;${winrm_password}&quot; &gt;&gt; C:\Packer\Logs\bootstrap-packerbuild.log 2>&amp;1</CommandLine>
+                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap-packerbuild.ps1 -HyperVisor vmware -AdminUsername &quot;Administrator&quot; &gt;&gt; C:\Packer\Logs\bootstrap-packerbuild.log 2>&amp;1</CommandLine>
                     <Description>Start PSWindowsUpdate</Description>
                     <Order>9</Order>
                 </SynchronousCommand>
@@ -201,13 +204,27 @@
         </component>
     </settings>
     <settings pass="specialize">
+		<component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<RunSynchronous>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>1</Order>
+					<Path>net user Administrator /active:Yes</Path>
+					<WillReboot>Never</WillReboot>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>2</Order>
+					<Path>net user Administrator /fullname:"Administrator"</Path>
+					<WillReboot>Never</WillReboot>
+				</RunSynchronousCommand>
+			</RunSynchronous>
+		</component>
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <TimeZone>GMT Standard Time</TimeZone>
             <RegisteredOrganization>Technical Computer Applications</RegisteredOrganization>
             <RegisteredOwner>Technical Computer Applications</RegisteredOwner>
             <ComputerName>*</ComputerName>
         </component>
-        <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-Security-SPP-UX" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+        <component name="Microsoft-Windows-Security-SPP-UX" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <SkipAutoActivation>true</SkipAutoActivation>
         </component>
     </settings>

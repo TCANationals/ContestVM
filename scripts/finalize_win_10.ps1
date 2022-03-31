@@ -13,7 +13,6 @@ try {
     C:\Packer\Downloads\OSOT.exe -o all-item -SyncHkcuToHku Enable -VisualEffect Balanced -Notification Disable -WindowsSearch SearchBoxAsIcon -StoreApp Keep-all -SmartScreen Disable -Background "#000000" -v
     # finalize image (except for zero disk space 7 & release IP 11)
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
-    #Start-Process -FilePath C:\Windows\System32\Sysprep\Sysprep.exe -ArgumentList "/generalize /oobe /quiet /quit"
     # Disable CTRL+ALT+DEL logon (OSOT will re-enable)
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
 
@@ -51,7 +50,7 @@ try {
     # Disable Wallpaper setting
     Remove-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\System' -ValueName 'WallPaper'
 
-    # Setup task to delete Packer user profile on reboot (task will enable WinRM once finished)
+    # Setup task to delete Administrator user profile on reboot (task will enable WinRM once finished)
     Write-Output "Ensure WinRM is disabled"
     Set-Service -StartupType Disabled -Name WinRM
     Write-Output "Create Clean Scheduled Task"
@@ -68,3 +67,6 @@ catch {
 
     Exit 1
 }
+
+# Reboot
+shutdown /t 10 /r /f /c \"Packer Reboot\" /d p:4:1

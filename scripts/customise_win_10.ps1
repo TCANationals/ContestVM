@@ -48,16 +48,8 @@ try {
     Set-Itemproperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
     Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
 
-    # Disable Cortana search bar
-    #Write-Host "Disabling Cortana search bar in taskbar..."
-    #Set-Itemproperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\Seachbox Taskbar Mode" -Name "@" -Value "Seachbox Taskbar Mode" -Verbose
-    #Set-Itemproperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\Seachbox Taskbar Mode" -Name "Version" -Value "1" -Verbose
-    #Set-Itemproperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\Seachbox Taskbar Mode" -Name "StubPath" -Value "reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Search\" /v \"SearchboxTaskbarMode\" /d \"0\" /f" -Verbose
-
-    ##### While the step below I had to do previously, this breaks now since an application is now required. For some reason, running it manually works. 
-    ##### Regardless, it seems I no longer need to remove AppxPackages in order for sysprep to work. 
-    # Remove AppxPackages. Windows store applications breaks sysprep. 
-    #Get-AppxPackage | Remove-AppxPackage
+    # Disable VMware Tools icon (using reg to ensure key is auto-created)
+    & reg add "HKEY_LOCAL_MACHINE\Software\VMware, Inc.\VMware Tools" /v ShowTray /t REG_DWORD /d 0 /f
 }
 catch {
     Write-Host

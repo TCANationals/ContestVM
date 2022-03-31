@@ -35,8 +35,8 @@ source "vsphere-iso" "win_10_sysprep" {
   #winrm_port             = "5985"
   winrm_timeout           = "10m"
   #pause_before_connecting = "1m"
-  winrm_username          = var.os_username
-  winrm_password          = var.os_password_workstation
+  winrm_username          = "Administrator"
+  winrm_password          = "AdminPass123" # this will be reset as a final step
 
   vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh", timestamp())}"
   vm_version              = var.vm_version
@@ -77,24 +77,20 @@ source "vsphere-iso" "win_10_sysprep" {
   // Everything else is controlled by packer & winrm
   floppy_files = [
     "unattended/AddTrust_External_CA_Root.cer",
+    "unattended/autounattend.xml",
     "unattended/bootstrap-base.bat",
     "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
+    "unattended/clean-profiles.ps1",
     "unattended/logon.bgi",
     "unattended/susa_black.bmp",
+    "unattended/tca-env.ps1",
     "unattended/windows-env.ps1",
   ]
 
-  // Add template for autounattend.xml file
+  // Add template for TCA URI
   floppy_content = {
-    "autounattend.xml" = templatefile("../unattended/autounattend.xml.tpl", {
-      winrm_password = var.os_password_workstation,
-      winrm_username = var.os_username
-    }),
-    "clean-profiles.ps1" = templatefile("../unattended/clean-profiles.ps1.tpl", {
-      winrm_username = var.os_username
-    }),
-    "tca-env.ps1" = templatefile("../unattended/tca-env.ps1.tpl", {
+    "tca-uri.ps1" = templatefile("../unattended/tca-uri.ps1.tpl", {
       private_url = var.tca_private_url
     })
   }
@@ -115,57 +111,56 @@ build {
   sources = ["source.vsphere-iso.win_10_sysprep"]
 
   provisioner "windows-restart" { # A restart to settle Windows after VMware Tools install
-    #pause_before    = "1m" # No pause here, the OS should be settled already since this is the first thing
     restart_timeout = "15m"
   }
 
-  provisioner "windows-update" {
-    pause_before = "10s"
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true"
-    ]
-  }
+  // provisioner "windows-update" {
+  //   pause_before = "10s"
+  //   timeout = "1h"
+  //   search_criteria = "IsInstalled=0"
+  //   filters = [
+  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  //     "exclude:$_.Title -like '*Preview*'",
+  //     "include:$true"
+  //   ]
+  // }
 
-  provisioner "windows-update" {
-    pause_before = "1m"
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true"
-    ]
-  }
+  // provisioner "windows-update" {
+  //   pause_before = "1m"
+  //   timeout = "1h"
+  //   search_criteria = "IsInstalled=0"
+  //   filters = [
+  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  //     "exclude:$_.Title -like '*Preview*'",
+  //     "include:$true"
+  //   ]
+  // }
 
-  // Not pausing on these since they're not likely to yield anything...
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true"
-    ]
-  }
+  // // Not pausing on these since they're not likely to yield anything...
+  // provisioner "windows-update" {
+  //   timeout = "1h"
+  //   search_criteria = "IsInstalled=0"
+  //   filters = [
+  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  //     "exclude:$_.Title -like '*Preview*'",
+  //     "include:$true"
+  //   ]
+  // }
 
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true"
-    ]
-  }
+  // provisioner "windows-update" {
+  //   timeout = "1h"
+  //   search_criteria = "IsInstalled=0"
+  //   filters = [
+  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  //     "exclude:$_.Title -like '*Preview*'",
+  //     "include:$true"
+  //   ]
+  // }
 
   provisioner "powershell" {
     pause_before      = "20s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/customise_win_10.ps1"
     timeout           = "15m"
   }
@@ -177,8 +172,8 @@ build {
 
   provisioner "powershell" {
     pause_before      = "15s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/choco-core.ps1"
     timeout           = "1h"
     valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
@@ -191,8 +186,8 @@ build {
 
   provisioner "powershell" {
     pause_before      = "15s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/horizon-agent.ps1"
     timeout           = "1h"
   }
@@ -204,9 +199,9 @@ build {
 
   provisioner "powershell" {
     pause_before      = "15s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
-    script            = "scripts/choco-packages.ps1"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/public-packages.ps1"
     timeout           = "1h"
   }
 
@@ -217,16 +212,16 @@ build {
 
   provisioner "powershell" {
     pause_before      = "15s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/tca-software.ps1"
     timeout           = "1h"
   }
 
   provisioner "powershell" {
     pause_before      = "15s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/cleanup-win10.ps1"
     timeout           = "1h"
   }
@@ -236,31 +231,31 @@ build {
     restart_timeout = "1h"
   }
 
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "exclude:$_.Title -like '*Preview*'",
-      "include:$true"
-    ]
-  }
+  // provisioner "windows-update" {
+  //   timeout = "1h"
+  //   search_criteria = "IsInstalled=0"
+  //   filters = [
+  //     #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  //     "exclude:$_.Title -like '*Preview*'",
+  //     "include:$true"
+  //   ]
+  // }
 
-  provisioner "windows-restart" { # One final restart before finalizing the image
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  // provisioner "windows-restart" { # One final restart before finalizing the image
+  //   pause_before    = "10s"
+  //   restart_timeout = "1h"
+  // }
 
   provisioner "powershell" {
     pause_before      = "10s"
-    elevated_user     = var.os_username
-    elevated_password = var.os_password_workstation
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
     script            = "scripts/finalize_win_10.ps1"
     timeout           = "15m"
   }
 
-  provisioner "windows-restart" { # Final restart before snapshotting (will end on logon screen)
-    pause_before    = "10s"
-    restart_timeout = "1h"
+  provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
+    pause_before    = "3m"
+    inline = ["echo finished"]
   }
 }

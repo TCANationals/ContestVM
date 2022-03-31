@@ -12,17 +12,6 @@ variable "vcenter_password" {
     type    = string
     sensitive = true
 }
-variable "os_username" {
-    description = "Local OS Username for WinRM or SSH etc."
-    type    = string   
-    default = "Packer"
-}
-variable "os_password_workstation" {
-    description = "Local workstation password for login, WinRM or SSH etc."
-    type    = string
-    default = "Packer123"
-    sensitive = true
-}
 variable "tca_private_url" {
     description = "Base URL for private TCA files."
     type        = string

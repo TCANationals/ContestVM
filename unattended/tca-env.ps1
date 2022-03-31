@@ -9,8 +9,7 @@
 $ErrorActionPreference = 'Continue'
 
 . C:\Packer\Scripts\windows-env.ps1
-
-$TCAPrivateUrl = "${private_url}"
+. C:\Packer\Scripts\tca-uri.ps1
 
 # Function to download the private packages we need
 Function TCA-DownloadFile {
@@ -50,14 +49,15 @@ Function Create-NewLocalAdmin {
       if ($existing -eq $null) {
 
         Write-Host "Creating new local user $NewLocalAdmin."
-        & NET USER $NewLocalAdmin $Password /add /y /expires:never
+        New-LocalUser "$NewLocalAdmin" -Password $Password -AccountNeverExpires
+        #& NET USER $NewLocalAdmin $Password /add /y /expires:never
         Write-Host "Adding local user $NewLocalAdmin to Administrators."
-        & NET LOCALGROUP Administrators $NewLocalAdmin /add
+        Add-LocalGroupMember -Group "Administrators" -Member "$NewLocalAdmin"
 
         # Hide new account on login screen
         Hide-LocalUserLogin $NewLocalAdmin
         # Setup new profile so this account can be used
-        Create-LocalUserProfile $NewLocalAdmin
+        # Create-LocalUserProfile $NewLocalAdmin
       } else {
         Write-Host "Setting password for existing local user $NewLocalAdmin."
         $existing.SetPassword($Password)
@@ -304,7 +304,7 @@ Function Get-Shortcuts
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse -Force "C:\Users" -Include *.url
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse -Force "C:\Users" -Include *.lnk
   $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.url
-  $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.lnk
+  $Shortcuts += Get-ChildItem -ErrorAction SilentlyContinue -Recurse "C:\ProgramData\Microsoft\Windows\Start Menu" -Include *.lnk -Exclude "*Administrative Tools*"
 
   $Shell = New-Object -ComObject WScript.Shell
   foreach ($Shortcut in $Shortcuts)
@@ -386,7 +386,7 @@ Function Create-Shortcut {
               Remove-Item $filename -force
           }
 
-          $tempfilename = Join-Path "$ENV:LOCALAPPDATA\temp" "$([Guid]::NewGuid().ToString()).lnk"
+          $tempfilename = Join-Path "$PackerTemp" "$([Guid]::NewGuid().ToString()).lnk"
           $Shell =  New-object -comobject WScript.Shell
           $Shortcut = $Shell.CreateShortcut($tempfilename)
           $Shortcut.TargetPath = $TargetPath
