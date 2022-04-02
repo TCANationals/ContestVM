@@ -36,6 +36,12 @@ Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\TCA Timer.exe" -ea SilentlyContinue -wa SilentlyContinue
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
 
+# Zoom VDI (requires plugin on the client)
+$ZoomFilename = "ZoomInstallerVDI.msi"
+Download-File "https://zoom.us/download/vdi/5.9.6/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
+Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ZoomFilename"" /qn"
+Remove-Item -Path "$PackerDownloads\$ZoomFilename"
+
 # Install RSAT tools
 # active directory user mgmt
 DISM.exe /Online /add-capability /CapabilityName:Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0
