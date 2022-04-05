@@ -23,10 +23,6 @@ if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
 # Set Administrator password as blank
 Set-LocalUser -Name "Administrator" -Password ([securestring]::new())
 
-# # Setup empty admin user to prevent auto-login
-# $AdminPass = ConvertTo-SecureString (Get-RandomPassword 20) -AsPlainText -Force
-# Create-NewLocalAdmin "LocalAdmin" $AdminPass -HideUser $false
-
 # Clean autologon
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoLogonCount -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoAdminLogon -Value 0

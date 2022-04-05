@@ -34,3 +34,8 @@ $CompassFilename = "Compass_Setup_19.0.2.907.exe"
 TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
+
+$CompassExamsFilename = "IC3_GS6_Apr_4_22.exe"
+TCA-DownloadFile "$CompassExamsFilename"
+Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
+Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"

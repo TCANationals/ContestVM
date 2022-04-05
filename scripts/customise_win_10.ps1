@@ -22,7 +22,7 @@ try {
 
     # Disable password expiration for your local admin account.
     Write-Host "Setting admin account to not expire..."
-    wmic useraccount where "name='Packer'" set PasswordExpires=FALSE
+    wmic useraccount where "name='Administrator'" set PasswordExpires=FALSE
 
     # Set power plan to High Performance.
     Write-Host "Setting power plan to high performance..."
@@ -50,6 +50,28 @@ try {
 
     # Disable VMware Tools icon (using reg to ensure key is auto-created)
     & reg add "HKEY_LOCAL_MACHINE\Software\VMware, Inc.\VMware Tools" /v ShowTray /t REG_DWORD /d 0 /f
+
+    # Kill & remove OneDrive if found
+    cmd /c "START /wait taskkill /F /IM OneDrive.exe"
+    if (Test-Path "$Env:WinDir\SysWOW64\OneDriveSetup.exe") {
+        cmd /c "$Env:WinDir\SysWOW64\OneDriveSetup.exe /uninstall"
+    }
+    if (Test-Path "$Env:WinDir\System32\OneDriveSetup.exe") {
+        cmd /c "$Env:WinDir\System32\OneDriveSetup.exe /uninstall"
+    }
+
+    # Remove built-in apps
+    Write-Host "Remove All Unwanted Windows Built-in Store Apps for All New Users in UI..."
+    Get-AppxPackage -AllUsers | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
+
+    Write-Host "Remove All Unwanted Windows Built-in Store Apps for the Current User in UI..."
+    Get-AppxPackage | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
+
+    Write-Host "Remove All Unwanted Windows Built-in Store Apps files from Disk..."
+    $UWPapps = Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -NotMatch 'Microsoft.StorePurchaseApp' -and $_.PackageName -NotMatch 'Microsoft.WindowsStore' -and $_.PackageName -NotMatch 'Microsoft.MSPaint' -and $_.PackageName -NotMatch 'Microsoft.Windows.Photos' -and $_.PackageName -NotMatch 'Microsoft.WindowsCalculator' -and $_.PackageName -NotMatch 'Microsoft.DesktopAppInstaller' -and $_.PackageName -NotMatch 'Microsoft.SecHealthUI'}
+    Foreach ($UWPapp in $UWPapps) {
+        Remove-ProvisionedAppxPackage -PackageName $UWPapp.PackageName -Online -ErrorAction SilentlyContinue
+    }
 }
 catch {
     Write-Host

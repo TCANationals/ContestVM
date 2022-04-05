@@ -324,7 +324,7 @@ Function Get-Shortcuts
   $finalShortcuts = @()
   foreach ($Shortcut in $Shortcuts)
   {
-    if (-not ($Shortcut.FullName -like '*Administrative Tools*')) {
+    if ((-not ($Shortcut.FullName -like '*Administrative Tools*')) -And (-not ($Shortcut.FullName -like '*WinX*'))) {
       $finalShortcuts += $Shortcut
     }
   }

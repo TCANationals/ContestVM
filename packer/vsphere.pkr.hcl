@@ -118,7 +118,8 @@ build {
   provisioner "windows-shell" { # remove MS edge (replace with Chrome)
     pause_before      = "5s"
     script            = "scripts/uninstall-edge.cmd"
-    timeout           = "15m"
+    timeout           = "5m"
+    max_retries       = 2
   }
 
   provisioner "windows-restart" {
@@ -164,18 +165,18 @@ build {
     ]
   }
 
-  provisioner "windows-shell" { # remove MS edge (again)
-    pause_before      = "5s"
-    script            = "scripts/uninstall-edge.cmd"
-    timeout           = "15m"
-  }
-
   provisioner "powershell" {
     pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
     script            = "scripts/customise_win_10.ps1"
     timeout           = "15m"
+  }
+
+  provisioner "windows-shell" { # remove MS edge (again)
+    pause_before      = "5s"
+    script            = "scripts/uninstall-edge.cmd"
+    timeout           = "5m"
   }
 
   provisioner "windows-restart" { # A restart before choco to settle the VM once more.

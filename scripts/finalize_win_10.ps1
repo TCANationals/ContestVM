@@ -15,6 +15,8 @@ try {
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
     # Disable CTRL+ALT+DEL on logon
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
+    # Disable chat icon (Windows 11)
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Chat" /v "ChatIcon" /t REG_DWORD /d 3 /f
     # Hide office update option
     reg add "HKLM\Software\Policies\Microsoft\Office\16.0\Common\OfficeUpdate" /v "HideEnableDisableUpdates" /t REG_DWORD /d 1 /f
     reg add "HKLM\Software\Policies\Microsoft\Office\16.0\Common\OfficeUpdate" /v "HideUpdateNotifications" /t REG_DWORD /d 1 /f
