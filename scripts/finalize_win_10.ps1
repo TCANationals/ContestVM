@@ -15,6 +15,42 @@ try {
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
     # Disable CTRL+ALT+DEL on logon
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
+    # Hide office update option
+    reg add "HKLM\Software\Policies\Microsoft\Office\16.0\Common\OfficeUpdate" /v "HideEnableDisableUpdates" /t REG_DWORD /d 1 /f
+    reg add "HKLM\Software\Policies\Microsoft\Office\16.0\Common\OfficeUpdate" /v "HideUpdateNotifications" /t REG_DWORD /d 1 /f
+    # Set Chrome policies
+    # LANschool student extension
+    reg add "HKLM\Software\Policies\Google\Chrome\ExtensionInstallForcelist" /v "1" /t REG_SZ /d "honjcnefekfnompampcpmcdadibmjhlk;https://clients2.google.com/service/update2/crx" /f
+    # VMware multimedia extension
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist" -Name "2" -Value "ljmaegmnepbgjekghdfkgegbckolmcok;https://clients2.google.com/service/update2/crx"
+    # Homepage URL
+    reg add "HKLM\Software\Policies\Google\Chrome\RestoreOnStartupURLs" /v "1" /t REG_SZ /d "https://www.tcanationals.com/contest-start" /f
+    # Certificate auth
+    reg add "HKLM\Software\Policies\Google\Chrome\AutoSelectCertificateForUrls" /v "1" /t REG_SZ /d "temp" /f # create reg key if doesn't exist
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\AutoSelectCertificateForUrls" -Name "1" -Value '{"pattern":"https://*.tcalocal.com","filter":{"ISSUER":{"CN":"Technical Computer Applications"},"SUBJECT":{"OU:"User Auth"}}' # Set actual value
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\AutoSelectCertificateForUrls" -Name "2" -Value '{"pattern":"https://*.tcanationals.com","filter":{"ISSUER":{"CN":"Technical Computer Applications"},"SUBJECT":{"OU:"User Auth"}}'
+    # Policy settings
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ShowCastIconInToolbar" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "HomepageIsNewTabPage" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "PasswordManagerEnabled" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "UserFeedbackAllowed" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "NTPCustomBackgroundEnabled" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "BrowserSignin" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "DnsOverHttpsMode" -Value "off"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "SyncDisabled" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "AutoFillEnabled" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ForceGoogleSafeSearch" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ShowHomeButton" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "DeveloperToolsAvailability" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ProfilePickerOnStartupAvailability" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ShowFullUrlsInAddressBar" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "BrowserAddPersonEnabled" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "BrowserGuestModeEnabled" -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "EnableCommonNameFallbackForLocalAnchors" -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "IncognitoModeAvailability" -Value 1 # incognito disabled
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "RestoreOnStartup" -Value 4 # open homepage
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "HomepageLocation" -Value "https://www.tcanationals.com/contest-start"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "NewTabPageLocation" -Value "about:blank"
 
     # Customize default user preferences
     reg load "HKU\temp" c:\users\default\ntuser.dat
@@ -45,6 +81,7 @@ try {
     # Add start menu shortcuts
     Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Immidio\Flex Profiles\Flex+ Self-Support.exe"
     Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2022.1\bin\tableau.exe"
+    Create-Shortcut -Name "Performance Monitor" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\VMware\VMware View\Agent\Horizon Performance Tracker\VMware.Horizon.PerformanceTracker.exe"
     Create-Shortcut -Name "Zoom" -shortcuts "CommonStartMenu" -TargetPath "${Env:ProgramFiles(x86)}\ZoomVDI\bin\Zoom.exe"
 
     # Update local group policies
@@ -62,6 +99,12 @@ try {
     Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Search' -ValueName 'SearchboxTaskbarMode' -Data '0' -Type 'DWORD'
     Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -ValueName 'ShowTaskViewButton' -Data '0' -Type 'DWORD'
     Set-PolicyFileEntry -Path $MachineGPDir -Key 'Software\Policies\Microsoft\Windows Defender Security Center\Systray' -ValueName 'HideSystray' -Data '1' -Type 'DWORD'
+    # Office policies
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\FirstRun' -ValueName 'disablemovie' -Data '1' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\FirstRun' -ValueName 'bootedrtm' -Data '1' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common\Signin' -ValueName 'signinoptions' -Data '3' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common\General' -ValueName 'skydrivesigninoption' -Data '0' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common' -ValueName 'linkedin' -Data '0' -Type 'DWORD'
 
     # Setup task to delete Administrator user profile on reboot (task will enable WinRM once finished)
     Write-Output "Ensure WinRM is disabled"

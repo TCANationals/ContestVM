@@ -99,3 +99,7 @@ variable "vmtools_iso_path" {
     type = string
     default = "[datastore1] ISOs/VMware-tools-windows-12.0.0-19345655.iso"
 }
+variable "unattended_file" {
+    type = string
+    default = "autounattend-win10.xml"
+}

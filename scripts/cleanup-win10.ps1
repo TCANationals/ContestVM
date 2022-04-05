@@ -28,6 +28,7 @@ $AllowedShortcuts = @(
   'Magnify.lnk'
   'Narrator.lnk'
   'On-Screen Keyboard.lnk'
+  'Windows PowerShell.lnk'
 )
 
 if (Test-Path "$PackerLogs\Mock.Platform" ) {

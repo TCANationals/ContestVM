@@ -77,7 +77,6 @@ source "vsphere-iso" "win_10_sysprep" {
   // Everything else is controlled by packer & winrm
   floppy_files = [
     "unattended/AddTrust_External_CA_Root.cer",
-    "unattended/autounattend.xml",
     "unattended/bootstrap-base.bat",
     "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
@@ -94,6 +93,7 @@ source "vsphere-iso" "win_10_sysprep" {
     "tca-uri.ps1" = templatefile("../unattended/tca-uri.ps1.tpl", {
       private_url = var.tca_private_url
     })
+    "autounattend.xml" = templatefile("../unattended/${var.unattended_file}", {})
   }
 
   boot_wait    = "3s"
@@ -112,6 +112,16 @@ build {
   sources = ["source.vsphere-iso.win_10_sysprep"]
 
   provisioner "windows-restart" { # A restart to settle Windows after VMware Tools install
+    restart_timeout = "15m"
+  }
+
+  provisioner "windows-shell" { # remove MS edge (replace with Chrome)
+    pause_before      = "5s"
+    script            = "scripts/uninstall-edge.cmd"
+    timeout           = "15m"
+  }
+
+  provisioner "windows-restart" {
     restart_timeout = "15m"
   }
 
@@ -152,6 +162,12 @@ build {
       #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
       "include:$true"
     ]
+  }
+
+  provisioner "windows-shell" { # remove MS edge (again)
+    pause_before      = "5s"
+    script            = "scripts/uninstall-edge.cmd"
+    timeout           = "15m"
   }
 
   provisioner "powershell" {
