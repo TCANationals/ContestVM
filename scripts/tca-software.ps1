@@ -10,7 +10,7 @@ if (-not (TCA-PrivateUrlSupported)) {
 }
 
 # VMware DEM to ensure profiles are stored on central server
-$DEMFilename = "VMwareDynamicEnvironmentManagerEnterprise211110.4x64.msi"
+$DEMFilename = "VMwareDynamicEnvironmentManagerEnterprise220310.5x64.msi"
 TCA-DownloadFile "$DEMFilename"
 #msiexec.exe /i "$PackerDownloads\$DEMFilename" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
