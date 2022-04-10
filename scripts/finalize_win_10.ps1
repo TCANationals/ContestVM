@@ -15,6 +15,8 @@ try {
     C:\Packer\Downloads\OSOT.exe -v -f 0 1 2 3 4 5 6 8 9 10
     # Disable CTRL+ALT+DEL on logon
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name DisableCAD -Value 1
+    # Hide shutdown / restart / sleep
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name HidePowerOptions -Value 1
     # Disable chat icon (Windows 11)
     reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Chat" /v "ChatIcon" /t REG_DWORD /d 3 /f
     # Hide office update option
@@ -92,6 +94,7 @@ try {
 
     # Disable Wallpaper setting
     Remove-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\System' -ValueName 'WallPaper'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Microsoft\Windows\CurrentVersion\Policies\ActiveDesktop' -ValueName 'NoChangingWallPaper' -Data '1' -Type 'DWORD'
     # Set file associations
     Set-PolicyFileEntry -Path $MachineGPDir -Key 'Software\Policies\Microsoft\Windows\System' -ValueName 'DefaultAssociationsConfiguration' -Data "$PackerConfig\defaultassociations.xml"
     # Disable taskbar icons

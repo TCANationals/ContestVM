@@ -12,6 +12,7 @@ choco install microsoft-office-deployment -y --params="'/64bit /DisableUpdate:TR
 choco install tableau-desktop --version=2022.1.0 -y # update finalize when changing version
 choco install vscode -y
 choco install speedtest -y
+choco install python -y --params "/NoLockdown"
 
 # Setup bginfo on logon
 $BgInfoVal = ('"C:\ProgramData\chocolatey\bin\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
