@@ -1,18 +1,37 @@
 ﻿. C:\Packer\Scripts\tca-env.ps1
 
+# Install manual Appx deps
+$UWPDesktop64Filename = "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe.Appx"
+Download-File "https://files.tcanationals.com/deps/$UWPDesktop64Filename" "$PackerDownloads\$UWPDesktop64Filename"
+DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$UWPDesktop64Filename" /SkipLicense
+Remove-Item -Path "$PackerDownloads\$UWPDesktop64Filename"
+
 # Install the core system apps
 choco install laps -y --params='"/ALL"'
+choco install lxrunoffline -y
 choco install sysinternals -y
 choco install vlc -y
 choco install adobereader -y
 choco install winrar -y
 choco install notepadplusplus -y
-choco install microsoft-windows-terminal -y
 choco install microsoft-office-deployment -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
 choco install tableau-desktop --version=2022.1.0 -y # update finalize when changing version
 choco install vscode -y
 choco install speedtest -y
-choco install python -y --params "/NoLockdown"
+choco install python --version=3.10.4 -y --params "/NoLockdown"
+
+# Grant all users access to python directory
+$path = 'C:\Python310'
+$acl  = Get-Acl -Path $path
+
+# Get Authenticated Users object for ACL
+$sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11");
+$user = $sid.Translate([System.Security.Principal.NTAccount]).Value
+
+# Grant full control of python directory and subdirectories
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+$acl.AddAccessRule($rule)
+Set-Acl -Path $path -AclObject $acl
 
 # Setup bginfo on logon
 $BgInfoVal = ('"C:\ProgramData\chocolatey\bin\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
@@ -36,6 +55,12 @@ Get-GithubLatestRelease "TCANationals/timer-desktop" "TCA-Timer-Web-Setup" "Time
 Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/s'
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\TCA Timer.exe" -ea SilentlyContinue -wa SilentlyContinue
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
+
+# Get latest Windows Terminal from Github
+Get-GithubLatestRelease "microsoft/terminal" 'Microsoft.WindowsTerminal_Win10.*msixbundle$' "Terminal.msixbundle"
+Add-AppProvisionedPackage -online -packagepath "$PackerDownloads\Terminal.msixbundle" -skiplicense
+# Do not remove package, since this will be installed for every user
+#Remove-Item -Path "$PackerDownloads\Terminal.msixbundle"
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"

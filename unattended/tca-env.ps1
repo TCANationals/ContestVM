@@ -42,7 +42,7 @@ Function Get-GithubLatestRelease {
 
   $githubLatestReleases = "https://api.github.com/repos/$repo/releases/latest"
   $githubLatestReleasesJson = ((Invoke-WebRequest -Uri $gitHubLatestReleases -UseBasicParsing) | ConvertFrom-Json).assets.browser_download_url
-  $Uri = ($githubLatestReleasesJson | Select-String "$match").ToString()
+  $Uri = ($githubLatestReleasesJson | Select-String -Pattern $match).ToString()
 
   Download-File "$Uri" "$PackerDownloads\$file"
 }

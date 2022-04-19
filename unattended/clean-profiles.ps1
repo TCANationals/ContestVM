@@ -20,6 +20,9 @@ if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
   Remove-Item -Path C:\Packer\Scripts\tca-uri.ps1 -Force
 }
 
+# Init tca-env for powershell
+Set-Content -Path $PsHome\Profile.ps1 -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
+
 # Set Administrator password as blank
 Set-LocalUser -Name "Administrator" -Password ([securestring]::new())
 
