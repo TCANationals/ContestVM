@@ -16,6 +16,11 @@ TCA-DownloadFile "$DEMFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
 Remove-Item -Path "$PackerDownloads\$DEMFilename"
 
+$DEMHDFilename = "VMwareDEMHelpdeskSupportTool211110.4x64.msi"
+TCA-DownloadFile "$DEMHDFilename"
+Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMHDFilename"" /qn"
+Remove-Item -Path "$PackerDownloads\$DEMHDFilename"
+
 # LanSchool student installer
 $LSStudentFilename = "Student_91050.msi"
 TCA-DownloadFile "$LSStudentFilename"
