@@ -34,7 +34,8 @@ $acl.AddAccessRule($rule)
 Set-Acl -Path $path -AclObject $acl
 
 # Setup bginfo on logon
-$BgInfoVal = ('"C:\ProgramData\chocolatey\bin\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
+# Note - use BGinfo directory and not the choco shim, the shim causes a CLI window to appear to the user on launch
+$BgInfoVal = ('"C:\ProgramData\chocolatey\lib\sysinternals\tools\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BGInfo" -Value "$BgInfoVal" -ea SilentlyContinue -wa SilentlyContinue
 
 # Install packages that are auto-updated (since Choco gallary can fall behind & we trust these sources)
