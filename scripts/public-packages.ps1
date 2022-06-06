@@ -18,6 +18,7 @@ choco install microsoft-office-deployment -y --params="'/64bit /DisableUpdate:TR
 choco install tableau-desktop --version=2022.1.0 -y # update finalize when changing version
 choco install vscode -y
 choco install speedtest -y
+choco install sql-server-management-studio -y
 choco install python --version=3.10.4 -y --params "/NoLockdown"
 
 # Grant all users access to python directory
@@ -65,7 +66,7 @@ Add-AppProvisionedPackage -online -packagepath "$PackerDownloads\Terminal.msixbu
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
-Download-File "https://zoom.us/download/vdi/5.9.6/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
+Download-File "https://zoom.us/download/vdi/5.10.2/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ZoomFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$ZoomFilename"
 
