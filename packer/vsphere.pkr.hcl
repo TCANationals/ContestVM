@@ -77,6 +77,7 @@ source "vsphere-iso" "win_10_sysprep" {
   // Everything else is controlled by packer & winrm
   floppy_files = [
     "unattended/AddTrust_External_CA_Root.cer",
+    "unattended/BgAssist-Config.exe.config",
     "unattended/bootstrap-base.bat",
     "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
