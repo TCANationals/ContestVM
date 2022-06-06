@@ -46,6 +46,9 @@ if (-not (Test-Path "$PackerScripts\tca-uri.ps1" )) {
 }
 
 # Copy binary config files
+if (-not (Test-Path "$PackerDownloads\BgAssist-Config.exe.config" )) {
+  Copy-Item A:\BgAssist-Config.exe.config $PackerDownloads\BgAssist-Config.exe.config
+}
 if (-not (Test-Path "$PackerConfig\defaultassociations.xml" )) {
   Copy-Item A:\defaultassociations.xml $PackerConfig\defaultassociations.xml
 }

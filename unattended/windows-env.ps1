@@ -126,6 +126,20 @@ Function Create-PackerStagingDirectories {
 
     New-Item -ItemType Directory -Force -Path $PackerStaging
 
+    # Setup ACL to remove write from non-admins
+    icacls $PackerStaging /inheritance:d
+
+    $AuthenticatedUsers = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11")).Translate([System.Security.Principal.NTAccount]).Value
+    $Administrators = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")).Translate([System.Security.Principal.NTAccount]).Value
+    $System = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-18")).Translate([System.Security.Principal.NTAccount]).Value
+
+    $newACL = New-Object System.Security.AccessControl.DirectorySecurity
+    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($AuthenticatedUsers, 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($Administrators, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($System, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+
+    Set-Acl -Path $PackerStaging -AclObject $newACL
+
     New-Item -ItemType Directory -Force -Path $PackerDownloads
     New-Item -ItemType Directory -Force -Path $PackerConfig
     New-Item -ItemType Directory -Force -Path $PackerScripts
