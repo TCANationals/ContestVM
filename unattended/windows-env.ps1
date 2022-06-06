@@ -119,26 +119,33 @@ $SprocParms = @{'PassThru'=$true;
 
 #--- FUNCTIONS ---#
 
+Function Set-DirectoryUserAcls {
+  param (
+      [Parameter(Mandatory)]
+      [string] $path
+  )
+  $AuthenticatedUsers = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11")).Translate([System.Security.Principal.NTAccount]).Value
+  $Administrators = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")).Translate([System.Security.Principal.NTAccount]).Value
+  $System = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-18")).Translate([System.Security.Principal.NTAccount]).Value
+
+  $newACL = New-Object System.Security.AccessControl.DirectorySecurity
+  # Disable inheritance of other permissions
+  $newACL.SetAccessRuleProtection($true, $false)
+  # setup permissions
+  $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($AuthenticatedUsers, 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+  $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($Administrators, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+  $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($System, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
+
+  Set-Acl -Path $path -AclObject $newACL
+}
+
 # Helper to create consistent staging directories.
 Function Create-PackerStagingDirectories {
   if (-not (Test-Path "$PackerLogs/StagingDirectories.installed")) {
     Write-Output "Creating $PackerStaging and its associated directories"
 
     New-Item -ItemType Directory -Force -Path $PackerStaging
-
-    # Setup ACL to remove write from non-admins
-    icacls $PackerStaging /inheritance:d
-
-    $AuthenticatedUsers = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11")).Translate([System.Security.Principal.NTAccount]).Value
-    $Administrators = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")).Translate([System.Security.Principal.NTAccount]).Value
-    $System = (New-Object System.Security.Principal.SecurityIdentifier("S-1-5-18")).Translate([System.Security.Principal.NTAccount]).Value
-
-    $newACL = New-Object System.Security.AccessControl.DirectorySecurity
-    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($AuthenticatedUsers, 'ReadAndExecute', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
-    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($Administrators, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
-    $newACL.AddAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule($System, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')))
-
-    Set-Acl -Path $PackerStaging -AclObject $newACL
+    Set-DirectoryUserAcls $PackerStaging
 
     New-Item -ItemType Directory -Force -Path $PackerDownloads
     New-Item -ItemType Directory -Force -Path $PackerConfig
