@@ -35,14 +35,14 @@ $acl.AddAccessRule($rule)
 Set-Acl -Path $path -AclObject $acl
 
 # Install BgAssist to refresh background in VDI
-Download-File "https://files.tcanationals.com/deps/BgAssist.exe" "$PackerDownloads\BgAssist.exe"
-Download-File "https://files.tcanationals.com/deps/BgAssist-Config.exe" "$PackerDownloads\BgAssist-Config.exe"
-Download-File "https://files.tcanationals.com/deps/NLog.dll" "$PackerDownloads\NLog.dll"
+#Download-File "https://files.tcanationals.com/deps/BgAssist.exe" "$PackerDownloads\BgAssist.exe"
+#Download-File "https://files.tcanationals.com/deps/BgAssist-Config.exe" "$PackerDownloads\BgAssist-Config.exe"
+#Download-File "https://files.tcanationals.com/deps/NLog.dll" "$PackerDownloads\NLog.dll"
 
-# Setup BgAssist on logon
+# Setup bginfo on logon
 # Note - use BGinfo directory and not the choco shim, the shim causes a CLI window to appear to the user on launch
-$BgInfoVal = ('"' + $PackerDownloads + '\BgAssist.exe"')
-New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BGAssist" -Value "$BgInfoVal" -ea SilentlyContinue -wa SilentlyContinue
+$BgInfoVal = ('"C:\ProgramData\chocolatey\lib\sysinternals\tools\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BGInfo" -Value "$BgInfoVal" -ea SilentlyContinue -wa SilentlyContinue
 
 # Install packages that are auto-updated (since Choco gallary can fall behind & we trust these sources)
 # Google Chrome
