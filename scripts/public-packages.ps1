@@ -7,6 +7,7 @@ DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$UWP
 Remove-Item -Path "$PackerDownloads\$UWPDesktop64Filename"
 
 # Install the core system apps
+choco install choco-protocol-support -y
 choco install laps -y --params='"/ALL"'
 choco install lxrunoffline -y
 choco install sysinternals -y
@@ -20,6 +21,15 @@ choco install vscode -y
 choco install speedtest -y
 choco install sql-server-management-studio -y
 choco install python --version=3.10.4 -y --params "/NoLockdown"
+choco install nodejs-lts -y
+choco install git -y
+
+# Install music apps
+choco install amazon-music -y
+choco install spotify --ignore-checksums -y
+
+# Lock down tools directory for lxrunoffline
+Set-DirectoryUserAcls "C:\tools"
 
 # Grant all users access to python directory
 $path = 'C:\Python310'

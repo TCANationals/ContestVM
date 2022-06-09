@@ -40,11 +40,12 @@ TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
 
-# Lock down Certiport directory
-Write-Output "Locking down Certiport directory"
-Set-DirectoryUserAcls "C:\Certiport"
-
 $CompassExamsFilename = "IC3_GS6_Apr_4_22.exe"
 TCA-DownloadFile "$CompassExamsFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
 Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"
+
+# Lock down Certiport directory
+Write-Output "Locking down Certiport directory"
+Set-DirectoryUserAcls "C:\Certiport"
+Set-DirectoryUserAcls "C:\Certiport\Compass"
