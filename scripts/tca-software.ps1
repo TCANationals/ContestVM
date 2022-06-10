@@ -49,3 +49,16 @@ Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"
 Write-Output "Locking down Certiport directory"
 Set-DirectoryUserAcls "C:\Certiport"
 Set-DirectoryUserAcls "C:\Certiport\Compass"
+
+# Grant all users access to Compass directory
+$path = 'C:\Certiport\Compass'
+$acl  = Get-Acl -Path $path
+
+# Get Authenticated Users object for ACL
+$sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11");
+$user = $sid.Translate([System.Security.Principal.NTAccount]).Value
+
+# Grant full control of python directory and subdirectories
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+$acl.AddAccessRule($rule)
+Set-Acl -Path $path -AclObject $acl

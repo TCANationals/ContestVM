@@ -26,7 +26,7 @@ choco install git -y
 
 # Install music apps
 #choco install amazon-music -y
-choco install spotify --ignore-checksums -y
+#choco install spotify --ignore-checksums -y
 
 # Lock down tools directory for lxrunoffline
 Set-DirectoryUserAcls "C:\tools"
