@@ -92,6 +92,7 @@ $startup = "$env:appdata\Microsoft\Windows\Start Menu\Programs\Startup"
 
 # Common variable definitions for packer installations and staging
 $PackerStaging = "C:\Packer"
+$PackerPublic = "$PackerStaging\Public"
 $PackerDownloads = "$PackerStaging\Downloads"
 $PackerScripts = "$PackerStaging\Scripts"
 $PackerLogs = "$PackerStaging\Logs"
@@ -151,6 +152,7 @@ Function Create-PackerStagingDirectories {
     New-Item -ItemType Directory -Force -Path $PackerConfig
     New-Item -ItemType Directory -Force -Path $PackerScripts
     New-Item -ItemType Directory -Force -Path $PackerTemp
+    New-Item -ItemType Directory -Force -Path $PackerPublic
 
     Touch-File "$PackerLogs/StagingDirectories.installed"
   }

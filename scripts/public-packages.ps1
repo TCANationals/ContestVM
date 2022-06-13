@@ -32,17 +32,7 @@ choco install git -y
 Set-DirectoryUserAcls "C:\tools"
 
 # Grant all users access to python directory
-$path = 'C:\Python310'
-$acl  = Get-Acl -Path $path
-
-# Get Authenticated Users object for ACL
-$sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11");
-$user = $sid.Translate([System.Security.Principal.NTAccount]).Value
-
-# Grant full control of python directory and subdirectories
-$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
-$acl.AddAccessRule($rule)
-Set-Acl -Path $path -AclObject $acl
+TCA-AuthUserFullAccess 'C:\Python310'
 
 # Install BgAssist to refresh background in VDI
 #Download-File "https://files.tcanationals.com/deps/BgAssist.exe" "$PackerDownloads\BgAssist.exe"

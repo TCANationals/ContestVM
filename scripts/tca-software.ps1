@@ -51,14 +51,12 @@ Set-DirectoryUserAcls "C:\Certiport"
 Set-DirectoryUserAcls "C:\Certiport\Compass"
 
 # Grant all users access to Compass directory
-$path = 'C:\Certiport\Compass'
-$acl  = Get-Acl -Path $path
+TCA-AuthUserFullAccess 'C:\Certiport\Compass'
 
-# Get Authenticated Users object for ACL
-$sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11");
-$user = $sid.Translate([System.Security.Principal.NTAccount]).Value
-
-# Grant full control of python directory and subdirectories
-$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
-$acl.AddAccessRule($rule)
-Set-Acl -Path $path -AclObject $acl
+# Deploy VM, assumes hard-coded directory for VMware Player
+$vmOvaFilename = "Whiteout.ova"
+$OvfArgList = ('--diskMode sparse --acceptAllEulas --name TroubleshootingVM "' + "$TCAPrivateUrl/$vmOvaFilename" + '" "' + "$PackerPublic" + '"')
+Write-Output "Deploying VM with: $OvfArgList"
+Start-Process -Wait -FilePath "	${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
+TCA-AuthUserFullAccess "$PackerPublic"
+Write-Output "Finished deploying VM"

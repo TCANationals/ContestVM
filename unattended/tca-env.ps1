@@ -33,6 +33,22 @@ Function TCA-DownloadFile {
   Download-File "$TCAPrivateUrl/$file" "$PackerDownloads\$file"
 }
 
+Function TCA-AuthUserFullAccess {
+    param (
+      [string]$path
+    )
+
+    $acl  = Get-Acl -Path $path
+    # Get Authenticated Users object for ACL
+    $sid = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-11");
+    $user = $sid.Translate([System.Security.Principal.NTAccount]).Value
+
+    # Grant full control of directory and subdirectories
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+    $acl.AddAccessRule($rule)
+    Set-Acl -Path $path -AclObject $acl
+}
+
 Function Get-GithubLatestRelease {
   param (
     [string]$repo,

@@ -27,5 +27,8 @@ pref.keyboardAndMouse.vmHotKey.count = "0"
 pref.vmplayer.firstRunDismissedVersion = "16.2.3"
 hint.vmx.nestedVM = "FALSE"
 hints.hideAll = "TRUE"
+pref.mruVM0.filename = "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx"
+pref.mruVM0.displayName = "Troubleshooting VM"
+pref.mruVM0.index = "0"
 "@
 Set-Content "$vmwDefaultPath\preferences.ini" $vmwPref
