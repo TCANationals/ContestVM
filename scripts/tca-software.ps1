@@ -55,8 +55,8 @@ TCA-AuthUserFullAccess 'C:\Certiport\Compass'
 
 # Deploy VM, assumes hard-coded directory for VMware Player
 $vmOvaFilename = "Whiteout.ova"
-$OvfArgList = ('--diskMode sparse --acceptAllEulas --name TroubleshootingVM "' + "$TCAPrivateUrl/$vmOvaFilename" + '" "' + "$PackerPublic" + '"')
-Write-Output "Deploying VM with: $OvfArgList"
-Start-Process -Wait -FilePath "	${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
+$OvfArgList = ('-dm=twoGbMaxExtentSparse --acceptAllEulas -n=TroubleshootingVM "' + "$TCAPrivateUrl/$vmOvaFilename" + '" "' + "$PackerPublic" + '"')
+Write-Output "Deploying VM"
+Start-Process -Wait -FilePath "${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
 TCA-AuthUserFullAccess "$PackerPublic"
 Write-Output "Finished deploying VM"
