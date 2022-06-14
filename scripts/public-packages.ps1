@@ -23,6 +23,7 @@ choco install sql-server-management-studio -y
 choco install python --version=3.10.4 -y --params "/NoLockdown"
 choco install nodejs-lts -y
 choco install git -y
+choco install r -y
 
 # Install music apps
 #choco install amazon-music -y
