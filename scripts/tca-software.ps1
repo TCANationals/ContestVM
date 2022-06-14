@@ -58,5 +58,9 @@ $vmOvaFilename = "Whiteout.ova"
 $OvfArgList = ('-dm=twoGbMaxExtentSparse --acceptAllEulas -n=TroubleshootingVM "' + "$TCAPrivateUrl/$vmOvaFilename" + '" "' + "$PackerPublic" + '"')
 Write-Output "Deploying VM"
 Start-Process -Wait -FilePath "${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
+# Update network to NAT
+$vmxData = Get-Content -Path "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx" -Raw
+$vmxData -Replace 'bridged', 'nat' | Set-Content -Path "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx"
+# Grant all users write access
 TCA-AuthUserFullAccess "$PackerPublic"
 Write-Output "Finished deploying VM"
