@@ -1,3 +1,5 @@
+. C:\Packer\Scripts\tca-env.ps1
+
 $ChocolateyServerInstall = "https://chocolatey.org/install.ps1"
 #$CholateyServer = "http://<your_server>/chocolatey"
 #choco install $APP1 -s $CholateyServer -y
