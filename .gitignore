@@ -1,2 +1,4 @@
 variables.json
 variables.pkrvars.hcl
+server_scripts/token.json
+.DS_Store
