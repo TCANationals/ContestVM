@@ -87,7 +87,7 @@ variable "ram" {
 variable "disk_size" {
     description = "The size of the disk in MB."
     type = number
-    default = 40960
+    default = 51200
 }
 variable "os_iso_path" {
     description = "ISO path for OS unattendeded installs."
