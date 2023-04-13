@@ -15,7 +15,7 @@ choco install chocolatey-windowsupdate.extension -y
 choco install wsl2 -y --params "/Version:2 /Retry:true"
 
 # Install the base system apps (before Horizon)
-choco install vmware-workstation-player -y --override=1 --installargs="'/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 ADDLOCAL=ALL REMOVE=Keyboard REBOOT=ReallySuppress'"
+choco install vmware-workstation-player --no-progress -y --override=1 --installargs="'/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 ADDLOCAL=ALL REMOVE=Keyboard REBOOT=ReallySuppress'"
 
 # Setup default user profile VMware preferences
 $vmwDefaultPath = "C:\Users\Default\AppData\Roaming\VMware"

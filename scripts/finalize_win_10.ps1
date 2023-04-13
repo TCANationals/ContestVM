@@ -79,12 +79,13 @@ try {
     Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"
     Create-Shortcut -Name "VMware Player" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
     Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
-    Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2022.1\bin\tableau.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2023.1\bin\tableau.exe"
+    Create-Shortcut -Name "Power Automate" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\Power Automate Desktop\PAD.Console.Host.exe"
     Create-Shortcut -Name "Disconnect" -shortcuts "CommonDesktop" -TargetPath "$Env:WinDir\System32\tsdiscon.exe" -IconLocation "$Env:WinDir\System32\shell32.dll,131"
 
     # Add start menu shortcuts
     Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Immidio\Flex Profiles\Flex+ Self-Support.exe"
-    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2022.1\bin\tableau.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2023.1\bin\tableau.exe"
     Create-Shortcut -Name "Performance Monitor" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\VMware\VMware View\Agent\Horizon Performance Tracker\VMware.Horizon.PerformanceTracker.exe"
     Create-Shortcut -Name "Zoom" -shortcuts "CommonStartMenu" -TargetPath "${Env:ProgramFiles(x86)}\ZoomVDI\bin\Zoom.exe"
 

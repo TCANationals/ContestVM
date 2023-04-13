@@ -60,7 +60,14 @@ Function Get-GithubLatestRelease {
   $githubLatestReleasesJson = ((Invoke-WebRequest -Uri $gitHubLatestReleases -UseBasicParsing) | ConvertFrom-Json).assets.browser_download_url
   $Uri = ($githubLatestReleasesJson | Select-String -Pattern $match).ToString()
 
-  Download-File "$Uri" "$PackerDownloads\$file"
+  if ($file -eq "") {
+    $file = ([uri]$Uri).Segments[-1]
+  }
+
+  Write-Host "Using filename $file." | Out-Default
+
+  Download-File "$Uri" "$PackerDownloads\$file" | Out-Default
+  return $file
 }
 
 Function Create-NewLocalAdmin {
