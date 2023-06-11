@@ -44,7 +44,7 @@ variable "vcenter_datastore" {
 variable "vcenter_folder" {
     description = "The vCenter folder to store the template"
     type    = string
-    default = "GMs"
+    default = "ServerVMs"
 }
 variable "vm_version" {
     description = "Defaults to most current VM hardware supported by vCenter."
@@ -77,7 +77,7 @@ variable "vm_firmware"{
 variable "cpu_num" {
     description = "Number of CPU cores."
     type = number
-    default = 2
+    default = 4
 }
 variable "ram" {
     description = "Amount of RAM in MB."
@@ -87,7 +87,7 @@ variable "ram" {
 variable "disk_size" {
     description = "The size of the disk in MB."
     type = number
-    default = 51200
+    default = 81920
 }
 variable "os_iso_path" {
     description = "ISO path for OS unattendeded installs."
