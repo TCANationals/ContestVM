@@ -68,7 +68,7 @@ Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
 Remove-Item -Path "$PackerDownloads\$Timer7zFile"
 
 # Get latest Windows Terminal from Github
-Get-GithubLatestRelease "microsoft/terminal" 'Microsoft.WindowsTerminal_Win10.*msixbundle$' "Terminal.msixbundle"
+Get-GithubLatestRelease "microsoft/terminal" 'Microsoft.WindowsTerminal_.*msixbundle$' "Terminal.msixbundle"
 Add-AppProvisionedPackage -online -packagepath "$PackerDownloads\Terminal.msixbundle" -skiplicense
 # Do not remove package, since this will be installed for every user
 #Remove-Item -Path "$PackerDownloads\Terminal.msixbundle"
