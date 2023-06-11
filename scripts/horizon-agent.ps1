@@ -7,7 +7,7 @@ if (-not (TCA-PrivateUrlSupported)) {
     Exit 0
 }
 
-$HorizonAgentExe = "VMware-Horizon-Agent-x86_64-2203-8.5.0-19564166.exe"
+$HorizonAgentExe = "VMware-Horizon-Agent-x86_64-2303-8.9.0-21435111.exe "
 
 TCA-DownloadFile "$HorizonAgentExe"
 
