@@ -3,6 +3,9 @@ $ErrorActionPreference = "Stop"
 
 #Start-Transcript C:\customise.txt
 
+# Prevent defender from getting in the way of Packer files
+Set-MpPreference -ExclusionPath $PackerStaging
+
 try {
     # Install EndpointManagement extensions
     Write-Host "Installing AdminToolbox.EndpointManagement"
