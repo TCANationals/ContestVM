@@ -1,6 +1,8 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
+. C:\Packer\Scripts\tca-env.ps1
+
 #Start-Transcript C:\customise.txt
 
 # Prevent defender from getting in the way of Packer files
