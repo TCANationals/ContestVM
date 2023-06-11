@@ -2,7 +2,7 @@
 # It will also create URL shortcuts to the sheets in the users drive if provided
 
 # To run, you must install the following:
-#   pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib swinlnk
+#   pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib pywin32
 
 
 from __future__ import print_function
@@ -14,7 +14,8 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from swinlnk.swinlnk import SWinLnk
+import win32com.client
+import os
 
 
 # If modifying these scopes, delete the file token.json.
@@ -33,6 +34,14 @@ def create_sheets(SHEET_SVC, DRIVE_SVC):
             sheet_id = create_sheet(f'TCA 2022 - Web Scraping {user_id}', SHEET_SVC, DRIVE_SVC)
             swl = SWinLnk()
             swl.create_lnk(f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit", f'{SHORTCUT_ROOT}/{user_id}.lnk')
+
+def create_shortcut(target, path):
+    shell = win32com.client.Dispatch("WScript.Shell")
+    shortcut = shell.CreateShortCut(path)
+    shortcut.IconLocation = r'%SystemRoot%\System32\SHELL32.dll,13'
+    shortcut.Targetpath = target
+    shortcut.WindowStyle = 1 # 7 - Minimized, 3 - Maximized, 1 - Normal
+    shortcut.save()
 
 def create_sheet(title, SHEET_SVC, DRIVE_SVC):
     spreadsheet = {

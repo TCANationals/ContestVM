@@ -10,11 +10,10 @@ packer {
   }
 }
 
-source "vsphere-iso" "win_10_sysprep" {
+source "vsphere-iso" "win_2022_sysprep" {
   insecure_connection     = true
 
-  create_snapshot         = true
-  snapshot_name           = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh_mm_ss", timestamp())}"
+  create_snapshot         = false
 
   vcenter_server          = var.vcenter_server
   username                = var.vcenter_username
@@ -27,7 +26,7 @@ source "vsphere-iso" "win_10_sysprep" {
   folder                  = var.vcenter_folder
 
   convert_to_template     = false
-  notes                   = "Windows 10 Enterprise x64 VM template built using Packer."
+  notes                   = "Windows Server 2022 VM template built using Packer."
 
   ip_wait_timeout         = "20m"
   ip_settle_timeout       = "1m"
@@ -36,9 +35,9 @@ source "vsphere-iso" "win_10_sysprep" {
   winrm_timeout           = "10m"
   #pause_before_connecting = "1m"
   winrm_username          = "Administrator"
-  winrm_password          = "AdminPass123" # this will be reset as a final step
+  winrm_password          = "AdminPass123"
 
-  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh", timestamp())}"
+  vm_name                 = var.vm_name
   vm_version              = var.vm_version
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
@@ -110,20 +109,9 @@ build {
   to be enough to install all available Windows updates. Do check yourself though!
   */
 
-  sources = ["source.vsphere-iso.win_10_sysprep"]
+  sources = ["source.vsphere-iso.win_2022_sysprep"]
 
   provisioner "windows-restart" { # A restart to settle Windows after VMware Tools install
-    restart_timeout = "15m"
-  }
-
-  provisioner "windows-shell" { # remove MS edge (replace with Chrome)
-    pause_before      = "5s"
-    script            = "scripts/uninstall-edge.cmd"
-    timeout           = "5m"
-    max_retries       = 2
-  }
-
-  provisioner "windows-restart" {
     restart_timeout = "15m"
   }
 
@@ -174,12 +162,6 @@ build {
     timeout           = "15m"
   }
 
-  provisioner "windows-shell" { # remove MS edge (again)
-    pause_before      = "5s"
-    script            = "scripts/uninstall-edge.cmd"
-    timeout           = "5m"
-  }
-
   provisioner "windows-restart" { # A restart before choco to settle the VM once more.
     pause_before    = "5s"
     restart_timeout = "1h"
@@ -197,79 +179,5 @@ build {
   provisioner "windows-restart" { # A restart after choco core & before horizon
     pause_before    = "10s"
     restart_timeout = "1h"
-  }
-
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/horizon-agent.ps1"
-    timeout           = "1h"
-  }
-
-  provisioner "windows-restart" { # Restart to allow horizon agent install
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
-
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/public-packages.ps1"
-    timeout           = "1h"
-  }
-
-  provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
-
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/tca-software.ps1"
-    timeout           = "1h"
-  }
-
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/cleanup-win10.ps1"
-    timeout           = "1h"
-  }
-
-  provisioner "windows-restart" {
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
-
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "include:$true"
-    ]
-  }
-
-  provisioner "windows-restart" { # One final restart before finalizing the image
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
-
-  provisioner "powershell" {
-    pause_before      = "10s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/finalize_win_10.ps1"
-    timeout           = "15m"
-  }
-
-  provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
-    pause_before    = "3m"
-    inline = ["echo finished"]
   }
 }
