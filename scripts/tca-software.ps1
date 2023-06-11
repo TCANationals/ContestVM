@@ -10,13 +10,13 @@ if (-not (TCA-PrivateUrlSupported)) {
 }
 
 # VMware DEM to ensure profiles are stored on central server
-$DEMFilename = "VMwareDynamicEnvironmentManagerEnterprise220310.5x64.msi"
+$DEMFilename = "VMware-DEM-Enterprise-2303-10.9-x64.msi"
 TCA-DownloadFile "$DEMFilename"
 #msiexec.exe /i "$PackerDownloads\$DEMFilename" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
 Remove-Item -Path "$PackerDownloads\$DEMFilename"
 
-$DEMHDFilename = "VMwareDEMHelpdeskSupportTool211110.4x64.msi"
+$DEMHDFilename = "VMware-DEM-Helpdesk-Support-Tool-2111-10.4-x64.msi"
 TCA-DownloadFile "$DEMHDFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMHDFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$DEMHDFilename"
@@ -35,12 +35,12 @@ $CertAdminSecurePass = ConvertTo-SecureString "$CertAdminPass" -AsPlainText -For
 Create-NewLocalAdmin "CertiportAdmin" $CertAdminSecurePass
 
 $CompassArgList = ('/Silent Path="C:\Certiport\Compass" /TestCenterID 90063004 /CertiportID 90063004 /TestCenterName "SkillsUSA" /LanguageCode ENU /ImpersonationUser "CertiportAdmin" /ImpersonationPassword "' + $CertAdminPass + '"')
-$CompassFilename = "Compass_Setup_19.0.2.907.exe"
+$CompassFilename = "Compass_Setup_19.0.2.1170.exe"
 TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
 
-$CompassExamsFilename = "IC3_GS6_Apr_4_22.exe"
+$CompassExamsFilename = "IC3_GS6_Jun_11_23.exe"
 TCA-DownloadFile "$CompassExamsFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
 Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"
