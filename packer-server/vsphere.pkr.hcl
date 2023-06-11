@@ -180,4 +180,13 @@ build {
     pause_before    = "10s"
     restart_timeout = "1h"
   }
+
+  provisioner "powershell" {
+    pause_before      = "5s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "server_scripts/1_base_setup.ps1"
+    timeout           = "1h"
+    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+  }
 }

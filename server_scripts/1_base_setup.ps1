@@ -1,5 +1,5 @@
 # The script bootstraps new Windows Server instances
-# It is run on all Windows Servers before any other scripts
+# It is run on all Windows Servers after base OS setup and before other server scripts
 
 # Install base powershell modules
 Install-PackageProvider -Name NuGet -Force -Scope AllUsers -Confirm:$False
@@ -10,14 +10,11 @@ Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobb
 Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -Confirm:$False -Force
 Install-Module -Name ADCSTemplate -Scope AllUsers -Allowclobber -Confirm:$False -Force
 
-$ChocolateyServerInstall = "https://chocolatey.org/install.ps1"
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString($ChocolateyServerInstall))
-
-# Base chocolatey tools
-choco install chocolatey-core.extension -y
-choco install chocolatey-windowsupdate.extension -y
-
 # Base tools
 choco install winrar -y
 choco install googlechrome -y
 choco install notepadplusplus -y
+
+# Disable CTRL+ALT+DEL in logon
+& reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableCAD /t REG_DWORD /d 1 /f
+& reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableCAD /t REG_DWORD /d 1 /f
