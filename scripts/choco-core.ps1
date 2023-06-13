@@ -16,6 +16,7 @@ choco install wsl2 -y --params "/Version:2 /Retry:true"
 
 # Install the base system apps (before Horizon)
 choco install vmware-workstation-player --no-progress -y --override=1 --installargs="'/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 ADDLOCAL=ALL REMOVE=Keyboard REBOOT=ReallySuppress'"
+#choco install vmwareworkstation -y --override=1 --installargs="'/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 ADDLOCAL=ALL REMOVE=Keyboard REBOOT=ReallySuppress'"
 
 # Setup default user profile VMware preferences
 $vmwDefaultPath = "C:\Users\Default\AppData\Roaming\VMware"
@@ -26,7 +27,7 @@ $vmwPref = @"
 .encoding = "windows-1252"
 pref.keyboardAndMouse.vmHotKey.enabled = "FALSE"
 pref.keyboardAndMouse.vmHotKey.count = "0"
-pref.vmplayer.firstRunDismissedVersion = "16.2.3"
+pref.vmplayer.firstRunDismissedVersion = "17.0.2"
 hint.vmx.nestedVM = "FALSE"
 hints.hideAll = "TRUE"
 hint.cui.toolsInfoBar.suppressible = "FALSE"

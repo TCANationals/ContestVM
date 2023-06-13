@@ -7,7 +7,7 @@ $ADUsers = Get-Content .\contestant_id_list.txt
 # Define shared properties
 $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
-$Ou = "OU=Students,OU=TCA,DC=tcalocal,DC=com"
+$Ou = "OU=Students,DC=tcalocal,DC=com"
 $UsernameSuffix = ".22"
 
 # Loop through each row containing user details in the CSV file
