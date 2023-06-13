@@ -43,18 +43,18 @@ source "vsphere-iso" "win_2022_sysprep" {
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
   CPUs                    = var.cpu_num
-  CPU_hot_plug            = false
+  CPU_hot_plug            = true
   RAM                     = var.ram
-  RAM_reserve_all         = true
-  RAM_hot_plug            = false
+  RAM_reserve_all         = false
+  RAM_hot_plug            = true
   video_ram               = "131072" # 128MB in bytes
   cdrom_type              = "sata"
-  remove_cdrom            = true
+  remove_cdrom            = false
   NestedHV                = true
   disk_controller_type    = ["pvscsi"]
 
   configuration_parameters = {
-    "devices.hotplug" = "false",
+    "devices.hotplug" = "true",
     "mks.enable3d" = "true", # enable 3d support
   }
     
