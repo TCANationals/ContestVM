@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources revision="1.0" schemaVersion="1.0">
+  <displayName></displayName>
+  <description></description>
+  <resources>
+    <stringTable>
+      <string id="unknown_0">On</string>
+      <string id="unknown_1">Off</string>
+      <string id="unknown_3">Broadcast</string>
+      <string id="unknown_4">Multicast</string>
+      <string id="unknown_8">On</string>
+      <string id="unknown_9">Off</string>
+      <string id="unknown_11">On</string>
+      <string id="unknown_12">Off</string>
+      <string id="unknown_14">On</string>
+      <string id="unknown_15">Off</string>
+      <string id="unknown_19">No</string>
+      <string id="unknown_20">Yes</string>
+      <string id="unknown_23">Off</string>
+      <string id="unknown_24">On</string>
+      <string id="unknown_27">Login_Name</string>
+      <string id="unknown_28">Machine_Name</string>
+      <string id="unknown_29">AD_Name</string>
+      <string id="unknown_31">Suppress</string>
+      <string id="unknown_32">Allow</string>
+      <string id="unknown_33">On</string>
+      <string id="unknown_34">Off</string>
+      <string id="unknown_36">Broadcast</string>
+      <string id="unknown_37">Multicast</string>
+      <string id="unknown_41">On</string>
+      <string id="unknown_42">Off</string>
+      <string id="unknown_44">On</string>
+      <string id="unknown_45">Off</string>
+      <string id="unknown_47">On</string>
+      <string id="unknown_48">Off</string>
+      <string id="unknown_52">No</string>
+      <string id="unknown_53">Yes</string>
+      <string id="unknown_56">Off</string>
+      <string id="unknown_57">On</string>
+      <string id="unknown_60">Login_Name</string>
+      <string id="unknown_61">Machine_Name</string>
+      <string id="unknown_62">AD_Name</string>
+      <string id="unknown_64">Suppress</string>
+      <string id="unknown_65">Allow</string>
+      <string id="categoryname0">LanSchool Teacher 32bit Options</string>
+      <string id="categoryname1">LanSchool Teacher 64bit Options</string>
+      <string id="policyname0">LanSchool Teacher Channel</string>
+      <string id="SUPPORTED_WindowsVISTA">SUPPORTED_WindowsVISTA</string>
+      <string id="explaintext0">This changes the selected channel for LanSchool students.</string>
+      <string id="labeltext0">LanSchool Channel</string>
+      <string id="policyname1">Channel Select</string>
+      <string id="explaintext1">By enabling this option you can allow the Teacher console to change channels. Please see the user guide for more information.</string>
+      <string id="labeltext1">Channel Select</string>
+      <string id="policyname2">LanSchool Network Protocol</string>
+      <string id="explaintext2">This option will change the network protocol that LanSchool will use. Select the option that works best for the site. Please consult the Install.pdf for more information.  
+
+Note: when selecting Directed Broadcast, you must also fill in the Directed Broadcast Address list </string>
+      <string id="labeltext2">LanSchool Network Protocol</string>
+      <string id="policyname3">Install Options</string>
+      <string id="explaintext3">LanSchool offers multiple advanced installation options. Select the options you wish to use and add the sum of their values in the Options Box. These options are needed when a Teacher performs a Switch To Student. 
+
+ Stealth = 1 - The LanSchool icon is removed from the student toolbar. 
+
+ Allow Student to Change Channel = 2 - This gives the students the ability to change their own Classroom Channel. This option is disabled by default. 
+
+ No Keyboard Monitoring = 4 - This disables the Keyboard Monitoring ability on the Student systems. 
+
+ Password Secure Mode = 8 - The Secure version of LanSchool requires the use of a matched password between the Student and Teacher before they will communicate. 
+
+ Active Directory Secure Mode = 16 - Teacher must be a member of the domain user group "LanSchool Teachers" to control Students with Active Directory Secure Mode enabled.  
+
+ No Internet History Logging = 128 - When this option is enabled, LanSchool will no longer track the sites that are visited by a student system. 
+
+ Auto-send Crash Reports to Stoneware = 256 - This enables crash reports to automatically be sent to Stoneware for analysis. 
+
+ Enable Network Tampering Control = 512 - This option enables the blanking of Student's screens when a wired or wireless network adapter is disconnected. 
+
+ For more information on the various options available in LanSchool, please review the Installation guide</string>
+      <string id="policyname4">Secure Mode Password</string>
+      <string id="explaintext4">When using Password Secure Mode a password must be supplied. This password must be the same for both the Teacher and the students in a class.</string>
+      <string id="policyname5">Color Reduction</string>
+      <string id="explaintext5">By default, LanSchool uses color reduction when viewing the Student and Teacher screens. 
+
+  This option will allow you to enable or disable this feature during the deployment.</string>
+      <string id="policyname6">Hide Teacher Console During Broadcast</string>
+      <string id="explaintext6">When a Teacher shows their screen to the students, LanSchool automatically minimizes the console to the system tray. This setting allows for this feature to be disabled, allowing the Teacher console to remain in place.</string>
+      <string id="policyname7">Disable Data Transmission Editing</string>
+      <string id="explaintext7">By enabling this option, the ability to change the data transmission type will become inaccessible to the Teacher console.</string>
+      <string id="policyname8">Connection Server Address</string>
+      <string id="explaintext8">Setting this option allows Teacher and Student to connect to the Connection Server instead of directly.
+Enter IP Address:Port
+Default port number is 8080
+Example: 192.168.1.10:8080</string>
+      <string id="policyname9">webRelay Server Address</string>
+      <string id="explaintext9">This option can be used in combination with Connection Server to support Distance Teaching for students.
+Enter IP Address:Port
+Default port number is 8081
+Example: 192.168.100.10:8081</string>
+      <string id="policyname10">Turn Off Teacher's Limit Task Manager Control</string>
+      <string id="explaintext10">Enabling this policy setting turns off the Teacher's ability to limit Task Manager and Activity Monitor.
+
+Disabling this policy setting allows the Teacher the ability to use the Limit Task Manager / Activity Monitor on Student control in the Teacher Console Preferences.
+
+Set this policy setting to 'Not Configured' to allow the current setting to persist.
+
+</string>
+      <string id="policyname11">SSID Whitelist</string>
+      <string id="explaintext11">This option can be used if Network Tampering Controls are enabled to specify SSIDs that are allowed.  Delimit multiple SSIDs with the '+' character.</string>
+      <string id="policyname12">Dynamic Class List Interface</string>
+      <string id="explaintext12">You are required to turn this On in order to use the following settings for: 
+
+   Dynamic Class List CSV Folder 
+
+   Dynamic Class List Default Type.</string>
+      <string id="policyname13">Dynamic Class List CSV Folder</string>
+      <string id="explaintext13">The Dynamic Class List CSV Folder should be set to the canonical path, relative to the Teacher Console, for the folder that contains the Dynamic Class List CSV files (eg. StudentsForClassByMachineName.csv, et.al.)</string>
+      <string id="policyname14">Dynamic Class List Default Type</string>
+      <string id="explaintext14">The Type of Dynamic Class List that is default selected in the Teacher Consoles Dynamic Class List configuration area.  The three types are: AD Name, Machine Name, or Login Name.</string>
+      <string id="policyname15">Suppress Auto Update Notification</string>
+      <string id="explaintext15">Setting this option to Suppress will cause the Windows Teacher Console to no longer display a prompt at startup when there is a newer version of Teacher Console available for download.</string>
+      <string id="ADMXMigrator_UnresolvedString">ADMX Migrator encountered a string that is not present in the source ADM string table.</string>
+      <string id="ADMXMigrator_NoSupportedOn">ADMX Migrator encountered a policy that does not have a supportedOn value.</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="policyname0">
+        <decimalTextBox refId="labeltext0" defaultValue="1">LanSchool Channel</decimalTextBox>
+      </presentation>
+      <presentation id="policyname1">
+        <dropdownList refId="labeltext1">Channel Select</dropdownList>
+      </presentation>
+      <presentation id="policyname2">
+        <dropdownList refId="Transport">Transport</dropdownList>
+      </presentation>
+      <presentation id="policyname3">
+        <decimalTextBox refId="InstallationOptions" defaultValue="0">Installation Options</decimalTextBox>
+      </presentation>
+      <presentation id="policyname4">
+        <textBox refId="Password">
+          <label>Password</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname5">
+        <dropdownList refId="ColorReduction">Color Reduction</dropdownList>
+      </presentation>
+      <presentation id="policyname6">
+        <dropdownList refId="ConsoleHiding">Console Hiding</dropdownList>
+      </presentation>
+      <presentation id="policyname7">
+        <dropdownList refId="DisableDataTransmissionEditing">Disable Data Transmission Editing</dropdownList>
+      </presentation>
+      <presentation id="policyname8">
+        <textBox refId="ConnectionServerIPAddressPort">
+          <label>Connection Server IP Address:Port</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname9">
+        <textBox refId="webRelayServerIPAddressPort">
+          <label>webRelay Server IP Address:Port</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname10">
+        <dropdownList refId="LimitTaskManagerActivityMonitoronStudent">Limit Task Manager / Activity Monitor on Student</dropdownList>
+      </presentation>
+      <presentation id="policyname11">
+        <textBox refId="SSIDWhitelistplussymboldelimited">
+          <label>SSID Whitelist (plus symbol delimited)</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname12">
+        <dropdownList refId="DynamicClassListInterfacemustbeOninordertousethenexttwoDynamicClassListsettings">Dynamic Class List Interface (must be On, in order to use the next two Dynamic Class List settings)</dropdownList>
+      </presentation>
+      <presentation id="policyname13">
+        <textBox refId="DynamicClassListCSVFoldercanonicalpathtoafolder">
+          <label>Dynamic Class List CSV Folder  (canonical path to a folder)</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname14">
+        <dropdownList refId="DynamicClassListDefaultType">Dynamic Class List Default Type</dropdownList>
+      </presentation>
+      <presentation id="policyname15">
+        <dropdownList refId="SuppressAutoUpdateNotification">Suppress Auto Update Notification</dropdownList>
+      </presentation>
+      <presentation id="policyname0_1">
+        <decimalTextBox refId="labeltext0" defaultValue="1">LanSchool Channel</decimalTextBox>
+      </presentation>
+      <presentation id="policyname1_1">
+        <dropdownList refId="labeltext1">Channel Select</dropdownList>
+      </presentation>
+      <presentation id="policyname2_1">
+        <dropdownList refId="Transport">Transport</dropdownList>
+      </presentation>
+      <presentation id="policyname3_1">
+        <decimalTextBox refId="InstallationOptions" defaultValue="0">Installation Options</decimalTextBox>
+      </presentation>
+      <presentation id="policyname4_1">
+        <textBox refId="Password">
+          <label>Password</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname5_1">
+        <dropdownList refId="ColorReduction">Color Reduction</dropdownList>
+      </presentation>
+      <presentation id="policyname6_1">
+        <dropdownList refId="ConsoleHiding">Console Hiding</dropdownList>
+      </presentation>
+      <presentation id="policyname7_1">
+        <dropdownList refId="DisableDataTransmissionEditing">Disable Data Transmission Editing</dropdownList>
+      </presentation>
+      <presentation id="policyname8_1">
+        <textBox refId="ConnectionServerIPAddressPort">
+          <label>Connection Server IP Address:Port</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname9_1">
+        <textBox refId="webRelayServerIPAddressPort">
+          <label>webRelay Server IP Address:Port</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname10_1">
+        <dropdownList refId="LimitTaskManagerActivityMonitoronStudent">Limit Task Manager / Activity Monitor on Student</dropdownList>
+      </presentation>
+      <presentation id="policyname11_1">
+        <textBox refId="SSIDWhitelistplussymboldelimited">
+          <label>SSID Whitelist (plus symbol delimited)</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname12_1">
+        <dropdownList refId="DynamicClassListInterfacemustbeOninordertousethenexttwoDynamicClassListsettings">Dynamic Class List Interface (must be On, in order to use the next two Dynamic Class List settings)</dropdownList>
+      </presentation>
+      <presentation id="policyname13_1">
+        <textBox refId="DynamicClassListCSVFoldercanonicalpathtoafolder">
+          <label>Dynamic Class List CSV Folder  (canonical path to a folder)</label>
+        </textBox>
+      </presentation>
+      <presentation id="policyname14_1">
+        <dropdownList refId="DynamicClassListDefaultType">Dynamic Class List Default Type</dropdownList>
+      </presentation>
+      <presentation id="policyname15_1">
+        <dropdownList refId="SuppressAutoUpdateNotification">Suppress Auto Update Notification</dropdownList>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>
