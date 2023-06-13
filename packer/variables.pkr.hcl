@@ -46,6 +46,11 @@ variable "vcenter_folder" {
     type    = string
     default = "GMs"
 }
+variable "resource_pool" {
+    description = "Which resource pool to allocate the VM to."
+    type    = string
+    default = "ClusterResources"
+}
 variable "vm_version" {
     description = "Defaults to most current VM hardware supported by vCenter."
     type = number

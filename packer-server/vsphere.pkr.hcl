@@ -24,6 +24,7 @@ source "vsphere-iso" "win_2022_sysprep" {
   host                    = var.vcenter_host
   datastore               = var.vcenter_datastore
   folder                  = var.vcenter_folder
+  resource_pool           = var.resource_pool
 
   convert_to_template     = false
   notes                   = "Windows Server 2022 VM template built using Packer."

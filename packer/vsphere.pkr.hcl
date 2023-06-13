@@ -25,6 +25,7 @@ source "vsphere-iso" "win_10_sysprep" {
   host                    = var.vcenter_host
   datastore               = var.vcenter_datastore
   folder                  = var.vcenter_folder
+  resource_pool           = var.resource_pool
 
   convert_to_template     = false
   notes                   = "Windows 10 Enterprise x64 VM template built using Packer."
