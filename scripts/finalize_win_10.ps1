@@ -31,8 +31,7 @@ try {
     reg add "HKLM\Software\Policies\Google\Chrome\RestoreOnStartupURLs" /v "1" /t REG_SZ /d "https://www.tcanationals.com/contest-start" /f
     # Certificate auth
     reg add "HKLM\Software\Policies\Google\Chrome\AutoSelectCertificateForUrls" /v "1" /t REG_SZ /d "temp" /f # create reg key if doesn't exist
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\AutoSelectCertificateForUrls" -Name "1" -Value '{"pattern":"https://*.tcalocal.com","filter":{"ISSUER":{"CN":"Technical Computer Applications"},"SUBJECT":{"OU:"User Auth"}}' # Set actual value
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\AutoSelectCertificateForUrls" -Name "2" -Value '{"pattern":"https://*.tcanationals.com","filter":{"ISSUER":{"CN":"Technical Computer Applications"},"SUBJECT":{"OU:"User Auth"}}'
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome\AutoSelectCertificateForUrls" -Name "1" -Value '{"pattern":"https://tca-ad1.tcalocal.com","filter":{}}' # Use any certs found
     # Policy settings
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ShowCastIconInToolbar" -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "HomepageIsNewTabPage" -Value 0
@@ -55,6 +54,7 @@ try {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "RestoreOnStartup" -Value 4 # open homepage
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "HomepageLocation" -Value "https://www.tcanationals.com/contest-start"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "NewTabPageLocation" -Value "about:blank"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Google\Chrome" -Name "ForceCertificatePromptsOnMultipleMatches" -Value 0
 
     # Customize default user preferences
     reg load "HKU\temp" c:\users\default\ntuser.dat
