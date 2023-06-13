@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions revision="1.0" schemaVersion="1.0">
+  <policyNamespaces>
+    <target prefix="fullarmor" namespace="FullArmor.4936f3e1-57c3-4e56-8d87-da23d32f204b" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <supersededAdm fileName="C:\Windows\PolicyDefinitions\LanSchoolTeacher.adm" />
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_WindowsVISTA" displayName="$(string.SUPPORTED_WindowsVISTA)" />
+      <definition name="SUPPORTED_NotSpecified" displayName="$(string.ADMXMigrator_NoSupportedOn)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="categoryname0" displayName="$(string.categoryname0)" />
+    <category name="categoryname1" displayName="$(string.categoryname1)" />
+  </categories>
+  <policies>
+    <policy name="policyname0" class="Machine" displayName="$(string.policyname0)" explainText="$(string.explaintext0)" presentation="$(presentation.policyname0)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="labeltext0" valueName="Channel" minValue="1" maxValue="16001" />
+      </elements>
+    </policy>
+    <policy name="policyname1" class="Machine" displayName="$(string.policyname1)" explainText="$(string.explaintext1)" presentation="$(presentation.policyname1)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="labeltext1" valueName="EnableChannelSelect">
+          <item displayName="$(string.unknown_0)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_1)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname2" class="Machine" displayName="$(string.policyname2)" explainText="$(string.explaintext2)" presentation="$(presentation.policyname2)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="Transport" valueName="Transport">
+          <item displayName="$(string.unknown_3)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_4)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname3" class="Machine" displayName="$(string.policyname3)" explainText="$(string.explaintext3)" presentation="$(presentation.policyname3)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="InstallationOptions" valueName="Options" minValue="0" maxValue="1023" />
+      </elements>
+    </policy>
+    <policy name="policyname4" class="Machine" displayName="$(string.policyname4)" explainText="$(string.explaintext4)" presentation="$(presentation.policyname4)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="Password" valueName="PerfCntSz" />
+      </elements>
+    </policy>
+    <policy name="policyname5" class="Machine" displayName="$(string.policyname5)" explainText="$(string.explaintext5)" presentation="$(presentation.policyname5)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="ColorReduction" valueName="ColorReduction">
+          <item displayName="$(string.unknown_8)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_9)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname6" class="Machine" displayName="$(string.policyname6)" explainText="$(string.explaintext6)" presentation="$(presentation.policyname6)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="ConsoleHiding" valueName="HideConsoleOnBroadcast">
+          <item displayName="$(string.unknown_11)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_12)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname7" class="Machine" displayName="$(string.policyname7)" explainText="$(string.explaintext7)" presentation="$(presentation.policyname7)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DisableDataTransmissionEditing" valueName="DisableDataTransmission">
+          <item displayName="$(string.unknown_14)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_15)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname8" class="Machine" displayName="$(string.policyname8)" explainText="$(string.explaintext8)" presentation="$(presentation.policyname8)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="ConnectionServerIPAddressPort" valueName="ConnectionServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname9" class="Machine" displayName="$(string.policyname9)" explainText="$(string.explaintext9)" presentation="$(presentation.policyname9)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="webRelayServerIPAddressPort" valueName="RelayServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname10" class="Machine" displayName="$(string.policyname10)" explainText="$(string.explaintext10)" presentation="$(presentation.policyname10)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="LimitTaskManagerActivityMonitoronStudent" valueName="LimitTaskMan">
+          <item displayName="$(string.unknown_19)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_20)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname11" class="Machine" displayName="$(string.policyname11)" explainText="$(string.explaintext11)" presentation="$(presentation.policyname11)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="SSIDWhitelistplussymboldelimited" valueName="AllowedSSIDs" />
+      </elements>
+    </policy>
+    <policy name="policyname12" class="Machine" displayName="$(string.policyname12)" explainText="$(string.explaintext12)" presentation="$(presentation.policyname12)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DynamicClassListInterfacemustbeOninordertousethenexttwoDynamicClassListsettings" valueName="DynamicClassListInterface">
+          <item displayName="$(string.unknown_23)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_24)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname13" class="Machine" displayName="$(string.policyname13)" explainText="$(string.explaintext13)" presentation="$(presentation.policyname13)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="DynamicClassListCSVFoldercanonicalpathtoafolder" valueName="DynamicClassListCSVFolder" />
+      </elements>
+    </policy>
+    <policy name="policyname14" class="Machine" displayName="$(string.policyname14)" explainText="$(string.explaintext14)" presentation="$(presentation.policyname14)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DynamicClassListDefaultType" valueName="DynamicClassListDefaultType">
+          <item displayName="$(string.unknown_27)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_28)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_29)">
+            <value>
+              <decimal value="2" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname15" class="Machine" displayName="$(string.policyname15)" explainText="$(string.explaintext15)" presentation="$(presentation.policyname15)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="SuppressAutoUpdateNotification" valueName="AutoCheckUpdates">
+          <item displayName="$(string.unknown_31)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_32)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname0_1" class="Machine" displayName="$(string.policyname0)" explainText="$(string.explaintext0)" presentation="$(presentation.policyname0_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="labeltext0" valueName="Channel" minValue="1" maxValue="16001" />
+      </elements>
+    </policy>
+    <policy name="policyname1_1" class="Machine" displayName="$(string.policyname1)" explainText="$(string.explaintext1)" presentation="$(presentation.policyname1_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="labeltext1" valueName="EnableChannelSelect">
+          <item displayName="$(string.unknown_33)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_34)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname2_1" class="Machine" displayName="$(string.policyname2)" explainText="$(string.explaintext2)" presentation="$(presentation.policyname2_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="Transport" valueName="Transport">
+          <item displayName="$(string.unknown_36)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_37)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname3_1" class="Machine" displayName="$(string.policyname3)" explainText="$(string.explaintext3)" presentation="$(presentation.policyname3_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="InstallationOptions" valueName="Options" minValue="0" maxValue="1023" />
+      </elements>
+    </policy>
+    <policy name="policyname4_1" class="Machine" displayName="$(string.policyname4)" explainText="$(string.explaintext4)" presentation="$(presentation.policyname4_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="Password" valueName="PerfCntSz" />
+      </elements>
+    </policy>
+    <policy name="policyname5_1" class="Machine" displayName="$(string.policyname5)" explainText="$(string.explaintext5)" presentation="$(presentation.policyname5_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="ColorReduction" valueName="ColorReduction">
+          <item displayName="$(string.unknown_41)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_42)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname6_1" class="Machine" displayName="$(string.policyname6)" explainText="$(string.explaintext6)" presentation="$(presentation.policyname6_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="ConsoleHiding" valueName="HideConsoleOnBroadcast">
+          <item displayName="$(string.unknown_44)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_45)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname7_1" class="Machine" displayName="$(string.policyname7)" explainText="$(string.explaintext7)" presentation="$(presentation.policyname7_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DisableDataTransmissionEditing" valueName="DisableDataTransmission">
+          <item displayName="$(string.unknown_47)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_48)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname8_1" class="Machine" displayName="$(string.policyname8)" explainText="$(string.explaintext8)" presentation="$(presentation.policyname8_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="ConnectionServerIPAddressPort" valueName="ConnectionServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname9_1" class="Machine" displayName="$(string.policyname9)" explainText="$(string.explaintext9)" presentation="$(presentation.policyname9_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="webRelayServerIPAddressPort" valueName="RelayServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname10_1" class="Machine" displayName="$(string.policyname10)" explainText="$(string.explaintext10)" presentation="$(presentation.policyname10_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="LimitTaskManagerActivityMonitoronStudent" valueName="LimitTaskMan">
+          <item displayName="$(string.unknown_52)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_53)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname11_1" class="Machine" displayName="$(string.policyname11)" explainText="$(string.explaintext11)" presentation="$(presentation.policyname11_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="SSIDWhitelistplussymboldelimited" valueName="AllowedSSIDs" />
+      </elements>
+    </policy>
+    <policy name="policyname12_1" class="Machine" displayName="$(string.policyname12)" explainText="$(string.explaintext12)" presentation="$(presentation.policyname12_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DynamicClassListInterfacemustbeOninordertousethenexttwoDynamicClassListsettings" valueName="DynamicClassListInterface">
+          <item displayName="$(string.unknown_56)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_57)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname13_1" class="Machine" displayName="$(string.policyname13)" explainText="$(string.explaintext13)" presentation="$(presentation.policyname13_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="DynamicClassListCSVFoldercanonicalpathtoafolder" valueName="DynamicClassListCSVFolder" />
+      </elements>
+    </policy>
+    <policy name="policyname14_1" class="Machine" displayName="$(string.policyname14)" explainText="$(string.explaintext14)" presentation="$(presentation.policyname14_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="DynamicClassListDefaultType" valueName="DynamicClassListDefaultType">
+          <item displayName="$(string.unknown_60)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_61)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_62)">
+            <value>
+              <decimal value="2" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+    <policy name="policyname15_1" class="Machine" displayName="$(string.policyname15)" explainText="$(string.explaintext15)" presentation="$(presentation.policyname15_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <enum id="SuppressAutoUpdateNotification" valueName="AutoCheckUpdates">
+          <item displayName="$(string.unknown_64)">
+            <value>
+              <decimal value="0" />
+            </value>
+          </item>
+          <item displayName="$(string.unknown_65)">
+            <value>
+              <decimal value="1" />
+            </value>
+          </item>
+        </enum>
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>

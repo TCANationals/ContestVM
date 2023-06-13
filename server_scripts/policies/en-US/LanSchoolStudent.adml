@@ -1,0 +1,114 @@
+<policyDefinitionResources revision="1.0" schemaVersion="1.0">
+  <displayName>
+  </displayName>
+  <description>
+  </description>
+  <resources>
+    <stringTable>
+      <string id="categoryname0">LanSchool Student 32 Bit Options</string>
+      <string id="categoryname1">LanSchool Student 64 Bit Options</string>
+      <string id="policyname0">LanSchool Student Channel</string>
+      <string id="explaintext0">This changes the selected channel for LanSchool students.</string>
+      <string id="labeltext0">LanSchool Channel</string>
+      <string id="policyname1">Install Options</string>
+      <string id="explaintext1">LanSchool offers multiple advanced installation options. Select the options you wish to use and add the sum of their values in the Options Box. 
+
+ Stealth = 1 - The LanSchool icon is removed from the student toolbar. 
+
+ Allow Student to Change Channel = 2 - This gives the students the ability to change their own Classroom Channel. This option is disabled by default. 
+
+ No Keyboard Monitoring = 4 - This disables the Keyboard Monitoring ability on the Student systems. 
+
+ Password Secure Mode = 8 - The Secure version of LanSchool requires the use of a matched password between the Student and Teacher before they will communicate. 
+
+ Active Directory Secure Mode = 16 - Teacher must be a member of the domain user group "LanSchool Teachers" to control Students with Active Directory Secure Mode enabled.  
+
+ No Internet History Logging = 128 - When this option is enabled, LanSchool will no longer track the sites that are visited by a student system. 
+ 
+ Auto-send Crash Reports to Stoneware = 256 - This enables crash reports to automatically be sent to Stoneware for analysis.
+
+ Enable Network Tampering Control = 512 - This option enables the blanking of Student's screens when a wired or wireless network adapter is disconnected.
+
+ For more information on the various options available in LanSchool, please review the Installation guide</string>
+      <string id="policyname2">Secure Mode Password</string>
+      <string id="explaintext2">When using Secure Mode a password must be supplied. This password must be the same for both the Teacher and the students in a class.</string>
+      <string id="policyname3">Connection Server Address</string>
+      <string id="explaintext3">Setting this option allows Teacher and Student to connect to the Connection Server instead of directly.
+Enter IP Address:Port
+The default port number is 8080
+Example: 192.168.1.100:8080</string>
+      <string id="policyname4">webRelay Server Address</string>
+      <string id="explaintext4">This option can be used in combination with Connection Server to support Distance Teaching for students.
+Enter IP Address:Port
+The default port number is 8081
+Example: 192.168.1.2:8081</string>
+      <string id="ADMXMigrator_UnresolvedString">ADMX Migrator encountered a string that is not present in the source ADM string table.</string>
+      <string id="ADMXMigrator_NoSupportedOn">ADMX Migrator encountered a policy that does not have a supportedOn value.</string>
+      <string id="SUPPORTED_WindowsVISTA">At least Microsoft Windows</string>
+      <string id="policyname5">SSID Whitelist</string>
+      <string id="explaintext5">This option can be used if Network Tampering Controls are enabled to specify SSIDs that are allowed.  Delimit multiple SSIDs with the '+' symbol.</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="policyname0">
+        <decimalTextBox refId="labeltext0">LanSchool Channel</decimalTextBox>
+      </presentation>
+      <presentation id="policyname1">
+        <decimalTextBox refId="InstallationOptions" defaultValue="0">Installation Options</decimalTextBox>
+      </presentation>
+      <presentation id="policyname2">
+        <textBox refId="Password">
+          <label>Password</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname3">
+        <textBox refId="ConnectionServerAddress">
+          <label>Connection Server IP Address:Port</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname4">
+        <textBox refId="RelayServerAddress">
+          <label>webRelay Server IP Address:Port</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname5">
+        <textBox refId="AllowedSSIDs">
+          <label>SSID Whitelist</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname0_1">
+        <decimalTextBox refId="labeltext0">LanSchool Channel</decimalTextBox>
+      </presentation>
+      <presentation id="policyname1_1">
+        <decimalTextBox refId="InstallationOptions" defaultValue="0">Installation Options</decimalTextBox>
+      </presentation>
+      <presentation id="policyname2_1">
+        <textBox refId="Password">
+          <label>Password</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname3_1">
+        <textBox refId="ConnectionServerAddress">
+          <label>Connection Server IP Address:Port</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname4_1">
+        <textBox refId="RelayServerAddress">
+          <label>webRelay Server IP Address:Port</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+      <presentation id="policyname5_1">
+        <textBox refId="AllowedSSIDs">
+          <label>SSID Whitelist</label>
+          <defaultValue></defaultValue>
+        </textBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

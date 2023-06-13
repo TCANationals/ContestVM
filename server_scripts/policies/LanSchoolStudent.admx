@@ -1,0 +1,105 @@
+<policyDefinitions revision="1.0" schemaVersion="1.0">
+  <policyNamespaces>
+    <target prefix="fullarmor" namespace="FullArmor.Policies.1F0A9547_90DC_4151_B071_CF25FF4527B4" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <supersededAdm fileName="C:\Work7x\MsiInstall\ResourceFiles\LanSchool\LanSchoolStudent.adm" />
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_NotSpecified" displayName="$(string.ADMXMigrator_NoSupportedOn)" />
+      <definition name="SUPPORTED_WindowsVISTA" displayName="$(string.SUPPORTED_WindowsVISTA)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="categoryname0" displayName="$(string.categoryname0)" />
+    <category name="categoryname1" displayName="$(string.categoryname1)" />
+  </categories>
+  <policies>
+    <policy name="policyname0" class="Machine" displayName="$(string.policyname0)" explainText="$(string.explaintext0)" presentation="$(presentation.policyname0)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="labeltext0" valueName="Channel" minValue="1" maxValue="16001" />
+      </elements>
+    </policy>
+    <policy name="policyname1" class="Machine" displayName="$(string.policyname1)" explainText="$(string.explaintext1)" presentation="$(presentation.policyname1)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="InstallationOptions" valueName="Options" maxValue="1023" />
+      </elements>
+    </policy>
+    <policy name="policyname2" class="Machine" displayName="$(string.policyname2)" explainText="$(string.explaintext2)" presentation="$(presentation.policyname2)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="Password" valueName="PerfCntSz" />
+      </elements>
+    </policy>
+    <policy name="policyname3" class="Machine" displayName="$(string.policyname3)" explainText="$(string.explaintext3)" presentation="$(presentation.policyname3)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="ConnectionServerAddress" valueName="ConnectionServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname4" class="Machine" displayName="$(string.policyname4)" explainText="$(string.explaintext4)" presentation="$(presentation.policyname4)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="RelayServerAddress" valueName="RelayServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname5" class="Machine" displayName="$(string.policyname5)" explainText="$(string.explaintext5)" presentation="$(presentation.policyname5)" key="SOFTWARE\LanSchool">
+      <parentCategory ref="categoryname0" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="AllowedSSIDs" valueName="AllowedSSIDs" />
+      </elements>
+    </policy>
+    
+    <policy name="policyname0_1" class="Machine" displayName="$(string.policyname0)" explainText="$(string.explaintext0)" presentation="$(presentation.policyname0_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="labeltext0" valueName="Channel" minValue="1" maxValue="16001" />
+      </elements>
+    </policy>
+    <policy name="policyname1_1" class="Machine" displayName="$(string.policyname1)" explainText="$(string.explaintext1)" presentation="$(presentation.policyname1_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <decimal id="InstallationOptions" valueName="Options" maxValue="1023" />
+      </elements>
+    </policy>
+    <policy name="policyname2_1" class="Machine" displayName="$(string.policyname2)" explainText="$(string.explaintext2)" presentation="$(presentation.policyname2_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="Password" valueName="PerfCntSz" />
+      </elements>
+    </policy>
+    <policy name="policyname3_1" class="Machine" displayName="$(string.policyname3)" explainText="$(string.explaintext3)" presentation="$(presentation.policyname3_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="ConnectionServerAddress" valueName="ConnectionServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname4_1" class="Machine" displayName="$(string.policyname4)" explainText="$(string.explaintext4)" presentation="$(presentation.policyname4_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="RelayServerAddress" valueName="RelayServerAddress" />
+      </elements>
+    </policy>
+    <policy name="policyname5_1" class="Machine" displayName="$(string.policyname5)" explainText="$(string.explaintext5)" presentation="$(presentation.policyname5_1)" key="SOFTWARE\Wow6432Node\LanSchool">
+      <parentCategory ref="categoryname1" />
+      <supportedOn ref="SUPPORTED_WindowsVISTA" />
+      <elements>
+        <text id="AllowedSSIDs" valueName="AllowedSSIDs" />
+      </elements>
+    </policy>
+  </policies>
+</policyDefinitions>

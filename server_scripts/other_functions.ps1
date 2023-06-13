@@ -25,3 +25,9 @@ Install-AdfsFarm `
 -FederationServiceName:"TCA-AD1.tcalocal.com" `
 -GroupServiceAccountIdentifier:"TCA\adfs_svc_acct`$"
 
+# Setup central policy store
+if ( -not (Test-Path "C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions")){
+    robocopy /xc /xn /xo "C:\Windows\PolicyDefinitions" "C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions" /R:5 /W:1 /E
+} else {
+    Write-Host "Central store already exists" -ForegroundColor Green
+}

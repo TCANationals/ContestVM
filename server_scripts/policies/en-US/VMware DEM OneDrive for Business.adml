@@ -1,0 +1,22 @@
+<policyDefinitionResources revision="1.0" schemaVersion="1.0" xmlns="http://www.microsoft.com/GroupPolicy/PolicyDefinitions">
+  <displayName />
+  <description />
+  <resources>
+    <stringTable>
+      <string id="PlatformSupport2111">At least Microsoft Windows 7 with SP1 or Windows Server 2008 R2 with SP1.&#10;At least VMware Dynamic Environment Manager 2111.</string>
+	  <string id="PlatformSupport2206">At least Microsoft Windows 7 with SP1 or Windows Server 2008 R2 with SP1.&#10;At least VMware Dynamic Environment Manager 2206.</string>
+      <string id="OneDriveForBusiness">OneDrive for Business integration</string>
+      <string id="OneDriveForBusiness_Help">NOTE: OneDrive for Business integration is no longer available; contact your account team for more information.&#10;&#10;Use this setting to enable OneDrive for Business integration, to have FlexEngine use the logged-on user's OneDrive storage for profile archives and logs.</string>  
+	  <string id="CopyProfileArchivesToOneDrive">Copy profile archives to OneDrive for Business</string>
+      <string id="CopyProfileArchivesToOneDrive_Help">NOTE: OneDrive for Business integration is no longer available; contact your account team for more information.&#10;&#10;Enable this setting to copy profile archives to OneDrive for Business after a path-based export.</string>
+	</stringTable>
+    <presentationTable>
+	  <presentation id="OneDriveForBusiness">
+		<textBox refId="Txt_OneDriveLogDirectory">
+          <label>Log directory:</label>
+        </textBox>
+		<decimalTextBox refId="Dec_MaxOneDriveLogFileSize" defaultValue="3000">Maximum log file size in kB:</decimalTextBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

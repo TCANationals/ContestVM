@@ -1,0 +1,27 @@
+<policyDefinitions revision="1.0" schemaVersion="1.0" xmlns="http://www.microsoft.com/GroupPolicy/PolicyDefinitions">
+  <policyNamespaces>
+    <target prefix="VMwareDEMOneDriveForBusiness" namespace="VMwareDEM.Policies.OneDriveForBusiness" />
+    <using prefix="VMwareDEMFlexEngine" namespace="VMwareDEM.Policies.FlexEngine" />
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="PlatformSupport2111" displayName="$(string.PlatformSupport2111)" />
+	  <definition name="PlatformSupport2206" displayName="$(string.PlatformSupport2206)" />
+    </definitions>
+  </supportedOn>
+  <policies>
+	<policy name="OneDriveForBusiness" class="User" displayName="$(string.OneDriveForBusiness)" explainText="$(string.OneDriveForBusiness_Help)" presentation="$(presentation.OneDriveForBusiness)" key="Software\Policies\Immidio\Flex Profiles\Arguments" valueName="OneDriveEnabled">
+      <parentCategory ref="VMwareDEMFlexEngine:Cat_FlexEngine" />
+      <supportedOn ref="PlatformSupport2111" />
+      <elements>
+		<text id="Txt_OneDriveLogDirectory" valueName="OneDriveLogDirectory" required="false" expandable="true" />
+		<decimal id="Dec_MaxOneDriveLogFileSize" valueName="MaxOneDriveLogFileSize" required="false" maxValue="2147483647" />
+      </elements>
+    </policy>
+	<policy name="CopyProfileArchivesToOneDrive" class="User" displayName="$(string.CopyProfileArchivesToOneDrive)" explainText="$(string.CopyProfileArchivesToOneDrive_Help)" key="Software\Policies\Immidio\Flex Profiles\Arguments" valueName="CopyProfileArchivesToOneDrive">
+      <parentCategory ref="VMwareDEMFlexEngine:Cat_FlexEngine" />
+      <supportedOn ref="PlatformSupport2206" />
+    </policy>
+  </policies>
+</policyDefinitions>
