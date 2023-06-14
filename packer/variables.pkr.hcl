@@ -54,7 +54,7 @@ variable "resource_pool" {
 variable "vm_version" {
     description = "Defaults to most current VM hardware supported by vCenter."
     type = number
-    default = "13"
+    default = "20"
 }
 variable "vm_name" {
     description = "Name of the VM you are going to be templating."

@@ -7,32 +7,32 @@ DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$UWP
 Remove-Item -Path "$PackerDownloads\$UWPDesktop64Filename"
 
 # Install the core system apps
-choco install choco-protocol-support --no-progress -y
-choco install laps --no-progress -y --params='"/ALL"'
-choco install lxrunoffline --no-progress -y
-choco install sysinternals --no-progress -y
-choco install vlc --no-progress -y
-#choco install adobereader --no-progress -y
-choco install winrar --no-progress -y
-choco install notepadplusplus --no-progress -y
-choco install microsoft-office-deployment --version=16.0.16501.20196 --no-progress -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
-choco install tableau-desktop --version=2023.1.0 --no-progress -y # update finalize when changing version
-choco install vscode --no-progress -y
-choco install speedtest --no-progress -y
-choco install speedtest-by-ookla --no-progress -y
-choco install sql-server-management-studio --no-progress -y
-choco install python --version=3.10.8 --no-progress -y --params "/NoLockdown"
-choco install nodejs-lts --no-progress -y
-choco install git --no-progress -y
-choco install r --no-progress -y
+Choco-Install -PackageName choco-protocol-support
+Choco-Install -PackageName laps -ArgumentList "--params='`"/ALL`"'"
+Choco-Install -PackageName lxrunoffline
+Choco-Install -PackageName sysinternals
+Choco-Install -PackageName vlc
+#Choco-Install -PackageName adobereader
+Choco-Install -PackageName winrar
+Choco-Install -PackageName notepadplusplus
+Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--version=16.0.16501.20196", "--params=`"'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'`""
+Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.1.0" # update finalize when changing version
+Choco-Install -PackageName vscode
+Choco-Install -PackageName speedtest
+Choco-Install -PackageName speedtest-by-ookla
+Choco-Install -PackageName sql-server-management-studio
+Choco-Install -PackageName python -ArgumentList "--version=3.10.8", "--params", '"/NoLockdown"'
+Choco-Install -PackageName nodejs-lts
+Choco-Install -PackageName git
+Choco-Install -PackageName r
 
 # Install office from TCA cache since MS keeps changing the URL
 #$OfficeDeploymentFilename = "officedeploymenttool_16501-20196.exe"
 #Download-File "https://files.tcanationals.com/deps/$OfficeDeploymentFilename" "$PackerDownloads\$OfficeDeploymentFilename"
 
 # Install music apps
-#choco install amazon-music --no-progress -y
-#choco install spotify --ignore-checksums --no-progress -y
+#Choco-Install -PackageName amazon-music
+#Choco-Install -PackageName spotify -ArgumentList "--ignore-checksums"
 
 # Lock down tools directory for lxrunoffline
 Set-DirectoryUserAcls "C:\tools"
@@ -90,4 +90,4 @@ DISM.exe /Online /add-capability /CapabilityName:Rsat.ActiveDirectory.DS-LDS.Too
 DISM.exe /Online /add-capability /CapabilityName:Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0
 
 # PowerAutomate at the end since it restarts the PC
-choco install powerautomatedesktop --ignore-checksums --no-progress -y
+Choco-Install -PackageName powerautomatedesktop -ArgumentList "--ignore-checksums"

@@ -1,3 +1,5 @@
+. C:\Packer\Scripts\tca-env.ps1
+
 # The script bootstraps new Windows Server instances
 # It is run on all Windows Servers after base OS setup and before other server scripts
 
@@ -16,9 +18,9 @@ Install-Module -Name AWS.Tools.Installer -Scope AllUsers -Allowclobber -Confirm:
 Install-AWSToolsModule -Name AWS.Tools.SSOAdmin,AWS.Tools.SSO,AWS.Tools.IdentityStore -CleanUp -Confirm:$False -Force
 
 # Base tools
-choco install winrar -y
-choco install googlechrome -y
-choco install notepadplusplus -y
+Choco-Install -PackageName winrar
+Choco-Install -PackageName googlechrome
+Choco-Install -PackageName notepadplusplus
 
 # Disable CTRL+ALT+DEL in logon
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableCAD /t REG_DWORD /d 1 /f
