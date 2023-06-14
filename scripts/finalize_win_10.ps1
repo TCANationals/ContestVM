@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 . C:\Packer\Scripts\tca-env.ps1
 
 try {
-    Download-File "https://files.tcanationals.com/packer_tools/VMwareHorizonOSOptimizationTool-x86_64-1.0_2111.exe"  "C:\Packer\Downloads\OSOT.exe"
+    Download-File "https://files.tcanationals.com/packer_tools/VMwareHorizonOSOptimizationTool-x86_64-1.2.2303.21510536.exe"  "C:\Packer\Downloads\OSOT.exe"
     Download-File "https://files.tcanationals.com/packer_tools/LGPO.exe"  "C:\Packer\Downloads\LGPO.exe"
     Download-File "https://files.tcanationals.com/packer_tools/sdelete64.exe"  "C:\Packer\Downloads\sdelete64.exe"
 
