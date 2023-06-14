@@ -38,3 +38,12 @@ TCA-DownloadFile "LCS_91050.msi"
 New-ADGroup -Name "LanSchool Teachers" -GroupScope Global -DisplayName "LanSchool Teachers" -Path "CN=Users,DC=tcalocal,DC=Com"
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnet /t REG_SZ /d "172.16.0.0" /f
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnetMask /t REG_SZ /d "255.255.255.0" /f
+
+
+# Set AWS credentials
+$awsArgs = @{
+    AccessKey = (Read-Host 'AWS Access Key' -AsSecureString)
+    SecretKey = (Read-Host 'AWS Secret Key' -AsSecureString)
+}
+Set-AWSCredential -AccessKey $awsArgs.AccessKey -SecretKey $awsArgs.SecretKey -StoreAs default
+Initialize-AWSDefaultConfiguration -ProfileName default -Region us-east-1

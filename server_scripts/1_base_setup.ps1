@@ -10,6 +10,10 @@ Install-Module -Name PackageManagement -Force -Scope AllUsers -Allowclobber -Con
 Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -Confirm:$False -Force
 Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -Confirm:$False -Force
 Install-Module -Name ADCSTemplate -Scope AllUsers -Allowclobber -Confirm:$False -Force
+Install-Module -Name AWS.Tools.Installer -Scope AllUsers -Allowclobber -Confirm:$False -Force
+
+# Install AWS modules
+Install-AWSToolsModule -Name AWS.Tools.SSOAdmin,AWS.Tools.SSO,AWS.Tools.IdentityStore -CleanUp -Confirm:$False -Force
 
 # Base tools
 choco install winrar -y

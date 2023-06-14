@@ -1,10 +1,14 @@
 # Import active directory module for running AD cmdlets
 Import-Module ActiveDirectory
+Import-Module AWS.Tools.SSOAdmin
+Import-Module AWS.Tools.SSO
+Import-Module AWS.Tools.IdentityStore
 
 # Read in a list of IDs to create user accounts for
 $ADUsers = Get-Content .\contestant_id_list.txt
 
 # Define shared properties
+$awsSSOIdStore = ""
 $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
 $Ou = "OU=Students,DC=tcalocal,DC=com"
