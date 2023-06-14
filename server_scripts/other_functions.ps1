@@ -116,3 +116,19 @@ Set-Acl D:\Shares\Users $acl
 
 # set ACLs
 Set-HomeFolderACL -Path 'D:\Shares\Users'
+
+# Setup exchange certificate
+Get-Command -Module PSPKI
+. 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'
+Connect-ExchangeServer -auto
+
+$TempFile = New-TemporaryFile
+
+$exchrequest = New-ExchangeCertificate -PrivateKeyExportable $False -GenerateRequest -FriendlyName "TCA-EXCH1" -SubjectName "C=US,CN=TCA-EXCH1.tcalocal.com" -DomainName TCA-EXCH1.tcalocal.com,TCA-EXCH1
+$exchrequest | Out-File -FilePath $TempFile
+
+$localCa = Connect-CertificationAuthority
+$issuedCert = Submit-CertificateRequest -Path $TempFile -CA $localCa -Attribute "CertificateTemplate:WebServer"
+
+$exchCert = Import-ExchangeCertificate -FileData $issuedCert.Certificate.RawData
+Enable-ExchangeCertificate -Thumbprint $exchCert.Thumbprint -Services POP,IMAP,IIS,SMTP -Force

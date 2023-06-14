@@ -7,6 +7,7 @@
 Install-PackageProvider -Name NuGet -Force -Scope AllUsers -Confirm:$False
 Install-Module -Name PowerShellGet -Force -Scope AllUsers -Allowclobber -Confirm:$False
 Install-Module -Name PackageManagement -Force -Scope AllUsers -Allowclobber -Confirm:$False
+Install-Module -Name PSPKI -Force -Scope AllUsers -Allowclobber -Confirm:$False
 
 # Install other PS modules
 Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -Confirm:$False -Force

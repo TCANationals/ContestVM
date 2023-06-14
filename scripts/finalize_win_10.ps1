@@ -111,6 +111,7 @@ try {
     Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common\Signin' -ValueName 'signinoptions' -Data '3' -Type 'DWORD'
     Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common\General' -ValueName 'skydrivesigninoption' -Data '0' -Type 'DWORD'
     Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Common' -ValueName 'linkedin' -Data '0' -Type 'DWORD'
+    Set-PolicyFileEntry -Path $UserGPDir -Key 'Software\Policies\Microsoft\Office\16.0\Outlook\Options\General' -ValueName 'disableoutlookmobilehyperlink' -Data '1' -Type 'DWORD'
 
     # Setup task to delete Administrator user profile on reboot (task will enable WinRM once finished)
     Write-Output "Ensure WinRM is disabled"
