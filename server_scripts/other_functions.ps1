@@ -110,3 +110,6 @@ $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRul
     $systemUser, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
 Set-Acl D:\Shares\Users $acl
+
+# set ACLs
+Set-HomeFolderACL -Path 'D:\Shares\Users'
