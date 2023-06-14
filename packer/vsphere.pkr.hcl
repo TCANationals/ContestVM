@@ -128,6 +128,15 @@ build {
     restart_timeout = "15m"
   }
 
+  provisioner "powershell" {
+    pause_before      = "5s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/choco-core.ps1"
+    timeout           = "1h"
+    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+  }
+
   provisioner "windows-update" {
     pause_before = "5s"
     timeout = "1h"
@@ -190,7 +199,7 @@ build {
     pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
-    script            = "scripts/choco-core.ps1"
+    script            = "scripts/early-packages.ps1"
     timeout           = "1h"
     valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
   }
