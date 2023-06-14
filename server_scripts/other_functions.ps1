@@ -39,6 +39,10 @@ New-ADGroup -Name "LanSchool Teachers" -GroupScope Global -DisplayName "LanSchoo
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnet /t REG_SZ /d "172.16.0.0" /f
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnetMask /t REG_SZ /d "255.255.255.0" /f
 
+# Setup LAPS
+Update-LapsADSchema
+Set-LapsADComputerSelfPermission -Identity "Computers"
+Set-LapsADComputerSelfPermission -Identity "HorizonVMs"
 
 # Set AWS credentials
 $awsArgs = @{
@@ -47,3 +51,48 @@ $awsArgs = @{
 }
 Set-AWSCredential -AccessKey ([System.Net.NetworkCredential]::new("", $awsArgs.AccessKey).Password) -SecretKey ([System.Net.NetworkCredential]::new("", $awsArgs.SecretKey).Password) -StoreAs default
 Initialize-AWSDefaultConfiguration -ProfileName default -Region us-east-1
+
+# setup shared folders
+# get domain admin & domain user group IDs
+$domainAdmins = (Get-ADGroup -Identity "Domain Admins").SID
+$authenticatedUsers = New-Object -TypeName "System.Security.Principal.SecurityIdentifier" -ArgumentList @([System.Security.Principal.WellKnownSidType]::AuthenticatedUserSid, $null)
+
+# Setup root share directory & ensure only domain admins have access
+force-mkdir D:\Shares
+$acl = Get-Acl D:\Shares
+$acl.SetOwner($domainAdmins)
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $domainAdmins, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+)))
+$acl.SetAccessRuleProtection($True, $False)
+Set-Acl D:\Shares $acl
+
+# Setup public share and give everyone read-only access
+force-mkdir D:\Shares\Public\_Judges
+New-SmbShare -Name Public -Path "D:\Shares\Public" -FullAccess "Everyone"
+$acl = Get-Acl D:\Shares\Public
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+)))
+Set-Acl D:\Shares\Public $acl
+
+# Judge specific folder
+$acl = Get-Acl D:\Shares\Public\_Judges
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $domainAdmins, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+)))
+$acl.SetAccessRuleProtection($True, $False)
+Set-Acl D:\Shares\Public\_Judges $acl
+
+# DEM Config share
+force-mkdir D:\Shares\DEM
+New-SmbShare -Name DEM$ -Path "D:\Shares\DEM" -FullAccess "Everyone"
+$acl = Get-Acl D:\Shares\DEM
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+)))
+Set-Acl D:\Shares\DEM $acl
+
+# Users share, permission for users to create their own directory (from DEM on login)
+force-mkdir D:\Shares\Users
+New-SmbShare -Name Users$ -Path "D:\Shares\Users" -FullAccess "Everyone"

@@ -12,8 +12,9 @@ $awsSSOIdStore = "d-906742eef4"
 $awsSSOGroupId = "e488d4a8-10e1-7049-2617-d6c122af219e" # Everyone
 $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
-$Ou = "OU=Students,DC=tcalocal,DC=com"
-$UsernameSuffix = ".22"
+$Ou = "OU=Students,OU=TCA,DC=tcalocal,DC=com"
+$firstName = "Contestant"
+$UsernameSuffix = ".23"
 
 # Loop through each row containing user details in the CSV file
 foreach ($User in $ADUsers) {
@@ -25,7 +26,7 @@ foreach ($User in $ADUsers) {
     #Read user data from each field in each row and assign the data to a variable as below
     $username = $User + $UsernameSuffix
     $password = $DefaultPass
-    $firstname = "Contestant"
+    $firstname = $firstName
     $lastname = $User
     $OU = $Ou
     $email = $username + '@' + $UPN

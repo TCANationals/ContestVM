@@ -15,7 +15,7 @@ choco install vlc --no-progress -y
 #choco install adobereader --no-progress -y
 choco install winrar --no-progress -y
 choco install notepadplusplus --no-progress -y
-choco install microsoft-office-deployment --version=16.0.16327.20214 --no-progress -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
+choco install microsoft-office-deployment --version=16.0.16501.20196 --no-progress -y --params="'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'"
 choco install tableau-desktop --version=2023.1.0 --no-progress -y # update finalize when changing version
 choco install vscode --no-progress -y
 choco install speedtest --no-progress -y
@@ -25,6 +25,10 @@ choco install python --version=3.10.8 --no-progress -y --params "/NoLockdown"
 choco install nodejs-lts --no-progress -y
 choco install git --no-progress -y
 choco install r --no-progress -y
+
+# Install office from TCA cache since MS keeps changing the URL
+#$OfficeDeploymentFilename = "officedeploymenttool_16501-20196.exe"
+#Download-File "https://files.tcanationals.com/deps/$OfficeDeploymentFilename" "$PackerDownloads\$OfficeDeploymentFilename"
 
 # Install music apps
 #choco install amazon-music --no-progress -y
