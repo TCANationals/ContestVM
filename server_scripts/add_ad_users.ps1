@@ -8,7 +8,8 @@ Import-Module AWS.Tools.IdentityStore
 $ADUsers = Get-Content .\contestant_id_list.txt
 
 # Define shared properties
-$awsSSOIdStore = ""
+$awsSSOIdStore = "d-906742eef4"
+$awsSSOGroupId = "e488d4a8-10e1-7049-2617-d6c122af219e" # Everyone
 $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
 $Ou = "OU=Students,DC=tcalocal,DC=com"
@@ -51,5 +52,23 @@ foreach ($User in $ADUsers) {
 
         # If user is created, show message.
         Write-Host "The user account $username is created." -ForegroundColor Cyan
+    }
+
+    # Make sure user is setup in SSO
+    try {
+        $ssoUserId = Get-IDSUserId -IdentityStoreId $awsSSOIdStore -UniqueAttribute_AttributePath 'Username' -UniqueAttribute_AttributeValue $email
+        Write-Warning "A user account with username $username already exists in AWS SSO (ID = $ssoUserId)."
+    } catch {
+        $ssoEmail = New-Object Amazon.IdentityStore.Model.Email
+        $ssoEmail.Value = $email
+        $ssoUserId = New-IDSUser -IdentityStoreId $awsSSOIdStore -Name_FamilyName $lastname -Name_GivenName $firstname -DisplayName "$firstname $lastname" -UserName $email -Email $ssoEmail
+        Write-Host "A user account does not exist for provided email, creating one..."
+    }
+
+    # Verify SSO group membership
+    $groupMembershipCheck = Assert-IDSMemberInGroup -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
+    if (!$groupMembershipCheck.MembershipExists) {
+        Write-Warning "User with ID $ssoUserId is not member of group, adding..."
+        New-IDSGroupMembership -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
     }
 }

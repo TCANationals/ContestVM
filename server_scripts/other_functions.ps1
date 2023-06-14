@@ -45,5 +45,5 @@ $awsArgs = @{
     AccessKey = (Read-Host 'AWS Access Key' -AsSecureString)
     SecretKey = (Read-Host 'AWS Secret Key' -AsSecureString)
 }
-Set-AWSCredential -AccessKey $awsArgs.AccessKey -SecretKey $awsArgs.SecretKey -StoreAs default
+Set-AWSCredential -AccessKey ([System.Net.NetworkCredential]::new("", $awsArgs.AccessKey).Password) -SecretKey ([System.Net.NetworkCredential]::new("", $awsArgs.SecretKey).Password) -StoreAs default
 Initialize-AWSDefaultConfiguration -ProfileName default -Region us-east-1
