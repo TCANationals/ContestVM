@@ -575,7 +575,7 @@ function Choco-Install {
                 $count++
                 if ($count -ge $retryCount) {
                     Write-Host "Could not install $packageName after $count attempts"
-                    exit 1
+                    throw "Install error"
                 }
                 Start-Sleep -Seconds 30
             }
