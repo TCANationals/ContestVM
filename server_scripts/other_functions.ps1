@@ -39,6 +39,9 @@ New-ADGroup -Name "LanSchool Teachers" -GroupScope Global -DisplayName "LanSchoo
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnet /t REG_SZ /d "172.16.0.0" /f
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnetMask /t REG_SZ /d "255.255.255.0" /f
 
+# Download teacher file
+TCA-DownloadFile "Teacher_91050.msi"
+
 # Setup LAPS
 Update-LapsADSchema
 Set-LapsADComputerSelfPermission -Identity "Computers"
