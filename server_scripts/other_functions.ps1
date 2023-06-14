@@ -56,6 +56,8 @@ Initialize-AWSDefaultConfiguration -ProfileName default -Region us-east-1
 # get domain admin & domain user group IDs
 $domainAdmins = (Get-ADGroup -Identity "Domain Admins").SID
 $authenticatedUsers = New-Object -TypeName "System.Security.Principal.SecurityIdentifier" -ArgumentList @([System.Security.Principal.WellKnownSidType]::AuthenticatedUserSid, $null)
+$systemUser = New-Object -TypeName "System.Security.Principal.SecurityIdentifier" -ArgumentList @([System.Security.Principal.WellKnownSidType]::LocalSystemSid, $null)
+$creatorOwnerUser = New-Object -TypeName "System.Security.Principal.SecurityIdentifier" -ArgumentList @([System.Security.Principal.WellKnownSidType]::CreatorOwnerSid, $null)
 
 # Setup root share directory & ensure only domain admins have access
 force-mkdir D:\Shares
@@ -96,3 +98,15 @@ Set-Acl D:\Shares\DEM $acl
 # Users share, permission for users to create their own directory (from DEM on login)
 force-mkdir D:\Shares\Users
 New-SmbShare -Name Users$ -Path "D:\Shares\Users" -FullAccess "Everyone"
+$acl = Get-Acl D:\Shares\Users
+# All auth users can list directory and create new folders
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $authenticatedUsers, 'ReadData, AppendData, ExecuteFile, Synchronize', 'None', 'None', 'Allow'
+)))
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $creatorOwnerUser, 'Modify, Synchronize', 'ContainerInherit, ObjectInherit', 'InheritOnly', 'Allow'
+)))
+$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+    $systemUser, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+)))
+Set-Acl D:\Shares\Users $acl
