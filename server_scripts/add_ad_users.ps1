@@ -19,6 +19,7 @@ $DefaultPass = "changeme"
 $Ou = "OU=Students,OU=TCA,DC=tcalocal,DC=com"
 $firstName = "Contestant"
 $UsernameSuffix = ".23"
+$ExchangePermissionGrantUser = "damik@tcalocal.com"
 
 # Loop through each row containing user details in the CSV file
 foreach ($User in $ADUsers) {
@@ -64,11 +65,14 @@ foreach ($User in $ADUsers) {
     # setup user mailbox
     $mailboxExist = [bool](Get-Mailbox -Identity $adUser.UserPrincipalName -erroraction SilentlyContinue)
     if (!$mailboxExist) {
-        Enable-Mailbox -Identity $adUser.UserPrincipalName
-        Write-Host "Enabled mailbox for $adUser.UserPrincipalName"
+        Enable-Mailbox -Identity ($adUser.UserPrincipalName)
+        Write-Host "Enabled mailbox for " $adUser.UserPrincipalName
     } else {
-        Write-Warning "A mailbox already exists for $adUser.UserPrincipalName"
+        Write-Warning "A mailbox already exists for " $adUser.UserPrincipalName
     }
+
+    # Add access to mailbox
+    Add-MailboxPermission -Identity ($adUser.UserPrincipalName) -User $ExchangePermissionGrantUser -AccessRights FullAccess -InheritanceType All
 
     # Make sure user is setup in SSO
     try {
