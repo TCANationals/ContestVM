@@ -54,10 +54,10 @@ Set-DirectoryUserAcls "C:\Certiport\Compass"
 TCA-AuthUserFullAccess 'C:\Certiport\Compass'
 
 # Deploy VM, assumes hard-coded directory for VMware Player
-$vmOvaFilename = "Whiteout.ova"
+$vmOvaFilename = "ShortCircuit.ova"
 $OvfArgList = ('-dm=twoGbMaxExtentSparse --acceptAllEulas -n=TroubleshootingVM "' + "$TCAPrivateUrl/$vmOvaFilename" + '" "' + "$PackerPublic" + '"')
 Write-Output "Deploying VM"
-#Start-Process -Wait -FilePath "${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
+Start-Process -Wait -FilePath "${Env:ProgramFiles(x86)}\VMware\VMware Player\OVFTool\ovftool.exe" -ArgumentList "$OvfArgList"
 # Update network to NAT
 #$vmxData = Get-Content -Path "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx" -Raw
 #$vmxData -Replace 'bridged', 'nat' | Set-Content -Path "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx"
