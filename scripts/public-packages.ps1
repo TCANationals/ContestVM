@@ -1,10 +1,15 @@
 ﻿. C:\Packer\Scripts\tca-env.ps1
 
 # Install manual Appx deps
-$UWPDesktop64Filename = "Microsoft.VCLibs.140.00.UWPDesktop_14.0.30704.0_x64__8wekyb3d8bbwe.Appx"
+$UWPDesktop64Filename = "Microsoft.VCLibs.x64.14.00.Desktop.appx"
 Download-File "https://files.tcanationals.com/deps/$UWPDesktop64Filename" "$PackerDownloads\$UWPDesktop64Filename"
 DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$UWPDesktop64Filename" /SkipLicense
 Remove-Item -Path "$PackerDownloads\$UWPDesktop64Filename"
+
+$MSUIXaml64Filename = "Microsoft.UI.Xaml.2.7.appx"
+Download-File "https://files.tcanationals.com/deps/$MSUIXaml64Filename" "$PackerDownloads\$MSUIXaml64Filename"
+DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$MSUIXaml64Filename" /SkipLicense
+Remove-Item -Path "$PackerDownloads\$MSUIXaml64Filename"
 
 # Install the core system apps
 Choco-Install -PackageName choco-protocol-support
