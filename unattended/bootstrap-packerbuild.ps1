@@ -58,6 +58,9 @@ if (-not (Test-Path "$PackerConfig\logon.bgi" )) {
 if (-not (Test-Path "$PackerConfig\susa_black.bmp" )) {
   Copy-Item A:\susa_black.bmp $PackerConfig\susa_black.bmp
 }
+if (-not (Test-Path "$PackerConfig\nextdns_ca.crt" )) {
+  Copy-Item A:\nextdns_ca.crt $PackerConfig\nextdns_ca.crt
+}
 
 # Create Scheduled Task so this repeatedly until we have finished.
 if (-not (Test-Path "$PackerLogs\BootstrapSchedTask.installed")) {

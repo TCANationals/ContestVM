@@ -65,6 +65,10 @@ try {
         cmd /c "$Env:WinDir\System32\OneDriveSetup.exe /uninstall"
     }
 
+    # Install NextDNS CA cert for block pages
+    $nextCaCert = (Get-ChildItem -Path "$PackerConfig\nextdns_ca.crt")
+    $nextCaCert | Import-Certificate -CertStoreLocation cert:\LocalMachine\Root
+
     # Remove built-in apps
     Write-Host "Remove All Unwanted Windows Built-in Store Apps for All New Users in UI..."
     Get-AppxPackage -AllUsers | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue

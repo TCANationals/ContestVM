@@ -88,6 +88,7 @@ source "vsphere-iso" "win_10_sysprep" {
     "unattended/susa_black.bmp",
     "unattended/tca-env.ps1",
     "unattended/windows-env.ps1",
+    "unattended/nextdns_ca.crt",
   ]
 
   // Add template for TCA URI
