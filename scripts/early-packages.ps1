@@ -25,7 +25,10 @@ hint.vmx.nestedVM = "FALSE"
 hints.hideAll = "TRUE"
 hint.cui.toolsInfoBar.suppressible = "FALSE"
 pref.mruVM0.filename = "$PackerPublic\TroubleshootingVM\TroubleshootingVM.vmx"
-pref.mruVM0.displayName = "Troubleshooting VM"
+pref.mruVM0.displayName = "Troubleshooting VM (ShortCircuit)"
 pref.mruVM0.index = "0"
+pref.mruVM1.filename = "$PackerPublic\WhiteoutVM\WhiteoutVM.vmx"
+pref.mruVM1.displayName = "Troubleshooting VM (Whiteout)"
+pref.mruVM1.index = "1"
 "@
 Set-Content "$vmwDefaultPath\preferences.ini" $vmwPref
