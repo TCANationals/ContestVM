@@ -31,9 +31,9 @@ def create_sheets(SHEET_SVC, DRIVE_SVC):
         lines = f.read().splitlines()
     for user_id in lines:
         if user_id and user_id != '':
-            sheet_id = create_sheet(f'TCA 2022 - Web Scraping {user_id}', SHEET_SVC, DRIVE_SVC)
-            swl = SWinLnk()
-            swl.create_lnk(f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit", f'{SHORTCUT_ROOT}/{user_id}.lnk')
+            sheet_id = create_sheet(f'TCA 2023 - Web Scraping {user_id}', SHEET_SVC, DRIVE_SVC)
+            create_shortcut(f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit", f'{SHORTCUT_ROOT}/{user_id}.lnk')
+            print(f'Created sheet for {user_id}')
 
 def create_shortcut(target, path):
     shell = win32com.client.Dispatch("WScript.Shell")
