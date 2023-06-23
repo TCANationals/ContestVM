@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><conditions static="1" label="Matches if logged on remotely from a client with a specific client name convention (not used, just for demo purposes)."><tsclient v="GE" o="starts" /></conditions>

@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><userEnvironmentSettings><setting type="importTask" command="cmd.exe /c rd /s /q &quot;%appdata%\Microsoft\Windows\Start Menu&quot;" label="Deletes Start Menu from user profile so you can manage it with VMware DEM entirely." phase="pre" disabled="1" /></userEnvironmentSettings>

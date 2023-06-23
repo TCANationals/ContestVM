@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><userEnvironmentSettings><setting type="importTask" command="powershell -command &quot;force-mkdir \\tca-ad1\Users$\%username%\Profile&quot;" disabled="1" /></userEnvironmentSettings>

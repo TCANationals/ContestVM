@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><conditions static="1" label="Matches if a user is working in a remote session, i.e. on RDS, XenApp or VDI (not used, just for demo purposes)."><tsip a="1" A="255" b="" B="" /></conditions>

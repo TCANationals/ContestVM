@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><userEnvironmentSettings><setting type="triggeredTask" c="ctaskkill.exe" a="/im calc.exe" t="l" label="Uses taskkill to gracefully close CALC.EXE when locking workstation" disabled="1" /></userEnvironmentSettings>

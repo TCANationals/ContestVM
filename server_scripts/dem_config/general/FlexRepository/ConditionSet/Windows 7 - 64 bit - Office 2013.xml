@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><conditions static="1" label="Matches if working on Windows 7 x64 with Office 2013 installed (not used, just for demo purposes)."><os M="6" m="1" w="w" /><b b="64" /><path p="*%programfiles%\Microsoft Office\Office15" /></conditions>

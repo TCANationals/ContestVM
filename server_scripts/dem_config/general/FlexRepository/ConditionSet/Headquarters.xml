@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><conditions static="1" label="Matches if a user is physically located at HQ (not used, just for demo purposes)."><or><ip a="10" A="10" b="" B="" /><ip a="14" A="14" b="" B="" /><tsip a="10" A="10" b="" B="" /><tsip a="14" A="14" b="" B="" /></or></conditions>

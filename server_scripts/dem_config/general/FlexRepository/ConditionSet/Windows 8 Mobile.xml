@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><conditions static="1" label="Matches if a user is working on a Windows 8 mobile device (not used, just for demo purposes)."><os M="6" m="2" w="w" /><battery c="e" /></conditions>
