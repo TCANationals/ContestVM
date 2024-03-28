@@ -35,7 +35,7 @@ $CertAdminSecurePass = ConvertTo-SecureString "$CertAdminPass" -AsPlainText -For
 Create-NewLocalAdmin "CertiportAdmin" $CertAdminSecurePass
 
 $CompassArgList = ('/Silent Path="C:\Certiport\Compass" /TestCenterID 90063004 /CertiportID 90063004 /TestCenterName "SkillsUSA" /LanguageCode ENU /ImpersonationUser "CertiportAdmin" /ImpersonationPassword "' + $CertAdminPass + '"')
-$CompassFilename = "Compass_Setup_19.0.2.1170.exe"
+$CompassFilename = "Compass_Setup_19.0.2.1322.exe"
 TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
