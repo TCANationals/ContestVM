@@ -59,7 +59,7 @@ variable "vm_version" {
 variable "vm_name" {
     description = "Name of the VM you are going to be templating."
     type = string
-    default = "Win10GM"
+    default = "Win11GM"
 }
 variable "vm_network" {
     type = string
@@ -69,7 +69,7 @@ variable "vm_network" {
 variable "vm_guest_os_type" {
     description = "Defaults to guest os type of otherGuest."
     type = string
-    default = "windows9_64Guest" # Refer to https://code.vmware.com/apis/704/vsphere/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for guest OS types.
+    default = "windows11_64Guest" # Win 11: windows11_64Guest / Win 10: windows9_64Guest
 }
 variable "network_card" {
     default = "vmxnet3"
@@ -106,5 +106,5 @@ variable "vmtools_iso_path" {
 }
 variable "unattended_file" {
     type = string
-    default = "autounattend-win10.xml"
+    default = "autounattend-win11.xml"
 }
