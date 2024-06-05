@@ -16,12 +16,12 @@ trap {
 }
 
 # disable autologon.
-Write-Host 'Disabling auto logon...'
-$autoLogonKeyPath = 'HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
-Set-ItemProperty -Path $autoLogonKeyPath -Name AutoAdminLogon -Value 0
-@('DefaultDomainName', 'DefaultUserName', 'DefaultPassword') | ForEach-Object {
-    Remove-ItemProperty -Path $autoLogonKeyPath -Name $_ -ErrorAction SilentlyContinue
-}
+# Write-Host 'Disabling auto logon...'
+# $autoLogonKeyPath = 'HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
+# Set-ItemProperty -Path $autoLogonKeyPath -Name AutoAdminLogon -Value 0
+# @('DefaultDomainName', 'DefaultUserName', 'DefaultPassword') | ForEach-Object {
+#     Remove-ItemProperty -Path $autoLogonKeyPath -Name $_ -ErrorAction SilentlyContinue
+# }
 
 # install pwsh.
 $p = Join-Path $PSScriptRoot provision-pwsh.ps1
@@ -34,9 +34,10 @@ $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Propert
 @(
     if ($systemVendor -eq 'QEMU') { 'provision-guest-tools-qemu-kvm' }
     if ($systemVendor -eq 'VMware, Inc.') { 'provision-vmtools' }
-    'provision-winrm'
+    'provision-packer'
     'provision-psremoting'
-    'provision-openssh'
+    #'provision-openssh'
+    'provision-winrm'
 ) | ForEach-Object {
     Join-Path $PSScriptRoot "$_.ps1"
 } | Where-Object {
@@ -52,5 +53,5 @@ $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Propert
     }
 }
 
-# logoff from the current autologon session.
-logoff
+# restart computer
+# Restart-Computer

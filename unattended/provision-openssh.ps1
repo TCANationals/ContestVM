@@ -130,12 +130,12 @@ if ($result -ne '[SC] ChangeServiceConfig2 SUCCESS') {
     throw "sc.exe failure ssh-agent failed with $result"
 }
 
-Write-Host 'Installing the default vagrant insecure public key...'
-$authorizedKeysPath = "$env:USERPROFILE\.ssh\authorized_keys"
-mkdir -Force "$env:USERPROFILE\.ssh" | Out-Null
-(New-Object System.Net.WebClient).DownloadFile(
-    'https://raw.github.com/hashicorp/vagrant/master/keys/vagrant.pub',
-    $authorizedKeysPath)
+# Write-Host 'Installing the default vagrant insecure public key...'
+# $authorizedKeysPath = "$env:USERPROFILE\.ssh\authorized_keys"
+# mkdir -Force "$env:USERPROFILE\.ssh" | Out-Null
+# (New-Object System.Net.WebClient).DownloadFile(
+#     'https://raw.github.com/hashicorp/vagrant/master/keys/vagrant.pub',
+#     $authorizedKeysPath)
 
 Write-Host 'Starting the sshd service...'
 Start-Service sshd

@@ -7,10 +7,14 @@ packer {
       source = "github.com/rgl/windows-update"
       # Github Plugin Repo https://github.com/rgl/packer-plugin-windows-update
     }
+    vsphere = {
+      version = "~> 1"
+      source  = "github.com/hashicorp/vsphere"
+    }
   }
 }
 
-source "vsphere-iso" "win_10_sysprep" {
+source "vsphere-iso" "win_sysprep" {
   insecure_connection     = true
 
   create_snapshot         = true
@@ -28,7 +32,7 @@ source "vsphere-iso" "win_10_sysprep" {
   resource_pool           = var.resource_pool
 
   convert_to_template     = false
-  notes                   = "Windows 10 Enterprise x64 VM template built using Packer."
+  notes                   = "Windows 11 Enterprise x64 VM template built using Packer."
 
   ip_wait_timeout         = "20m"
   ip_settle_timeout       = "1m"
@@ -39,7 +43,7 @@ source "vsphere-iso" "win_10_sysprep" {
   winrm_username          = "Administrator"
   winrm_password          = "AdminPass123" # this will be reset as a final step
 
-  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh", timestamp())}"
+  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh_mm", timestamp())}"
   vm_version              = var.vm_version
   firmware                = var.vm_firmware
   guest_os_type           = var.vm_guest_os_type
@@ -77,18 +81,23 @@ source "vsphere-iso" "win_10_sysprep" {
   // Only expose files needed for autounattend to run
   // Everything else is controlled by packer & winrm
   floppy_files = [
-    "unattended/AddTrust_External_CA_Root.cer",
     "unattended/BgAssist-Config.exe.config",
-    "unattended/bootstrap-base.bat",
-    "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
     "unattended/clean-profiles.ps1",
     "unattended/defaultassociations.xml",
     "unattended/logon.bgi",
+    "unattended/nextdns_ca.crt",
+    "unattended/provision-autounattend.ps1",
+    "unattended/provision-guest-tools-qemu-kvm.ps1",
+    "unattended/provision-openssh.ps1",
+    "unattended/provision-packer.ps1",
+    "unattended/provision-psremoting.ps1",
+    "unattended/provision-pwsh.ps1",
+    "unattended/provision-vmtools.ps1",
+    "unattended/provision-winrm.ps1",
     "unattended/susa_black.bmp",
     "unattended/tca-env.ps1",
     "unattended/windows-env.ps1",
-    "unattended/nextdns_ca.crt",
   ]
 
   // Add template for TCA URI
@@ -112,23 +121,13 @@ build {
   to be enough to install all available Windows updates. Do check yourself though!
   */
 
-  sources = ["source.vsphere-iso.win_10_sysprep"]
+  sources = ["source.vsphere-iso.win_sysprep"]
 
   provisioner "windows-restart" { # A restart to settle Windows after VMware Tools install
     restart_timeout = "15m"
   }
 
-  provisioner "windows-shell" { # remove MS edge (replace with Chrome)
-    pause_before      = "5s"
-    script            = "scripts/uninstall-edge.cmd"
-    timeout           = "5m"
-    max_retries       = 2
-  }
-
-  provisioner "windows-restart" {
-    restart_timeout = "15m"
-  }
-
+  # Install Chocolatey package manager
   provisioner "powershell" {
     pause_before      = "5s"
     elevated_user     = "Administrator"
@@ -148,8 +147,11 @@ build {
     ]
   }
 
+  provisioner "windows-restart" { # A restart to settle Windows first updates
+    restart_timeout = "15m"
+  }
+
   provisioner "windows-update" {
-    pause_before = "1m"
     timeout = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
@@ -185,102 +187,96 @@ build {
     timeout           = "15m"
   }
 
-  provisioner "windows-shell" { # remove MS edge (again)
-    pause_before      = "5s"
-    script            = "scripts/uninstall-edge.cmd"
-    timeout           = "5m"
-  }
-
   provisioner "windows-restart" { # A restart before choco to settle the VM once more.
     pause_before    = "5s"
     restart_timeout = "1h"
   }
 
-  provisioner "powershell" {
-    pause_before      = "5s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/early-packages.ps1"
-    timeout           = "1h"
-    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "5s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/early-packages.ps1"
+  #   timeout           = "1h"
+  #   valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+  # }
 
-  provisioner "windows-restart" { # A restart after choco core & before horizon
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  # provisioner "windows-restart" { # A restart after choco core & before horizon
+  #   pause_before    = "10s"
+  #   restart_timeout = "1h"
+  # }
 
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/horizon-agent.ps1"
-    timeout           = "1h"
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "15s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/horizon-agent.ps1"
+  #   timeout           = "1h"
+  # }
 
-  provisioner "windows-restart" { # Restart to allow horizon agent install
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  # provisioner "windows-restart" { # Restart to allow horizon agent install
+  #   pause_before    = "10s"
+  #   restart_timeout = "1h"
+  # }
 
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/public-packages.ps1"
-    timeout           = "1h"
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "15s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/public-packages.ps1"
+  #   timeout           = "1h"
+  # }
 
-  provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  # provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)
+  #   pause_before    = "10s"
+  #   restart_timeout = "1h"
+  # }
 
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/tca-software.ps1"
-    timeout           = "1h"
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "15s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/tca-software.ps1"
+  #   timeout           = "1h"
+  # }
 
-  provisioner "powershell" {
-    pause_before      = "15s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/cleanup-win10.ps1"
-    timeout           = "1h"
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "15s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/cleanup-win10.ps1"
+  #   timeout           = "1h"
+  # }
 
-  provisioner "windows-restart" {
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  # provisioner "windows-restart" {
+  #   pause_before    = "10s"
+  #   restart_timeout = "1h"
+  # }
 
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "include:$true"
-    ]
-  }
+  # provisioner "windows-update" {
+  #   timeout = "1h"
+  #   search_criteria = "IsInstalled=0"
+  #   filters = [
+  #     "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+  #     "include:$true"
+  #   ]
+  # }
 
-  provisioner "windows-restart" { # One final restart before finalizing the image
-    pause_before    = "10s"
-    restart_timeout = "1h"
-  }
+  # provisioner "windows-restart" { # One final restart before finalizing the image
+  #   pause_before    = "10s"
+  #   restart_timeout = "1h"
+  # }
 
-  provisioner "powershell" {
-    pause_before      = "10s"
-    elevated_user     = "Administrator"
-    elevated_password = "AdminPass123"
-    script            = "scripts/finalize_win_10.ps1"
-    timeout           = "15m"
-  }
+  # provisioner "powershell" {
+  #   pause_before      = "10s"
+  #   elevated_user     = "Administrator"
+  #   elevated_password = "AdminPass123"
+  #   script            = "scripts/finalize_win_10.ps1"
+  #   timeout           = "15m"
+  # }
 
-  provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
-    pause_before    = "3m"
-    inline = ["echo finished"]
-  }
+  # provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
+  #   pause_before    = "3m"
+  #   inline = ["echo finished"]
+  # }
 }

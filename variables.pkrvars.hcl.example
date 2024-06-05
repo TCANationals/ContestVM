@@ -1,8 +1,8 @@
 # Set local variables here
 # These will override defaults
 
-tca_private_url = ""
+tca_private_url = "" # no trailing slash
 vcenter_username = ""
 vcenter_password = ""
-vcenter_server = ""
-vcenter_host = ""
+vcenter_server = "" # vcenter URL
+vcenter_host = "" # cluster or host to create image on

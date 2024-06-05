@@ -153,6 +153,7 @@ Function Create-PackerStagingDirectories {
     New-Item -ItemType Directory -Force -Path $PackerScripts
     New-Item -ItemType Directory -Force -Path $PackerTemp
     New-Item -ItemType Directory -Force -Path $PackerPublic
+    New-Item -ItemType Directory -Force -Path $PackerLogs
 
     Touch-File "$PackerLogs/StagingDirectories.installed"
   }

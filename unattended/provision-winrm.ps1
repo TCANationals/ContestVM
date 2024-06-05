@@ -70,7 +70,7 @@ New-ItemProperty `
 
 # make sure winrm can be accessed from any network location.
 New-NetFirewallRule `
-    -DisplayName WINRM-HTTP-In-TCP-VAGRANT `
+    -DisplayName WINRM-HTTP-In-TCP-PACKER `
     -Direction Inbound `
     -Action Allow `
     -Protocol TCP `

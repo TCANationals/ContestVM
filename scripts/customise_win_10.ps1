@@ -9,11 +9,18 @@ $ErrorActionPreference = "Stop"
 Set-MpPreference -ExclusionPath $PackerStaging
 
 try {
+    # Install NuGet
+    Write-Host "Installing NuGet"
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
     # Install EndpointManagement extensions
     Write-Host "Installing AdminToolbox.EndpointManagement"
-    Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+    Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -Confirm:$False -Force
     Write-Host "Installing PolicyFileEditor"
-    Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+    Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -Confirm:$False -Force
+
+    # Run debloat script
+    & ([scriptblock]::Create((irm "https://raw.githubusercontent.com/Raphire/Win11Debloat/master/Get.ps1"))) -RunDefaults -RemoveCommApps -RemoveW11Outlook -RemoveGamingApps -DisableDVR -ClearStart -DisableTelemetry -DisableBing -DisableSuggestions -DisableLockscreenTips -RevertContextMenu -TaskbarAlignLeft -HideSearchTb -DisableCopilot -DisableWidgets -HideChat -ShowKnownFileExt -Silent
 
     # Disable screensaver and screen off
     Write-Host "Disabling Screensaver"
@@ -53,6 +60,11 @@ try {
     Set-Itemproperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
     Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
 
+    # Enable legacy context menu
+    Write-Host "Enabling legacy context menu in Windows Explorer..."
+    & reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+    & reg add "HKU\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+
     # Disable VMware Tools icon (using reg to ensure key is auto-created)
     & reg add "HKEY_LOCAL_MACHINE\Software\VMware, Inc.\VMware Tools" /v ShowTray /t REG_DWORD /d 0 /f
 
@@ -65,23 +77,19 @@ try {
         cmd /c "$Env:WinDir\System32\OneDriveSetup.exe /uninstall"
     }
 
-    # Install NextDNS CA cert for block pages
-    $nextCaCert = (Get-ChildItem -Path "$PackerConfig\nextdns_ca.crt")
-    $nextCaCert | Import-Certificate -CertStoreLocation cert:\LocalMachine\Root
-
     # Remove built-in apps
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps for All New Users in UI..."
-    Get-AppxPackage -AllUsers | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
+    # Write-Host "Remove All Unwanted Windows Built-in Store Apps for All New Users in UI..."
+    # Get-AppxPackage -AllUsers | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
 
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps for the Current User in UI..."
-    Get-AppxPackage | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
+    # Write-Host "Remove All Unwanted Windows Built-in Store Apps for the Current User in UI..."
+    # Get-AppxPackage | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
 
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps files from Disk..."
-    $UWPapps = Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -NotMatch 'Microsoft.StorePurchaseApp' -and $_.PackageName -NotMatch 'Microsoft.WindowsStore' -and $_.PackageName -NotMatch 'Microsoft.MSPaint' -and $_.PackageName -NotMatch 'Microsoft.Windows.Photos' -and $_.PackageName -NotMatch 'Microsoft.WindowsCalculator' -and $_.PackageName -NotMatch 'Microsoft.DesktopAppInstaller' -and $_.PackageName -NotMatch 'Microsoft.SecHealthUI' -and $_.PackageName -NotMatch 'Microsoft.MicrosoftEdge'}
-    Foreach ($UWPapp in $UWPapps) {
-        Write-Host "Removing Package: $($UWPapp.PackageName)"
-        Remove-ProvisionedAppxPackage -PackageName $UWPapp.PackageName -Online -ErrorAction SilentlyContinue
-    }
+    # Write-Host "Remove All Unwanted Windows Built-in Store Apps files from Disk..."
+    # $UWPapps = Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -NotMatch 'Microsoft.StorePurchaseApp' -and $_.PackageName -NotMatch 'Microsoft.WindowsStore' -and $_.PackageName -NotMatch 'Microsoft.MSPaint' -and $_.PackageName -NotMatch 'Microsoft.Windows.Photos' -and $_.PackageName -NotMatch 'Microsoft.WindowsCalculator' -and $_.PackageName -NotMatch 'Microsoft.DesktopAppInstaller' -and $_.PackageName -NotMatch 'Microsoft.SecHealthUI' -and $_.PackageName -NotMatch 'Microsoft.MicrosoftEdge'}
+    # Foreach ($UWPapp in $UWPapps) {
+    #     Write-Host "Removing Package: $($UWPapp.PackageName)"
+    #     Remove-ProvisionedAppxPackage -PackageName $UWPapp.PackageName -Online -ErrorAction SilentlyContinue
+    # }
 }
 catch {
     Write-Host
