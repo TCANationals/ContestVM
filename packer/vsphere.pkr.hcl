@@ -129,12 +129,15 @@ build {
 
   # Install Chocolatey package manager
   provisioner "powershell" {
-    pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
     script            = "scripts/choco-core.ps1"
     timeout           = "1h"
     valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+  }
+
+  provisioner "windows-restart" { # A restart to settle new Windows components
+    restart_timeout = "15m"
   }
 
   provisioner "windows-update" {
@@ -170,15 +173,6 @@ build {
     ]
   }
 
-  provisioner "windows-update" {
-    timeout = "1h"
-    search_criteria = "IsInstalled=0"
-    filters = [
-      #"exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-      "include:$true"
-    ]
-  }
-
   provisioner "powershell" {
     pause_before      = "5s"
     elevated_user     = "Administrator"
@@ -192,91 +186,91 @@ build {
     restart_timeout = "1h"
   }
 
-  # provisioner "powershell" {
-  #   pause_before      = "5s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/early-packages.ps1"
-  #   timeout           = "1h"
-  #   valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
-  # }
+  provisioner "powershell" {
+    pause_before      = "5s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/early-packages.ps1"
+    timeout           = "1h"
+    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+  }
 
-  # provisioner "windows-restart" { # A restart after choco core & before horizon
-  #   pause_before    = "10s"
-  #   restart_timeout = "1h"
-  # }
+  provisioner "windows-restart" { # A restart after choco core & before horizon
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
-  # provisioner "powershell" {
-  #   pause_before      = "15s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/horizon-agent.ps1"
-  #   timeout           = "1h"
-  # }
+  provisioner "powershell" {
+    pause_before      = "15s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/horizon-agent.ps1"
+    timeout           = "1h"
+  }
 
-  # provisioner "windows-restart" { # Restart to allow horizon agent install
-  #   pause_before    = "10s"
-  #   restart_timeout = "1h"
-  # }
+  provisioner "windows-restart" { # Restart to allow horizon agent install
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
-  # provisioner "powershell" {
-  #   pause_before      = "15s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/public-packages.ps1"
-  #   timeout           = "1h"
-  # }
+  provisioner "powershell" {
+    pause_before      = "15s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/public-packages.ps1"
+    timeout           = "1h"
+  }
 
-  # provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)
-  #   pause_before    = "10s"
-  #   restart_timeout = "1h"
-  # }
+  provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
-  # provisioner "powershell" {
-  #   pause_before      = "15s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/tca-software.ps1"
-  #   timeout           = "1h"
-  # }
+  provisioner "powershell" {
+    pause_before      = "15s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/tca-software.ps1"
+    timeout           = "1h"
+  }
 
-  # provisioner "powershell" {
-  #   pause_before      = "15s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/cleanup-win10.ps1"
-  #   timeout           = "1h"
-  # }
+  provisioner "powershell" {
+    pause_before      = "15s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/cleanup-win10.ps1"
+    timeout           = "1h"
+  }
 
-  # provisioner "windows-restart" {
-  #   pause_before    = "10s"
-  #   restart_timeout = "1h"
-  # }
+  provisioner "windows-restart" {
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
-  # provisioner "windows-update" {
-  #   timeout = "1h"
-  #   search_criteria = "IsInstalled=0"
-  #   filters = [
-  #     "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
-  #     "include:$true"
-  #   ]
-  # }
+  provisioner "windows-update" {
+    timeout = "1h"
+    search_criteria = "IsInstalled=0"
+    filters = [
+      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "include:$true"
+    ]
+  }
 
-  # provisioner "windows-restart" { # One final restart before finalizing the image
-  #   pause_before    = "10s"
-  #   restart_timeout = "1h"
-  # }
+  provisioner "windows-restart" { # One final restart before finalizing the image
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
 
-  # provisioner "powershell" {
-  #   pause_before      = "10s"
-  #   elevated_user     = "Administrator"
-  #   elevated_password = "AdminPass123"
-  #   script            = "scripts/finalize_win_10.ps1"
-  #   timeout           = "15m"
-  # }
+  provisioner "powershell" {
+    pause_before      = "10s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/finalize_win_10.ps1"
+    timeout           = "15m"
+  }
 
-  # provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
-  #   pause_before    = "3m"
-  #   inline = ["echo finished"]
-  # }
+  provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
+    pause_before    = "3m"
+    inline = ["echo finished"]
+  }
 }

@@ -1,16 +1,5 @@
 ﻿. C:\Packer\Scripts\tca-env.ps1
 
-# Install manual Appx deps
-$UWPDesktop64Filename = "Microsoft.VCLibs.x64.14.00.Desktop.appx"
-Download-File "https://files.tcanationals.com/deps/$UWPDesktop64Filename" "$PackerDownloads\$UWPDesktop64Filename"
-DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$UWPDesktop64Filename" /SkipLicense
-Remove-Item -Path "$PackerDownloads\$UWPDesktop64Filename"
-
-$MSUIXaml64Filename = "Microsoft.UI.Xaml.2.7.appx"
-Download-File "https://files.tcanationals.com/deps/$MSUIXaml64Filename" "$PackerDownloads\$MSUIXaml64Filename"
-DISM.EXE /Online /Add-ProvisionedAppxPackage /PackagePath:"$PackerDownloads\$MSUIXaml64Filename" /SkipLicense
-Remove-Item -Path "$PackerDownloads\$MSUIXaml64Filename"
-
 # Install the core system apps
 Choco-Install -PackageName choco-protocol-support
 Choco-Install -PackageName laps -ArgumentList "--params='`"/ALL`"'"
@@ -21,14 +10,13 @@ Choco-Install -PackageName vlc
 Choco-Install -PackageName winrar
 Choco-Install -PackageName notepadplusplus
 Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--params=`"'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'`""
-Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.1.0" # update finalize when changing version
+Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.2.2" # update finalize when changing version
 Choco-Install -PackageName vscode
 Choco-Install -PackageName speedtest
 Choco-Install -PackageName speedtest-by-ookla
 Choco-Install -PackageName sql-server-management-studio
 Choco-Install -PackageName python -ArgumentList "--version=3.10.8", "--params", '"/NoLockdown"'
 Choco-Install -PackageName nodejs-lts
-Choco-Install -PackageName git
 Choco-Install -PackageName r
 
 # Install office from TCA cache since MS keeps changing the URL
@@ -76,15 +64,9 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Na
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
 Remove-Item -Path "$PackerDownloads\$Timer7zFile"
 
-# Get latest Windows Terminal from Github
-Get-GithubLatestRelease "microsoft/terminal" 'Microsoft.WindowsTerminal_.*msixbundle$' "Terminal.msixbundle"
-Add-AppProvisionedPackage -online -packagepath "$PackerDownloads\Terminal.msixbundle" -skiplicense
-# Do not remove package, since this will be installed for every user
-#Remove-Item -Path "$PackerDownloads\Terminal.msixbundle"
-
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
-Download-File "https://zoom.us/download/vdi/5.14.0.23370/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
+Download-File "https://zoom.us/download/vdi/5.17.12.24920/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ZoomFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$ZoomFilename"
 

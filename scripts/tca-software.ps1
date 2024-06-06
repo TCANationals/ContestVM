@@ -40,7 +40,7 @@ TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
 
-$CompassExamsFilename = "IC3_GS6_Jun_11_23.exe"
+$CompassExamsFilename = "IC3_GS6_June_5_24.exe"
 TCA-DownloadFile "$CompassExamsFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
 Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"

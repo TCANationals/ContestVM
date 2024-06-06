@@ -58,13 +58,12 @@ if (-not (Test-Path "$PackerLogs\PrivatiseNetAdapters.installed")) {
 
 if (-not (Test-Path "$PackerLogs\NextDNS_CA_Root.installed")) {
   Write-Output "Adding `"NextDNS CA Root`""
-  $vproc = Start-Process certutil  @SprocParms -ArgumentList '-addstore -f "AuthRoot" "A:\nextdns_ca.crt"'
+  $vproc = Start-Process certutil @SprocParms -ArgumentList '-enterprise -f -v -AddStore "Root" "A:\nextdns_ca.crt"'
   $vproc.WaitForExit()
 }
 Touch-File "$PackerLogs\NextDNS_CA_Root.installed"
 
-# Upgrade NuGet and PowershellGet
-#Install-PackageProvider -Name NuGet -Force
+# Upgrade PowershellGet
 Install-Module -Name PowerShellGet -Force -AllowClobber
 
 Write-Output "Packer setup complete"
