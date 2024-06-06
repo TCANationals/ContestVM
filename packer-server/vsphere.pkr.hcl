@@ -3,9 +3,13 @@ packer {
 
   required_plugins {
     windows-update = {
-      version = "0.14.3"
+      version = "0.15.0"
       source = "github.com/rgl/windows-update"
       # Github Plugin Repo https://github.com/rgl/packer-plugin-windows-update
+    }
+    vsphere = {
+      version = "~> 1"
+      source  = "github.com/hashicorp/vsphere"
     }
   }
 }
@@ -76,18 +80,23 @@ source "vsphere-iso" "win_2022_sysprep" {
   // Only expose files needed for autounattend to run
   // Everything else is controlled by packer & winrm
   floppy_files = [
-    "unattended/AddTrust_External_CA_Root.cer",
     "unattended/BgAssist-Config.exe.config",
-    "unattended/bootstrap-base.bat",
-    "unattended/bootstrap-packerbuild.ps1",
     "unattended/choco-cleaner.ps1",
     "unattended/clean-profiles.ps1",
     "unattended/defaultassociations.xml",
     "unattended/logon.bgi",
+    "unattended/nextdns_ca.crt",
+    "unattended/provision-autounattend.ps1",
+    "unattended/provision-guest-tools-qemu-kvm.ps1",
+    "unattended/provision-openssh.ps1",
+    "unattended/provision-packer.ps1",
+    "unattended/provision-psremoting.ps1",
+    "unattended/provision-pwsh.ps1",
+    "unattended/provision-vmtools.ps1",
+    "unattended/provision-winrm.ps1",
     "unattended/susa_black.bmp",
     "unattended/tca-env.ps1",
     "unattended/windows-env.ps1",
-    "unattended/nextdns_ca.crt",
   ]
 
   // Add template for TCA URI

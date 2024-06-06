@@ -11,9 +11,20 @@ Set-MpPreference -ExclusionPath $PackerStaging
 try {
     # Install EndpointManagement extensions
     Write-Host "Installing AdminToolbox.EndpointManagement"
-    Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+    Install-Module -Name AdminToolbox.EndpointManagement -Scope AllUsers -Allowclobber -Confirm:$False -Force
     Write-Host "Installing PolicyFileEditor"
-    Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -AcceptLicense -Confirm:$False -Force
+    Install-Module -Name PolicyFileEditor -Scope AllUsers -Allowclobber -Confirm:$False -Force
+
+    # Run debloat script
+    Write-Host "Running Win11Debloat"
+    cd $PackerTemp
+    Write-Output "> Downloading Win11Debloat..."
+    git clone https://github.com/Raphire/Win11Debloat/ Win11Debloat
+    Write-Output "> Running Win11Debloat..."
+    $debloatProcess = Start-Process powershell.exe -PassThru -ArgumentList "-executionpolicy bypass -File .\Win11Debloat\Win11Debloat.ps1 -RunDefaults -RemoveCommApps -RemoveW11Outlook -RemoveGamingApps -DisableDVR -ClearStart -DisableTelemetry -DisableBing -DisableSuggestions -DisableLockscreenTips -RevertContextMenu -HideSearchTb -DisableCopilot -DisableWidgets -HideChat -ShowKnownFileExt -Silent"
+    $debloatProcess.WaitForExit()
+    Write-Output "> Cleaning up..."
+    Remove-Item -LiteralPath "Win11Debloat" -Force -Recurse
 
     # Disable screensaver and screen off
     Write-Host "Disabling Screensaver"
@@ -63,24 +74,6 @@ try {
     }
     if (Test-Path "$Env:WinDir\System32\OneDriveSetup.exe") {
         cmd /c "$Env:WinDir\System32\OneDriveSetup.exe /uninstall"
-    }
-
-    # Install NextDNS CA cert for block pages
-    $nextCaCert = (Get-ChildItem -Path "$PackerConfig\nextdns_ca.crt")
-    $nextCaCert | Import-Certificate -CertStoreLocation cert:\LocalMachine\Root
-
-    # Remove built-in apps
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps for All New Users in UI..."
-    Get-AppxPackage -AllUsers | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
-
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps for the Current User in UI..."
-    Get-AppxPackage | Where-Object {$_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotMatch 'Microsoft.StorePurchaseApp' -and $_.Name -NotMatch 'Microsoft.WindowsStore' -and $_.Name -NotMatch 'Microsoft.MSPaint' -and $_.Name -NotMatch 'Microsoft.Windows.Photos' -and $_.Name -NotMatch 'Microsoft.WindowsCalculator'} | Remove-AppxPackage -ErrorAction SilentlyContinue
-
-    Write-Host "Remove All Unwanted Windows Built-in Store Apps files from Disk..."
-    $UWPapps = Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -NotMatch 'Microsoft.StorePurchaseApp' -and $_.PackageName -NotMatch 'Microsoft.WindowsStore' -and $_.PackageName -NotMatch 'Microsoft.MSPaint' -and $_.PackageName -NotMatch 'Microsoft.Windows.Photos' -and $_.PackageName -NotMatch 'Microsoft.WindowsCalculator' -and $_.PackageName -NotMatch 'Microsoft.DesktopAppInstaller' -and $_.PackageName -NotMatch 'Microsoft.SecHealthUI' -and $_.PackageName -NotMatch 'Microsoft.MicrosoftEdge'}
-    Foreach ($UWPapp in $UWPapps) {
-        Write-Host "Removing Package: $($UWPapp.PackageName)"
-        Remove-ProvisionedAppxPackage -PackageName $UWPapp.PackageName -Online -ErrorAction SilentlyContinue
     }
 }
 catch {

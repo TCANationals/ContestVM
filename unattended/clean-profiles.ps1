@@ -21,7 +21,10 @@ if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
 }
 
 # Init tca-env for powershell
+# for standard powershell
 Set-Content -Path $PsHome\Profile.ps1 -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
+# for pwsh
+Set-Content -Path "$Env:ProgramFiles\PowerShell\7\Profile.ps1" -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
 
 # Set Administrator password as blank
 Set-LocalUser -Name "Administrator" -Password ([securestring]::new())

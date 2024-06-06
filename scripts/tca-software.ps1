@@ -10,7 +10,7 @@ if (-not (TCA-PrivateUrlSupported)) {
 }
 
 # VMware DEM to ensure profiles are stored on central server
-$DEMFilename = "VMware-DEM-Enterprise-2303-10.9-x64.msi"
+$DEMFilename = "VMware-DEM-Enterprise-2312-10.12-x64.msi"
 TCA-DownloadFile "$DEMFilename"
 #msiexec.exe /i "$PackerDownloads\$DEMFilename" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
@@ -40,7 +40,7 @@ TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
 
-$CompassExamsFilename = "IC3_GS6_Jun_11_23.exe"
+$CompassExamsFilename = "IC3_GS6_June_5_24.exe"
 TCA-DownloadFile "$CompassExamsFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
 Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"

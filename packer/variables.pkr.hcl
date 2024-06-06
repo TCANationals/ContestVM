@@ -54,12 +54,12 @@ variable "resource_pool" {
 variable "vm_version" {
     description = "Defaults to most current VM hardware supported by vCenter."
     type = number
-    default = "20"
+    default = "19"
 }
 variable "vm_name" {
     description = "Name of the VM you are going to be templating."
     type = string
-    default = "Win10GM"
+    default = "Win11GM"
 }
 variable "vm_network" {
     type = string
@@ -69,7 +69,7 @@ variable "vm_network" {
 variable "vm_guest_os_type" {
     description = "Defaults to guest os type of otherGuest."
     type = string
-    default = "windows9_64Guest" # Refer to https://code.vmware.com/apis/704/vsphere/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for guest OS types.
+    default = "windows9_64Guest" # Win 11: windows11_64Guest / Win 10: windows9_64Guest
 }
 variable "network_card" {
     default = "vmxnet3"
@@ -97,14 +97,15 @@ variable "disk_size" {
 variable "os_iso_path" {
     description = "ISO path for OS unattendeded installs."
     type = string
-    default = "[datastore1] ISOs/en-us_windows_10_enterprise_ltsc_2021_x64_dvd_d289cf96.iso"
+    default = "[datastore1] ISOs/Windows_11_Enterprise_23H2.iso"
 }
 variable "vmtools_iso_path" {
     description = "ISO Path for VMware Tools Windows exe. Used for drivers, performance etc."
     type = string
-    default = "[datastore1] ISOs/VMware-tools-windows-12.0.0-19345655.iso"
+    # download from https://packages.vmware.com/tools/releases/latest/windows/
+    default = "[datastore1] ISOs/VMware-tools-windows-12.4.0-23259341.iso"
 }
 variable "unattended_file" {
     type = string
-    default = "autounattend-win10.xml"
+    default = "autounattend-win11.xml"
 }
