@@ -176,46 +176,22 @@
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
                     <Order>1</Order>
-                    <CommandLine>cmd.exe /c PowerShell -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine"</CommandLine>
+                    <CommandLine>PowerShell "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
                     <Description>Change the default PowerShell Execution Policy from Restricted to RemoteSigned</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
                     <Order>2</Order>
-                    <CommandLine>C:\Windows\SysWOW64\cmd /c PowerShell -Command "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine"</CommandLine>
+                    <CommandLine>C:\Windows\SysWOW64\cmd /c PowerShell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
                     <Description>Change the default PowerShell (32-bit) Execution Policy from Restricted to RemoteSigned</Description>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
+                    <Order>3</Order>
                     <CommandLine>PowerShell reg add "HKLM\System\CurrentControlSet\Control\Network\NewNetworkWindowOff"</CommandLine>
                     <Description>Disable network window prompt when Windows first connects to a network.</Description>
-                    <Order>3</Order>
                 </SynchronousCommand>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c A:\bootstrap-base.bat</CommandLine>
-                    <Description>Bootstrap for everything</Description>
                     <Order>4</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c wmic useraccount where &quot;name=&apos;Administrator&apos;&quot; set PasswordExpires=FALSE</CommandLine>
-                    <Description>Disable Administrator Password reset</Description>
-                    <Order>5</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>PowerShell reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableLUA" /t REG_DWORD /d 0 /f</CommandLine>
-                    <Description>Disable UAC</Description>
-                    <Order>6</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd /C start /wait NET ACCOUNTS /MAXPWAGE:UNLIMITED</CommandLine>
-                    <Order>7</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c mkdir C:\Packer\Logs</CommandLine>
-                    <Order>8</Order>
-                </SynchronousCommand>
-                <SynchronousCommand wcm:action="add">
-                    <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap-packerbuild.ps1 -HyperVisor vmware -AdminUsername &quot;Administrator&quot; &gt;&gt; C:\Packer\Logs\bootstrap-packerbuild.log 2>&amp;1</CommandLine>
-                    <Description>Start PSWindowsUpdate</Description>
-                    <Order>9</Order>
+                    <CommandLine>PowerShell -WindowStyle Maximized -Command "Get-PSDrive -PSProvider FileSystem | ForEach-Object {$p = Join-Path $_.Root provision-autounattend.ps1; if (Test-Path $p) {&amp;$p}}"</CommandLine>
                 </SynchronousCommand>
             </FirstLogonCommands>
         </component>
