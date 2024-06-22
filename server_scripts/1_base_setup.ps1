@@ -39,5 +39,10 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Na
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableCAD /t REG_DWORD /d 1 /f
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableCAD /t REG_DWORD /d 1 /f
 
+# Run debloat script
+Write-Host "Downloading ContestVM repo"
+cd $PackerStaging
+git clone https://github.com/TCANationals/ContestVM vm
+
 # Auto-load TCA env into powershell
 Set-Content -Path $PsHome\Profile.ps1 -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
