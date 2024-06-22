@@ -22,6 +22,18 @@ Install-AWSToolsModule -Name AWS.Tools.SSOAdmin,AWS.Tools.SSO,AWS.Tools.Identity
 Choco-Install -PackageName winrar
 Choco-Install -PackageName googlechrome
 Choco-Install -PackageName notepadplusplus
+Choco-Install -PackageName sysinternals
+
+# Install RSAT tools
+# active directory user mgmt
+DISM.exe /Online /add-capability /CapabilityName:Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0
+# group policy management
+DISM.exe /Online /add-capability /CapabilityName:Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0
+
+# Setup bginfo on logon
+# Note - use BGinfo directory and not the choco shim, the shim causes a CLI window to appear to the user on launch
+$BgInfoVal = ('"C:\ProgramData\chocolatey\lib\sysinternals\tools\Bginfo64.exe" "' + $PackerConfig + '\logon.bgi" /timer:0 /silent /nolicprompt')
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BGInfo" -Value "$BgInfoVal" -ea SilentlyContinue -wa SilentlyContinue
 
 # Disable CTRL+ALT+DEL in logon
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableCAD /t REG_DWORD /d 1 /f
