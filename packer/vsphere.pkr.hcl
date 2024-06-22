@@ -57,6 +57,7 @@ source "vsphere-iso" "win_sysprep" {
   remove_cdrom            = true
   NestedHV                = true
   disk_controller_type    = ["pvscsi"]
+  vTPM                    = var.vTPM
 
   configuration_parameters = {
     "devices.hotplug" = "false",

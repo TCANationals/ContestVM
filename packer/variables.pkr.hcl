@@ -109,3 +109,7 @@ variable "unattended_file" {
     type = string
     default = "autounattend-win11.xml"
 }
+variable "vTPM" {
+    type = bool
+    default = false
+}
