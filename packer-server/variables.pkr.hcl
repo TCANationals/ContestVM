@@ -69,7 +69,7 @@ variable "vm_network" {
 variable "vm_guest_os_type" {
     description = "Defaults to guest os type of otherGuest."
     type = string
-    default = "windows9_64Guest" # Refer to https://code.vmware.com/apis/704/vsphere/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for guest OS types.
+    default = "windows2019srvNext_64Guest" # Refer to https://code.vmware.com/apis/704/vsphere/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for guest OS types.
 }
 variable "network_card" {
     default = "vmxnet3"
