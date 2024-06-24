@@ -54,7 +54,7 @@ variable "resource_pool" {
 variable "vm_version" {
     description = "Defaults to most current VM hardware supported by vCenter."
     type = number
-    default = "19"
+    default = "20"
 }
 variable "vm_name" {
     description = "Name of the VM you are going to be templating."
@@ -69,7 +69,7 @@ variable "vm_network" {
 variable "vm_guest_os_type" {
     description = "Defaults to guest os type of otherGuest."
     type = string
-    default = "windows9_64Guest" # Win 11: windows11_64Guest / Win 10: windows9_64Guest
+    default = "windows11_64Guest" # Win 11: windows11_64Guest / Win 10: windows9_64Guest
 }
 variable "network_card" {
     default = "vmxnet3"

@@ -16,6 +16,9 @@ Install-ADDSForest `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
 
+# Setup CA
+
+
 # Add KDS key to AD
 Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
 
@@ -36,7 +39,7 @@ if ( -not (Test-Path "C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions")){
 # LSC IP range
 TCA-DownloadFile "LCS_91050.msi"
 New-ADGroup -Name "LanSchool Teachers" -GroupScope Global -DisplayName "LanSchool Teachers" -Path "CN=Users,DC=tcalocal,DC=Com"
-& reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnet /t REG_SZ /d "172.16.0.0" /f
+& reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnet /t REG_SZ /d "192.168.1.0" /f
 & reg add "HKEY_LOCAL_MACHINE\SOFTWARE\LanSchool" /v IPSubnetMask /t REG_SZ /d "255.255.255.0" /f
 
 # Download teacher file
