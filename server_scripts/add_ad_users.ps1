@@ -75,20 +75,20 @@ foreach ($User in $ADUsers) {
     Add-MailboxPermission -Identity ($adUser.UserPrincipalName) -User $ExchangePermissionGrantUser -AccessRights FullAccess -InheritanceType All
 
     # Make sure user is setup in SSO
-    try {
-        $ssoUserId = Get-IDSUserId -IdentityStoreId $awsSSOIdStore -UniqueAttribute_AttributePath 'Username' -UniqueAttribute_AttributeValue $email
-        Write-Warning "A user account with username $username already exists in AWS SSO (ID = $ssoUserId)."
-    } catch {
-        $ssoEmail = New-Object Amazon.IdentityStore.Model.Email
-        $ssoEmail.Value = $email
-        $ssoUserId = New-IDSUser -IdentityStoreId $awsSSOIdStore -Name_FamilyName $lastname -Name_GivenName $firstname -DisplayName "$firstname $lastname" -UserName $email -Email $ssoEmail
-        Write-Host "A user account does not exist for provided email, creating one..."
-    }
+    # try {
+    #     $ssoUserId = Get-IDSUserId -IdentityStoreId $awsSSOIdStore -UniqueAttribute_AttributePath 'Username' -UniqueAttribute_AttributeValue $email
+    #     Write-Warning "A user account with username $username already exists in AWS SSO (ID = $ssoUserId)."
+    # } catch {
+    #     $ssoEmail = New-Object Amazon.IdentityStore.Model.Email
+    #     $ssoEmail.Value = $email
+    #     $ssoUserId = New-IDSUser -IdentityStoreId $awsSSOIdStore -Name_FamilyName $lastname -Name_GivenName $firstname -DisplayName "$firstname $lastname" -UserName $email -Email $ssoEmail
+    #     Write-Host "A user account does not exist for provided email, creating one..."
+    # }
 
-    # Verify SSO group membership
-    $groupMembershipCheck = Assert-IDSMemberInGroup -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
-    if (!$groupMembershipCheck.MembershipExists) {
-        Write-Warning "User with ID $ssoUserId is not member of group, adding..."
-        New-IDSGroupMembership -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
-    }
+    # # Verify SSO group membership
+    # $groupMembershipCheck = Assert-IDSMemberInGroup -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
+    # if (!$groupMembershipCheck.MembershipExists) {
+    #     Write-Warning "User with ID $ssoUserId is not member of group, adding..."
+    #     New-IDSGroupMembership -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
+    # }
 }

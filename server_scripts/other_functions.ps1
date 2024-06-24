@@ -66,45 +66,45 @@ $systemUser = New-Object -TypeName "System.Security.Principal.SecurityIdentifier
 $creatorOwnerUser = New-Object -TypeName "System.Security.Principal.SecurityIdentifier" -ArgumentList @([System.Security.Principal.WellKnownSidType]::CreatorOwnerSid, $null)
 
 # Setup root share directory & ensure only domain admins have access
-force-mkdir D:\Shares
-$acl = Get-Acl D:\Shares
+force-mkdir F:\Shares
+$acl = Get-Acl F:\Shares
 $acl.SetOwner($domainAdmins)
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $domainAdmins, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
 $acl.SetAccessRuleProtection($True, $False)
-Set-Acl D:\Shares $acl
+Set-Acl F:\Shares $acl
 
 # Setup public share and give everyone read-only access
-force-mkdir D:\Shares\Public\_Judges
-New-SmbShare -Name Public -Path "D:\Shares\Public" -FullAccess "Everyone"
-$acl = Get-Acl D:\Shares\Public
+force-mkdir F:\Shares\Public\_Judges
+New-SmbShare -Name Public -Path "F:\Shares\Public" -FullAccess "Everyone"
+$acl = Get-Acl F:\Shares\Public
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
-Set-Acl D:\Shares\Public $acl
+Set-Acl F:\Shares\Public $acl
 
 # Judge specific folder
-$acl = Get-Acl D:\Shares\Public\_Judges
+$acl = Get-Acl F:\Shares\Public\_Judges
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $domainAdmins, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
 $acl.SetAccessRuleProtection($True, $False)
-Set-Acl D:\Shares\Public\_Judges $acl
+Set-Acl F:\Shares\Public\_Judges $acl
 
 # DEM Config share
-force-mkdir D:\Shares\DEM
-New-SmbShare -Name DEM$ -Path "D:\Shares\DEM" -FullAccess "Everyone"
-$acl = Get-Acl D:\Shares\DEM
+force-mkdir F:\Shares\DEM
+New-SmbShare -Name DEM$ -Path "F:\Shares\DEM" -FullAccess "Everyone"
+$acl = Get-Acl F:\Shares\DEM
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
-Set-Acl D:\Shares\DEM $acl
+Set-Acl F:\Shares\DEM $acl
 
 # Users share, permission for users to create their own directory (from DEM on login)
-force-mkdir D:\Shares\Users
-New-SmbShare -Name Users$ -Path "D:\Shares\Users" -FullAccess "Everyone"
-$acl = Get-Acl D:\Shares\Users
+force-mkdir F:\Shares\Users
+New-SmbShare -Name Users$ -Path "F:\Shares\Users" -FullAccess "Everyone"
+$acl = Get-Acl F:\Shares\Users
 # All auth users can list directory and create new folders
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'ReadData, AppendData, ExecuteFile, Synchronize', 'None', 'None', 'Allow'
@@ -115,10 +115,10 @@ $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRul
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $systemUser, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
 )))
-Set-Acl D:\Shares\Users $acl
+Set-Acl F:\Shares\Users $acl
 
 # set ACLs
-Set-HomeFolderACL -Path 'D:\Shares\Users'
+Set-HomeFolderACL -Path 'F:\Shares\Users'
 
 # Setup exchange certificate
 Get-Command -Module PSPKI
