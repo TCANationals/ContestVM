@@ -18,7 +18,7 @@ $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
 $Ou = "OU=Students,OU=TCA,DC=tcalocal,DC=com"
 $firstName = "Contestant"
-$UsernameSuffix = ".23"
+$UsernameSuffix = ".24"
 $ExchangePermissionGrantUser = "damik@tcalocal.com"
 
 # Loop through each row containing user details in the CSV file

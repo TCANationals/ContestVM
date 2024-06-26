@@ -121,6 +121,7 @@ Set-Acl F:\Shares\Users $acl
 Set-HomeFolderACL -Path 'F:\Shares\Users'
 
 # Setup exchange certificate
+# Run on AD server with Exchange tools installed
 Get-Command -Module PSPKI
 . 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'
 Connect-ExchangeServer -auto
