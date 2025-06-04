@@ -4,7 +4,7 @@
 Choco-Install -PackageName choco-protocol-support
 Choco-Install -PackageName laps -ArgumentList "--params='`"/ALL`"'"
 Choco-Install -PackageName lxrunoffline
-Choco-Install -PackageName sysinternals
+Choco-Install -PackageName sysinternals -ArgumentList "--ignore-checksums"
 Choco-Install -PackageName vlc
 #Choco-Install -PackageName adobereader
 Choco-Install -PackageName winrar
