@@ -20,7 +20,7 @@
             </DriverPaths>
         </component>
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-<!--             <DiskConfiguration>
+            <DiskConfiguration>
                 <Disk wcm:action="add">
                     <CreatePartitions>
                         <CreatePartition wcm:action="add">
@@ -61,7 +61,7 @@
                     <DiskID>0</DiskID>
                     <WillWipeDisk>true</WillWipeDisk>
                 </Disk>
-            </DiskConfiguration> -->
+            </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
                     <InstallTo>
@@ -91,7 +91,7 @@
             </UserData>
             <UseConfigurationSet>false</UseConfigurationSet>
             <RunSynchronous>
-                <RunSynchronousCommand wcm:action="add">
+<!--                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
                     <Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" (echo SELECT DISK=0&amp;echo CLEAN&amp;echo CONVERT GPT&amp;echo CREATE PARTITION EFI SIZE=300&amp;echo FORMAT QUICK FS=FAT32 LABEL="System"&amp;echo CREATE PARTITION MSR SIZE=16)"</Path>
                 </RunSynchronousCommand>
@@ -102,29 +102,29 @@
                 <RunSynchronousCommand wcm:action="add">
                     <Order>3</Order>
                     <Path>cmd.exe /c "diskpart.exe /s "X:\diskpart.txt" &gt;&gt;"X:\diskpart.log" || ( type "X:\diskpart.log" &amp; echo diskpart encountered an error. &amp; pause &amp; exit /b 1 )"</Path>
-                </RunSynchronousCommand>
+                </RunSynchronousCommand> -->
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>4</Order>
+                  <Order>1</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>5</Order>
+                  <Order>2</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>6</Order>
+                  <Order>3</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassStorageCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>7</Order>
+                  <Order>4</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassCPUCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>8</Order>
+                  <Order>5</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
                 <RunSynchronousCommand wcm:action="add">
-                  <Order>9</Order>
+                  <Order>6</Order>
                   <Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassDiskCheck /t REG_DWORD /d 1 /f</Path>
                 </RunSynchronousCommand>
             </RunSynchronous>
