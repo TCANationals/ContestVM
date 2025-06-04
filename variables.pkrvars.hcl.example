@@ -5,4 +5,4 @@ tca_private_url = "" # no trailing slash
 vcenter_username = ""
 vcenter_password = ""
 vcenter_server = "" # vcenter URL
-vcenter_host = "" # cluster or host to create image on
+vcenter_host = "Cluster" # cluster or host to create image on

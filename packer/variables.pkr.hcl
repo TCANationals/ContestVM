@@ -103,7 +103,7 @@ variable "vmtools_iso_path" {
     description = "ISO Path for VMware Tools Windows exe. Used for drivers, performance etc."
     type = string
     # download from https://packages.vmware.com/tools/releases/latest/windows/
-    default = "[datastore1] ISOs/VMware-tools-windows-12.4.0-23259341.iso"
+    default = "[datastore1] ISOs/VMware-tools-windows-12.5.2-24697584.iso"
 }
 variable "unattended_file" {
     type = string
