@@ -14,6 +14,12 @@ $systemVendor = (Get-CimInstance -ClassName Win32_ComputerSystemProduct -Propert
 if ($systemVendor -eq 'VMware, Inc.') {
     Write-Output 'Installing VMware Tools...'
     # silent install without rebooting.
-    E:\setup64.exe /s /v '/qn reboot=r' `
-        | Out-String -Stream
+    if (Test-Path E:\setup64.exe) {
+        E:\setup64.exe /s /v '/qn reboot=r' `
+            | Out-String -Stream
+    } else {
+        # newest releases of vmware tools only have single installer
+        E:\setup.exe /S /v '/qn reboot=r' `
+            | Out-String -Stream
+    }
 }
