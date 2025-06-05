@@ -111,6 +111,7 @@ variable "unattended_file" {
 }
 variable "vTPM" {
   # must setup TPM in vCenter first
+  # on Win 11, will make the OS auto-encrypt the disk via bitlocker
   type    = bool
-  default = true
+  default = false
 }
