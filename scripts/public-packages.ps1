@@ -66,7 +66,7 @@ Remove-Item -Path "$PackerDownloads\$Timer7zFile"
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
-Download-File "https://zoom.us/download/vdi/5.17.12.24920/ZoomInstallerVDI.msi" "$PackerDownloads\$ZoomFilename"
+Download-File "https://zoom.us/download/vdi/6.4.10.26150/ZoomInstallerVDI.msi?archType=x64" "$PackerDownloads\$ZoomFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ZoomFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$ZoomFilename"
 
