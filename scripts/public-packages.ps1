@@ -9,7 +9,7 @@ Choco-Install -PackageName vlc
 #Choco-Install -PackageName adobereader
 Choco-Install -PackageName winrar
 Choco-Install -PackageName notepadplusplus
-Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--params=`"'/64bit /DisableUpdate:TRUE /Product:ProPlus2021Volume,VisioPro2021Volume,ProjectPro2021Volume /Exclude:OneDrive,Lync,Groove,Teams'`""
+Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--params=`"'/64bit /DisableUpdate:TRUE /Product:ProPlus2024Volume,VisioPro2024Volume,ProjectPro2024Volume /Exclude:OneDrive,Lync,Groove,Teams,OneNote'`""
 Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.2.2" # update finalize when changing version
 Choco-Install -PackageName vscode
 Choco-Install -PackageName speedtest
