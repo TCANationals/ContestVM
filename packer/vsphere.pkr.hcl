@@ -4,7 +4,7 @@ packer {
   required_plugins {
     windows-update = {
       version = "0.15.0"
-      source = "github.com/rgl/windows-update"
+      source  = "github.com/rgl/windows-update"
       # Github Plugin Repo https://github.com/rgl/packer-plugin-windows-update
     }
     vsphere = {
@@ -15,61 +15,63 @@ packer {
 }
 
 source "vsphere-iso" "win_sysprep" {
-  insecure_connection     = true
+  insecure_connection = true
 
-  create_snapshot         = true
-  snapshot_name           = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh_mm_ss", timestamp())}"
+  create_snapshot = true
+  snapshot_name   = "${var.vm_name}_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
 
-  vcenter_server          = var.vcenter_server
-  username                = var.vcenter_username
-  password                = var.vcenter_password
+  vcenter_server = var.vcenter_server
+  username       = var.vcenter_username
+  password       = var.vcenter_password
 
-  cluster                 = var.vcenter_cluster
-  datacenter              = var.vcenter_datacenter
-  host                    = var.vcenter_host
-  datastore               = var.vcenter_datastore
-  folder                  = var.vcenter_folder
-  resource_pool           = var.resource_pool
+  cluster       = var.vcenter_cluster
+  datacenter    = var.vcenter_datacenter
+  host          = var.vcenter_host
+  datastore     = var.vcenter_datastore
+  folder        = var.vcenter_folder
+  resource_pool = var.resource_pool
 
-  convert_to_template     = false
-  notes                   = "Windows 11 Enterprise x64 VM template built using Packer."
+  convert_to_template = false
+  notes               = "Windows 11 Enterprise x64 VM template built using Packer."
 
-  ip_wait_timeout         = "20m"
-  ip_settle_timeout       = "1m"
-  communicator            = "winrm"
+  ip_wait_timeout   = "20m"
+  ip_settle_timeout = "1m"
+  communicator      = "winrm"
   #winrm_port             = "5985"
-  winrm_timeout           = "10m"
+  winrm_timeout = "10m"
   #pause_before_connecting = "1m"
-  winrm_username          = "Administrator"
-  winrm_password          = "AdminPass123" # this will be reset as a final step
+  winrm_username = "Administrator"
+  winrm_password = "AdminPass123" # this will be reset as a final step
 
-  vm_name                 = "${var.vm_name}_${formatdate ("YYYY_MM_DD_hh_mm", timestamp())}"
-  vm_version              = var.vm_version
-  firmware                = var.vm_firmware
-  guest_os_type           = var.vm_guest_os_type
-  CPUs                    = var.cpu_num
-  CPU_hot_plug            = false
-  RAM                     = var.ram
-  RAM_reserve_all         = true
-  RAM_hot_plug            = false
-  video_ram               = "131072" # 128MB in bytes
-  cdrom_type              = "sata"
-  remove_cdrom            = true
-  NestedHV                = true
-  disk_controller_type    = ["pvscsi"]
-  vTPM                    = var.vTPM
+  vm_name              = "${var.vm_name}_${formatdate("YYYY_MM_DD_hh_mm", timestamp())}"
+  vm_version           = var.vm_version
+  firmware             = var.vm_firmware
+  guest_os_type        = var.vm_guest_os_type
+  CPUs                 = var.cpu_num
+  CPU_hot_plug         = false
+  RAM                  = var.ram
+  RAM_reserve_all      = true
+  RAM_hot_plug         = false
+  video_ram            = "131072" # 128MB in bytes
+  cdrom_type           = "sata"
+  remove_cdrom         = true
+  NestedHV             = true
+  disk_controller_type = ["pvscsi"]
+  vTPM                 = var.vTPM
+  vbs_enabled          = var.vTPM
+  vvtd_enabled         = var.vTPM
 
   configuration_parameters = {
     "devices.hotplug" = "false",
-    "mks.enable3d" = "true", # enable 3d support
+    "mks.enable3d"    = "true", # enable 3d support
   }
-    
+
   network_adapters {
-    network               = var.vm_network
-    network_card          = var.network_card
+    network      = var.vm_network
+    network_card = var.network_card
   }
-  
-   storage {
+
+  storage {
     disk_thin_provisioned = true
     disk_size             = var.disk_size
   }
@@ -109,7 +111,7 @@ source "vsphere-iso" "win_sysprep" {
     "autounattend.xml" = templatefile("../unattended/${var.unattended_file}", {})
   }
 
-  boot_wait    = "3s"
+  boot_wait = "3s"
   boot_command = [
     "<spacebar><spacebar>"
   ]
@@ -134,7 +136,7 @@ build {
     elevated_password = "AdminPass123"
     script            = "scripts/choco-core.ps1"
     timeout           = "1h"
-    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+    valid_exit_codes  = [0, 3010] # 3010 indicates reboot required
   }
 
   provisioner "windows-restart" { # A restart to settle new Windows components
@@ -142,8 +144,8 @@ build {
   }
 
   provisioner "windows-update" {
-    pause_before = "5s"
-    timeout = "1h"
+    pause_before    = "5s"
+    timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
       "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
@@ -156,7 +158,7 @@ build {
   }
 
   provisioner "windows-update" {
-    timeout = "1h"
+    timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
       "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
@@ -166,7 +168,7 @@ build {
 
   // Not pausing on these since they're not likely to yield anything...
   provisioner "windows-update" {
-    timeout = "1h"
+    timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
       "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
@@ -193,7 +195,7 @@ build {
     elevated_password = "AdminPass123"
     script            = "scripts/early-packages.ps1"
     timeout           = "1h"
-    valid_exit_codes  = [0, 3010]  # 3010 indicates reboot required
+    valid_exit_codes  = [0, 3010] # 3010 indicates reboot required
   }
 
   provisioner "windows-restart" { # A restart after choco core & before horizon
@@ -249,7 +251,7 @@ build {
   }
 
   provisioner "windows-update" {
-    timeout = "1h"
+    timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
       "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
@@ -271,7 +273,7 @@ build {
   }
 
   provisioner "shell-local" { # sleep packer to let final tasks to run on the machine
-    pause_before    = "3m"
-    inline = ["echo finished"]
+    pause_before = "3m"
+    inline       = ["echo finished"]
   }
 }
