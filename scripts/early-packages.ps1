@@ -4,7 +4,6 @@
 Write-Host "Enabling WSL and VM Windows features"
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-dism.exe /online /add-capability /capabilityname:WMIC~~~~
 
 # Install WSL 2
 # Requires WSL windows feature to be installed already (with system restart)
