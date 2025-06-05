@@ -148,7 +148,7 @@ build {
     timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Broadcom*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
       "include:$true"
     ]
   }
@@ -161,7 +161,7 @@ build {
     timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Broadcom*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
       "include:$true"
     ]
   }
@@ -171,7 +171,7 @@ build {
     timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Broadcom*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
       "include:$true"
     ]
   }
@@ -254,7 +254,7 @@ build {
     timeout         = "1h"
     search_criteria = "IsInstalled=0"
     filters = [
-      "exclude:$_.Title -like '*VMware*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
+      "exclude:$_.Title -like '*Broadcom*'", # Can break winRM connectivity to Packer since driver installs interrupt network connectivity
       "include:$true"
     ]
   }
