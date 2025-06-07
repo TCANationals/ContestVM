@@ -22,7 +22,7 @@ Install-AWSToolsModule -Name AWS.Tools.SSOAdmin,AWS.Tools.SSO,AWS.Tools.Identity
 Choco-Install -PackageName winrar
 Choco-Install -PackageName googlechrome
 Choco-Install -PackageName notepadplusplus
-Choco-Install -PackageName sysinternals
+Choco-Install -PackageName sysinternals -ArgumentList "--ignore-checksums"
 Choco-Install -PackageName python -ArgumentList "--version=3.10.8"
 Choco-Install -PackageName nodejs-lts
 
