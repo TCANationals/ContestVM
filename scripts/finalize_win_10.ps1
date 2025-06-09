@@ -73,7 +73,6 @@ try {
     Create-Shortcut -Name "Outlook" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\OUTLOOK.exe"
     Create-Shortcut -Name "PowerPoint" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\POWERPNT.exe"
     Create-Shortcut -Name "Power BI Desktop" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Power BI Desktop\bin\PBIDesktop.exe"
-    Create-Shortcut -Name "Publisher" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\MSPUB.exe"
     Create-Shortcut -Name "Visio" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\VISIO.exe"
     Create-Shortcut -Name "Word" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\WINWORD.exe"
     Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"

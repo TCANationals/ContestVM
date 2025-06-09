@@ -10,13 +10,13 @@ if (-not (TCA-PrivateUrlSupported)) {
 }
 
 # VMware DEM to ensure profiles are stored on central server
-$DEMFilename = "VMware-DEM-Enterprise-2312-10.12-x64.msi"
+$DEMFilename = "Omnissa-DEM-Enterprise-2412-10.14-x64.msi"
 TCA-DownloadFile "$DEMFilename"
 #msiexec.exe /i "$PackerDownloads\$DEMFilename" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
 Remove-Item -Path "$PackerDownloads\$DEMFilename"
 
-$DEMHDFilename = "VMware-DEM-Helpdesk-Support-Tool-2111-10.4-x64.msi"
+$DEMHDFilename = "Omnissa-DEM-Helpdesk-Support-Tool-2412-10.14-x64.msi"
 TCA-DownloadFile "$DEMHDFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMHDFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$DEMHDFilename"
@@ -40,7 +40,7 @@ TCA-DownloadFile "$CompassFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassFilename" -ArgumentList "$CompassArgList"
 Remove-Item -Path "$PackerDownloads\$CompassFilename"
 
-$CompassExamsFilename = "IC3_GS6_June_5_24.exe"
+$CompassExamsFilename = "IC3_GS6_June_9_25.exe"
 TCA-DownloadFile "$CompassExamsFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$CompassExamsFilename"
 Remove-Item -Path "$PackerDownloads\$CompassExamsFilename"
