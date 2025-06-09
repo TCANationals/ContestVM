@@ -36,6 +36,13 @@ Get-NetConnectionProfile `
     | Where-Object {$_.NetworkCategory -ne 'DomainAuthenticated'} `
     | Set-NetConnectionProfile -NetworkCategory Private
 
+# Disable IPv6
+try {
+    Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6
+} catch {
+    Write-Host "Unable to Disable IPv6"
+}
+
 # configure WinRM.
 Write-Output 'Configuring WinRM...'
 winrm quickconfig -quiet
