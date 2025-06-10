@@ -65,17 +65,17 @@ try {
     Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
 
     # Disable Windows 11 new context menu
-    Write-Host "Disabling Windows 11 Context Menu..."
-    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID")){
-        New-Item "HKU:\.DEFAULT\Software\Classes" -Name "CLSID" -Force
-    }
-    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}")){
-        New-Item "HKU:\.DEFAULT\Software\Classes\CLSID" -Name "{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" -Force
-    }
-    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32")){
-        New-Item "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" -Name "InprocServer32" -Force
-    }
-    Set-Item -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value ""
+    # Write-Host "Disabling Windows 11 Context Menu..."
+    # if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID")){
+    #     New-Item "HKU:\.DEFAULT\Software\Classes" -Name "CLSID" -Force
+    # }
+    # if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}")){
+    #     New-Item "HKU:\.DEFAULT\Software\Classes\CLSID" -Name "{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" -Force
+    # }
+    # if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32")){
+    #     New-Item "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" -Name "InprocServer32" -Force
+    # }
+    # Set-Item -Path "HKU:\.DEFAULT\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value ""
 
     # Disable VMware Tools icon (using reg to ensure key is auto-created)
     & reg add "HKEY_LOCAL_MACHINE\Software\VMware, Inc.\VMware Tools" /v ShowTray /t REG_DWORD /d 0 /f
