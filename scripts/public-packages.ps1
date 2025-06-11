@@ -2,6 +2,7 @@
 
 # Install the core system apps
 Choco-Install -PackageName choco-protocol-support
+Choco-Install -PackageName vcredist-all
 #Choco-Install -PackageName laps -ArgumentList "--params='`"/ALL`"'"
 Choco-Install -PackageName lxrunoffline
 Choco-Install -PackageName sysinternals -ArgumentList "--ignore-checksums"

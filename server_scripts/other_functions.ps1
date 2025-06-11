@@ -16,8 +16,12 @@ Install-ADDSForest `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
 
-# Setup CA
-
+# Manually Setup CA & User template
+#    https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129701(v=ws.11)
+# Import group policy from below
+# Fix CA enrollment policy per https://serverfault.com/questions/108855/certificate-types-are-not-available-when-creating-computer-certificate
+#    Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies > Certificate Services Client - Certificate Enrollment Policy
+#    Under Certificate Enrollment Policy List, remove the Active Directory Enrollment Policy. Then re-add it and set it as the default.
 
 # Add KDS key to AD
 Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
