@@ -8,6 +8,9 @@
 #     Write-Host "Unable to install WMIC, ignoring..."
 # }
 
+Write-Host "Setting manual DNS Server"
+Set-DnsClientServerAddress -InterfaceIndex 1 -ServerAddresses ("8.8.8.8","8.8.4.4")
+
 Write-Host "Installing Chocolatey"
 $ChocolateyServerInstall = "https://community.chocolatey.org/install.ps1"
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString($ChocolateyServerInstall))
