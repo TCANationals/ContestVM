@@ -10,7 +10,7 @@ Choco-Install -PackageName vlc
 Choco-Install -PackageName winrar
 Choco-Install -PackageName notepadplusplus
 Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--params=`"'/64bit /DisableUpdate:TRUE /Product:ProPlus2024Volume,VisioPro2024Volume,ProjectPro2024Volume /Exclude:OneDrive,Lync,Groove,Teams,OneNote'`""
-Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.2.2" # update finalize when changing version
+#Choco-Install -PackageName tableau-desktop -ArgumentList "--version=2023.2.2" # update finalize when changing version
 Choco-Install -PackageName vscode
 Choco-Install -PackageName speedtest
 Choco-Install -PackageName speedtest-by-ookla
@@ -49,6 +49,12 @@ $ChromeFilename = "googlechromestandaloneenterprise64.msi"
 Download-File "https://dl.google.com/tag/s/dl/chrome/install/googlechromestandaloneenterprise64.msi" "$PackerDownloads\$ChromeFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ChromeFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$ChromeFilename"
+
+# Tableau Desktop - update shortcut when version changes
+$TableauFilename = "TableauDesktopSetup.exe"
+Download-File "https://files.tcanationals.com/cache/TableauDesktop-64bit-2025-1-2.exe" "$PackerDownloads\$TableauFilename"
+Start-Process -Wait -FilePath "$PackerDownloads\$TableauFilename" -ArgumentList "/quiet /norestart ACCEPTEULA=1 AUTOUPDATE=0 SENDTELEMETRY=0"
+Remove-Item -Path "$PackerDownloads\$TableauFilename"
 
 # MS PowerBI
 Download-File "https://download.microsoft.com/download/8/8/0/880BCA75-79DD-466A-927D-1ABF1F5454B0/PBIDesktopSetup_x64.exe" "$PackerDownloads\PBIDesktopSetup_x64.exe"
