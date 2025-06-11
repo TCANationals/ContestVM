@@ -86,7 +86,7 @@ Function Create-NewLocalAdmin {
       if ($existing -eq $null) {
 
         Write-Host "Creating new local user $NewLocalAdmin."
-        New-LocalUser "$NewLocalAdmin" -Password $Password -AccountNeverExpires
+        New-LocalUser "$NewLocalAdmin" -Password $Password -AccountNeverExpires -PasswordNeverExpires
         Write-Host "Adding local user $NewLocalAdmin to Administrators."
         Add-LocalGroupMember -Group "Administrators" -Member "$NewLocalAdmin"
 
@@ -100,9 +100,6 @@ Function Create-NewLocalAdmin {
         Write-Host "Setting password for existing local user $NewLocalAdmin."
         $existing.SetPassword($Password)
       }
-
-      Write-Host "Ensuring password for $NewLocalAdmin never expires."
-      & WMIC USERACCOUNT WHERE "Name='$NewLocalAdmin'" SET PasswordExpires=FALSE
   }
   end {
   }

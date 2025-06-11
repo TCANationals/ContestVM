@@ -38,7 +38,7 @@ try {
 
     # Disable password expiration for your local admin account.
     Write-Host "Setting admin account to not expire..."
-    wmic useraccount where "name='Administrator'" set PasswordExpires=FALSE
+    Set-LocalUser -Name "Administrator" -PasswordNeverExpires $true
 
     # Set power plan to High Performance.
     Write-Host "Setting power plan to high performance..."

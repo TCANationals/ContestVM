@@ -1,12 +1,12 @@
 . C:\Packer\Scripts\tca-env.ps1
 
-Write-Host "Installing WMIC"
-try {
-    # this is needed for Win 11 24H2 since WMIC isn't installed by default
-    dism.exe /online /add-capability /capabilityname:WMIC~~~~
-} catch {
-    Write-Host "Unable to install WMIC, ignoring..."
-}
+# Write-Host "Installing WMIC"
+# try {
+#     # this is needed for Win 11 24H2 since WMIC isn't installed by default
+#     dism.exe /online /add-capability /capabilityname:WMIC~~~~
+# } catch {
+#     Write-Host "Unable to install WMIC, ignoring..."
+# }
 
 Write-Host "Installing Chocolatey"
 $ChocolateyServerInstall = "https://community.chocolatey.org/install.ps1"
