@@ -56,6 +56,9 @@ foreach ($User in $ADUsers) {
         # If user is created, show message.
         Write-Host "The user account $username is created." -ForegroundColor Cyan
         Start-Sleep -Seconds 5 # wait for creation
+
+        # populate var with correct value for further steps
+        $adUser = Get-ADUser -F { SamAccountName -eq $username }
     }
 
     # Setup user vars
