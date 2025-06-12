@@ -16,12 +16,15 @@ Install-ADDSForest `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
 
-# Manually Setup CA & User template
-#    https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129701(v=ws.11)
-# Import group policy from below
-# Fix CA enrollment policy per https://serverfault.com/questions/108855/certificate-types-are-not-available-when-creating-computer-certificate
-#    Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies > Certificate Services Client - Certificate Enrollment Policy
-#    Under Certificate Enrollment Policy List, remove the Active Directory Enrollment Policy. Then re-add it and set it as the default.
+# MANUAL: Update password group policy to allow unsecure passwords
+# MANUAL: Import TCA group policy from below
+# MANUAL: Update TCA group policy
+#     Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies > Certificate Services Client - Certificate Enrollment Policy
+#     Under Certificate Enrollment Policy List, remove the Active Directory Enrollment Policy. Then re-add it and set it as the default.
+#     GUID changes with each AD install, so this resets it
+
+# MANUAL: Setup CA & User template
+#     https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129701(v=ws.11)
 
 # Add KDS key to AD
 Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
@@ -53,14 +56,6 @@ TCA-DownloadFile "Teacher_91050.msi"
 Update-LapsADSchema
 Set-LapsADComputerSelfPermission -Identity "Computers"
 Set-LapsADComputerSelfPermission -Identity "HorizonVMs"
-
-# Set AWS credentials
-$awsArgs = @{
-    AccessKey = (Read-Host 'AWS Access Key' -AsSecureString)
-    SecretKey = (Read-Host 'AWS Secret Key' -AsSecureString)
-}
-Set-AWSCredential -AccessKey ([System.Net.NetworkCredential]::new("", $awsArgs.AccessKey).Password) -SecretKey ([System.Net.NetworkCredential]::new("", $awsArgs.SecretKey).Password) -StoreAs default
-Initialize-AWSDefaultConfiguration -ProfileName default -Region us-east-1
 
 # setup shared folders
 # get domain admin & domain user group IDs
@@ -139,4 +134,4 @@ $localCa = Connect-CertificationAuthority
 $issuedCert = Submit-CertificateRequest -Path $TempFile -CA $localCa -Attribute "CertificateTemplate:WebServer"
 
 $exchCert = Import-ExchangeCertificate -FileData $issuedCert.Certificate.RawData
-Enable-ExchangeCertificate -Thumbprint $exchCert.Thumbprint -Services POP,IMAP,IIS,SMTP -Force
+Enable-ExchangeCertificate -Thumbprint $issuedCert.Certificate.Thumbprint -Services POP,IMAP,IIS,SMTP -Force

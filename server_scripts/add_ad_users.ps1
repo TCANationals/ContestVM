@@ -1,8 +1,5 @@
 # Import active directory module for running AD cmdlets
 Import-Module ActiveDirectory
-Import-Module AWS.Tools.SSOAdmin
-Import-Module AWS.Tools.SSO
-Import-Module AWS.Tools.IdentityStore
 
 # Import exchange
 . 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'
@@ -12,14 +9,13 @@ Connect-ExchangeServer -auto
 $ADUsers = Get-Content .\contestant_id_list.txt
 
 # Define shared properties
-$awsSSOIdStore = "d-906742eef4"
-$awsSSOGroupId = "e488d4a8-10e1-7049-2617-d6c122af219e" # Everyone
 $UPN = "tcalocal.com"
 $DefaultPass = "changeme"
 $Ou = "OU=Students,OU=TCA,DC=tcalocal,DC=com"
 $firstName = "Contestant"
-$UsernameSuffix = ".24"
+$UsernameSuffix = ".25"
 $ExchangePermissionGrantUser = "damik@tcalocal.com"
+$HomeDirectoryRoot = "F:\Shares\Users"
 
 # Loop through each row containing user details in the CSV file
 foreach ($User in $ADUsers) {
@@ -62,33 +58,36 @@ foreach ($User in $ADUsers) {
         Start-Sleep -Seconds 5 # wait for creation
     }
 
+    # Setup user vars
+    $userHomeDirectory = Join-Path -Path $HomeDirectoryRoot -ChildPath $username
+    $userProfileDirectory = Join-Path -Path $userHomeDirectory -ChildPath "Profile"
+    $userUpn = $adUser.UserPrincipalName
+
+    # Setup user Directory and set owner
+    if ( -not (Test-Path $userHomeDirectory)){
+        force-mkdir $userHomeDirectory
+        $acl = Get-Acl $userHomeDirectory
+        $acl.SetOwner($adUser.SID)
+        Set-Acl $userHomeDirectory $acl
+        # Setup profile Directory for U drive & set owner
+        force-mkdir $userProfileDirectory
+        $acl = Get-Acl $userProfileDirectory
+        $acl.SetOwner($adUser.SID)
+        Set-Acl $userProfileDirectory $acl
+        Write-Host "The user directory for $username is created." -ForegroundColor Cyan
+    } else {
+        Write-Warning "Directory for user $username already exists."
+    }
+
     # setup user mailbox
     $mailboxExist = [bool](Get-Mailbox -Identity $adUser.UserPrincipalName -erroraction SilentlyContinue)
     if (!$mailboxExist) {
         Enable-Mailbox -Identity ($adUser.UserPrincipalName)
-        Write-Host "Enabled mailbox for " $adUser.UserPrincipalName
+        Write-Host "Enabled mailbox for $userUpn"
     } else {
-        Write-Warning "A mailbox already exists for " $adUser.UserPrincipalName
+        Write-Warning "A mailbox already exists for $userUpn"
     }
 
     # Add access to mailbox
     Add-MailboxPermission -Identity ($adUser.UserPrincipalName) -User $ExchangePermissionGrantUser -AccessRights FullAccess -InheritanceType All
-
-    # Make sure user is setup in SSO
-    # try {
-    #     $ssoUserId = Get-IDSUserId -IdentityStoreId $awsSSOIdStore -UniqueAttribute_AttributePath 'Username' -UniqueAttribute_AttributeValue $email
-    #     Write-Warning "A user account with username $username already exists in AWS SSO (ID = $ssoUserId)."
-    # } catch {
-    #     $ssoEmail = New-Object Amazon.IdentityStore.Model.Email
-    #     $ssoEmail.Value = $email
-    #     $ssoUserId = New-IDSUser -IdentityStoreId $awsSSOIdStore -Name_FamilyName $lastname -Name_GivenName $firstname -DisplayName "$firstname $lastname" -UserName $email -Email $ssoEmail
-    #     Write-Host "A user account does not exist for provided email, creating one..."
-    # }
-
-    # # Verify SSO group membership
-    # $groupMembershipCheck = Assert-IDSMemberInGroup -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
-    # if (!$groupMembershipCheck.MembershipExists) {
-    #     Write-Warning "User with ID $ssoUserId is not member of group, adding..."
-    #     New-IDSGroupMembership -IdentityStoreId $awsSSOIdStore -GroupId $awsSSOGroupId -MemberId_UserId $ssoUserId
-    # }
 }

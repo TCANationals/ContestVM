@@ -87,7 +87,7 @@ try {
 
     # Add start menu shortcuts
     Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Omnissa\DEM\Flex+ Self-Support.exe"
-    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2023.2\bin\tableau.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2025.1\bin\tableau.exe"
     Create-Shortcut -Name "Performance Monitor" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Omnissa\Horizon\Agent\Horizon Performance Tracker\Horizon.PerformanceTracker.exe"
     Create-Shortcut -Name "Zoom" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\ZoomVDI\bin\Zoom.exe"
 
