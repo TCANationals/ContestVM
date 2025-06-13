@@ -67,20 +67,19 @@ foreach ($User in $ADUsers) {
     $userUpn = $adUser.UserPrincipalName
 
     # Setup user Directory and set owner
-    if ( -not (Test-Path $userHomeDirectory)){
-        force-mkdir $userHomeDirectory
-        $acl = Get-Acl $userHomeDirectory
-        $acl.SetOwner($adUser.SID)
-        Set-Acl $userHomeDirectory $acl
-        # Setup profile Directory for U drive & set owner
-        force-mkdir $userProfileDirectory
-        $acl = Get-Acl $userProfileDirectory
-        $acl.SetOwner($adUser.SID)
-        Set-Acl $userProfileDirectory $acl
+    if ( -not (Test-Path $userProfileDirectory)){
+        force-mkdir $userProfileDirectory # create profile dir and root home directory
         Write-Host "The user directory for $username is created." -ForegroundColor Cyan
     } else {
         Write-Warning "Directory for user $username already exists."
     }
+
+    # Ensure ACL is set on home directory
+    $acl = Get-Acl $userHomeDirectory
+    $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+        $adUser.SID, 'ReadAndExecute, Modify, Synchronize', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+    )))
+    Set-Acl $userHomeDirectory $acl
 
     # setup user mailbox
     $mailboxExist = [bool](Get-Mailbox -Identity $adUser.UserPrincipalName -erroraction SilentlyContinue)

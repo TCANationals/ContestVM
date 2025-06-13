@@ -104,20 +104,21 @@ Set-Acl F:\Shares\DEM $acl
 force-mkdir F:\Shares\Users
 New-SmbShare -Name Users$ -Path "F:\Shares\Users" -FullAccess "Everyone"
 $acl = Get-Acl F:\Shares\Users
-# All auth users can list directory and create new folders
+# All auth users can list directory (fix issue with Office)
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
-    $authenticatedUsers, 'ReadData, AppendData, ExecuteFile, Synchronize', 'None', 'None', 'Allow'
+    $authenticatedUsers, 'ListDirectory, ReadData, ExecuteFile, Synchronize, ReadExtendedAttributes, ReadAttributes, ReadPermissions, Read', 'None', 'None', 'Allow'
 )))
-$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
-    $creatorOwnerUser, 'Modify, Synchronize', 'ContainerInherit, ObjectInherit', 'InheritOnly', 'Allow'
-)))
-$acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
-    $systemUser, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
-)))
+# No other permissions here, will manually create directories for users in add_ad_users.ps1
+# $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+#     $creatorOwnerUser, 'Modify, Synchronize', 'ContainerInherit, ObjectInherit', 'InheritOnly', 'Allow'
+# )))
+# $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
+#     $systemUser, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
+# )))
 Set-Acl F:\Shares\Users $acl
 
 # set ACLs
-Set-HomeFolderACL -Path 'F:\Shares\Users'
+#Set-HomeFolderACL -Path 'F:\Shares\Users'
 
 # Setup exchange certificate
 # Run on AD server with Exchange tools installed
