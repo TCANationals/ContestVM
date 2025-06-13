@@ -64,11 +64,13 @@ foreach ($User in $ADUsers) {
     # Setup user vars
     $userHomeDirectory = Join-Path -Path $HomeDirectoryRoot -ChildPath $username
     $userProfileDirectory = Join-Path -Path $userHomeDirectory -ChildPath "Profile"
+    $userDocumentsDirectory = Join-Path -Path $userProfileDirectory -ChildPath "Documents"
     $userUpn = $adUser.UserPrincipalName
 
     # Setup user Directory and set owner
     if ( -not (Test-Path $userProfileDirectory)){
         force-mkdir $userProfileDirectory # create profile dir and root home directory
+        force-mkdir $userDocumentsDirectory # create Documents directory
         Write-Host "The user directory for $username is created." -ForegroundColor Cyan
     } else {
         Write-Warning "Directory for user $username already exists."
