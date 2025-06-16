@@ -76,7 +76,7 @@ Set-Acl F:\Shares $acl
 
 # Setup public share and give everyone read-only access
 force-mkdir F:\Shares\Public\_Judges
-New-SmbShare -Name Public -Path "F:\Shares\Public" -FullAccess "Everyone"
+New-SmbShare -Name Public -Path "F:\Shares\Public" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\Public
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
@@ -93,7 +93,7 @@ Set-Acl F:\Shares\Public\_Judges $acl
 
 # DEM Config share
 force-mkdir F:\Shares\DEM
-New-SmbShare -Name DEM$ -Path "F:\Shares\DEM" -FullAccess "Everyone"
+New-SmbShare -Name DEM$ -Path "F:\Shares\DEM" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\DEM
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
@@ -102,7 +102,7 @@ Set-Acl F:\Shares\DEM $acl
 
 # Users share, permission for users to create their own directory (from DEM on login)
 force-mkdir F:\Shares\Users
-New-SmbShare -Name Users$ -Path "F:\Shares\Users" -FullAccess "Everyone"
+New-SmbShare -Name Users$ -Path "F:\Shares\Users" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\Users
 # All auth users can list directory (fix issue with Office)
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
