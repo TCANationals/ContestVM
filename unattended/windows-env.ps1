@@ -746,7 +746,7 @@ Function Set-AllNetworkAdaptersPrivate {
 }
 
 try {
-  Export-ModuleMember -Function * -Alias * -Variable Packer*,CleanMgr*
+  Export-ModuleMember -Function * -Alias * -Variable *
 } catch {
   Write-Output "Not running in module..."
 }
