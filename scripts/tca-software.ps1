@@ -3,6 +3,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
+Import-Module Packer -DisableNameChecking
 Import-Module TCA -DisableNameChecking
 
 if (-not (TCA-PrivateUrlSupported)) {

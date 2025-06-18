@@ -1,6 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
+Import-Module Packer -DisableNameChecking
 Import-Module TCA -DisableNameChecking
 
 #Start-Transcript C:\customise.txt
