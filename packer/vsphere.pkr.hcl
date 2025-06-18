@@ -193,7 +193,7 @@ build {
     pause_before      = "5s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
-    script            = "scripts/early-packages.ps1"
+    script            = "scripts/virtualization-prereqs.ps1"
     timeout           = "1h"
     valid_exit_codes  = [0, 3010] # 3010 indicates reboot required
   }
