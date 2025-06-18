@@ -204,6 +204,20 @@ build {
   }
 
   provisioner "powershell" {
+    pause_before      = "5s"
+    elevated_user     = "Administrator"
+    elevated_password = "AdminPass123"
+    script            = "scripts/vmware-workstation.ps1"
+    timeout           = "1h"
+    valid_exit_codes  = [0, 3010] # 3010 indicates reboot required
+  }
+
+  provisioner "windows-restart" { # A restart after choco core & before horizon
+    pause_before    = "10s"
+    restart_timeout = "1h"
+  }
+
+  provisioner "powershell" {
     pause_before      = "15s"
     elevated_user     = "Administrator"
     elevated_password = "AdminPass123"
