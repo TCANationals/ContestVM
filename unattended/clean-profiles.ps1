@@ -5,7 +5,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-. C:\Packer\Scripts\windows-env.ps1
+Import-Module Packer -DisableNameChecking
 
 $rundate = Get-Date
 Write-Output "Script: clean-profiles.ps1 Starting at: $rundate"
@@ -19,12 +19,6 @@ if (-not (Test-Path "$PackerLogs\ProfileClean.installed")) {
 if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
   Remove-Item -Path C:\Packer\Scripts\tca-uri.ps1 -Force
 }
-
-# Init tca-env for powershell
-# for standard powershell
-Set-Content -Path $PsHome\Profile.ps1 -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
-# for pwsh
-Set-Content -Path "$Env:ProgramFiles\PowerShell\7\Profile.ps1" -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
 
 # Set Administrator password as blank
 Set-LocalUser -Name "Administrator" -Password ([securestring]::new())

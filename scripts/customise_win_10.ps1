@@ -1,7 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. "C:\Packer\Scripts\tca-env.ps1"
+Import-Module TCA -DisableNameChecking
 
 #Start-Transcript C:\customise.txt
 

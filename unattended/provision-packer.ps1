@@ -18,19 +18,29 @@ $PackageDir = 'A:\'
 $rundate = Get-Date
 Write-Output "Script: bootstrap-packerbuild.ps1 Starting at: $rundate"
 
+# Setup packer Powershell module
+$allPowershellModulePaths = [Environment]::GetEnvironmentVariable("PSModulePath", [EnvironmentVariableTarget]::Machine)
+$powershellModulePath = $allPowershellModulePaths.Split(";")[0] # get first global module path
+$tcaModulePath = Join-Path -Path $powershellModulePath -ChildPath "TCA"
+$packerModulePath = Join-Path -Path $powershellModulePath -ChildPath "Packer"
+
+New-Item -ItemType Directory -Force -Path $tcaModulePath
+New-Item -ItemType Directory -Force -Path $packerModulePath
+
+if (-not (Test-Path "$packerModulePath\Packer.psm1" )) {
+  Copy-Item A:\windows-env.ps1 $packerModulePath\Packer.psm1
+}
+if (-not (Test-Path "$tcaModulePath\TCA.psm1" )) {
+  Copy-Item A:\tca-env.ps1 $tcaModulePath\TCA.psm1
+}
+
 # Create Packer Log Directories if they don't exist already.
 Create-PackerStagingDirectories
-if (-not (Test-Path "$PackerScripts\windows-env.ps1" )) {
-  Copy-Item A:\windows-env.ps1 $PackerScripts\windows-env.ps1
-}
 if (-not (Test-Path "$PackerScripts\choco-cleaner.ps1" )) {
   Copy-Item A:\choco-cleaner.ps1 $PackerScripts\choco-cleaner.ps1
 }
 if (-not (Test-Path "$PackerScripts\clean-profiles.ps1" )) {
   Copy-Item A:\clean-profiles.ps1 $PackerScripts\clean-profiles.ps1
-}
-if (-not (Test-Path "$PackerScripts\tca-env.ps1" )) {
-  Copy-Item A:\tca-env.ps1 $PackerScripts\tca-env.ps1
 }
 if (-not (Test-Path "$PackerScripts\tca-uri.ps1" )) {
   Copy-Item A:\tca-uri.ps1 $PackerScripts\tca-uri.ps1

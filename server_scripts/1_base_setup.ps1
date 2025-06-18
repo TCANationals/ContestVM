@@ -1,7 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. "C:\Packer\Scripts\tca-env.ps1"
+Import-Module TCA -DisableNameChecking
 
 # The script bootstraps new Windows Server instances
 # It is run on all Windows Servers after base OS setup and before other server scripts

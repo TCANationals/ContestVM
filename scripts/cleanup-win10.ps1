@@ -1,7 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. "C:\Packer\Scripts\tca-env.ps1"
+Import-Module TCA -DisableNameChecking
 
 # List of allowed shortcuts, all others will be removed
 $AllowedShortcuts = @(

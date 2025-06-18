@@ -1,7 +1,7 @@
 ﻿$ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. "C:\Packer\Scripts\tca-env.ps1"
+Import-Module TCA -DisableNameChecking
 
 # Install the core system apps
 Choco-Install -PackageName choco-protocol-support

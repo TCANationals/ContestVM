@@ -8,12 +8,12 @@
 # Placeholder Environment script for common variable definition.
 $ErrorActionPreference = 'Continue'
 
-. C:\Packer\Scripts\windows-env.ps1
+Import-Module Packer -DisableNameChecking
 
 # Load private URL if exists
 $TCAPrivateUrl = ""
 if (Test-Path "C:\Packer\Scripts\tca-uri.ps1") {
-    . C:\Packer\Scripts\tca-uri.ps1
+    . "C:\Packer\Scripts\tca-uri.ps1"
 }
 
 Function TCA-PrivateUrlSupported {
