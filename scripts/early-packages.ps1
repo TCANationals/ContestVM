@@ -4,6 +4,7 @@
 Write-Host "Enabling WSL and VM Windows features"
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+dism.exe /online /enable-feature /featurename:HypervisorPlatform /all /norestart
 
 # Install WSL 2
 # Requires WSL windows feature to be installed already (with system restart)
@@ -14,7 +15,8 @@ try {
 }
 
 # Install the base system apps (before Horizon)
-$VmwareFilename = "VMware-player-17.5.2-23775571.exe"
+#$VmwareFilename = "VMware-player-17.5.2-23775571.exe"
+$VmwareFilename = "VMware-workstation-full-17.6.3-24583834.exe"
 TCA-DownloadFile "$VmwareFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$VmwareFilename" -ArgumentList "/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 ADDLOCAL=ALL REMOVE=Keyboard REBOOT=ReallySuppress"
 Remove-Item -Path "$PackerDownloads\$VmwareFilename"
@@ -29,6 +31,8 @@ $vmwPref = @"
 pref.keyboardAndMouse.vmHotKey.enabled = "FALSE"
 pref.keyboardAndMouse.vmHotKey.count = "0"
 pref.vmplayer.firstRunDismissedVersion = "17.5.2"
+pref.componentDownloadPermission.epoch = ""
+pref.componentDownloadPermission = "deny"
 hint.vmx.nestedVM = "FALSE"
 hints.hideAll = "TRUE"
 hint.cui.toolsInfoBar.suppressible = "FALSE"

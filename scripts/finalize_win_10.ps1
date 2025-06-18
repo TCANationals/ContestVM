@@ -79,7 +79,7 @@ try {
     Create-Shortcut -Name "Visio" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\VISIO.exe"
     Create-Shortcut -Name "Word" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft Office\root\Office16\WINWORD.exe"
     Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"
-    Create-Shortcut -Name "VMware Player" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Player\vmplayer.exe"
+    Create-Shortcut -Name "VMware Workstation" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Workstation\vmware.exe"
     Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
     Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2025.1\bin\tableau.exe"
     Create-Shortcut -Name "Power Automate" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\Power Automate Desktop\PAD.Console.Host.exe"
