@@ -1,6 +1,7 @@
-$ErrorActionPreference = 'Stop'
+$ProgressPreference = "SilentlyContinue"
+$ErrorActionPreference = "Stop"
 
-. C:\Packer\Scripts\tca-env.ps1
+. "C:\Packer\Scripts\tca-env.ps1"
 
 # List of allowed shortcuts, all others will be removed
 $AllowedShortcuts = @(

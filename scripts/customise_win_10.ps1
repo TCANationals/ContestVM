@@ -1,7 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. C:\Packer\Scripts\tca-env.ps1
+. "C:\Packer\Scripts\tca-env.ps1"
 
 #Start-Transcript C:\customise.txt
 

@@ -1,4 +1,7 @@
-. C:\Packer\Scripts\tca-env.ps1
+$ProgressPreference = "SilentlyContinue"
+$ErrorActionPreference = "Stop"
+
+. "C:\Packer\Scripts\tca-env.ps1"
 
 # Install the base system apps (before Horizon)
 #$VmwareFilename = "VMware-player-17.5.2-23775571.exe"

@@ -1,7 +1,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. C:\Packer\Scripts\tca-env.ps1
+. "C:\Packer\Scripts\tca-env.ps1"
 
 try {
     Download-File "https://files.tcanationals.com/packer_tools/OmnissaHorizonOSOptimizationTool-x86_64-1.2.2503.14374004267.exe"  "C:\Packer\Downloads\OSOT.exe"

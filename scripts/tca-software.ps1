@@ -3,7 +3,7 @@
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "Stop"
 
-. C:\Packer\Scripts\tca-env.ps1
+. "C:\Packer\Scripts\tca-env.ps1"
 
 if (-not (TCA-PrivateUrlSupported)) {
     Exit 0

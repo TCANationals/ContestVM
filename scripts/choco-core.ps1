@@ -1,4 +1,7 @@
-. C:\Packer\Scripts\tca-env.ps1
+$ProgressPreference = "SilentlyContinue"
+$ErrorActionPreference = "Stop"
+
+. "C:\Packer\Scripts\tca-env.ps1"
 
 # Write-Host "Installing WMIC"
 # try {
