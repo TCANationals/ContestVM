@@ -54,6 +54,14 @@ try {
         # code to create new key
         New-Item "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "Advanced" -Force
     }
+    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\VMware, Inc.")){
+        # code to create new key
+        New-Item "HKU:\.DEFAULT\Software" -Name "VMware, Inc." -Force
+    }
+    if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\VMware, Inc.\VMware Tray")){
+        # code to create new key
+        New-Item "HKU:\.DEFAULT\Software\VMware, Inc." -Name "VMware Tray" -Force
+    }
 
     # Show file extensions in Windows Explorer.
     Write-Host "Enabling file extensions in Windows Explorer..."
@@ -64,6 +72,10 @@ try {
     Write-Host "Enabling file extensions in Windows Explorer..."
     Set-Itemproperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
     Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0 -Verbose
+
+    # Show all notifications in task bar
+    Write-Host "Disable VMware Workstation tray icon..."
+    Set-Itemproperty -Path "HKU:\.DEFAULT\Software\VMware, Inc.\VMware Tray" -Name "TrayBehavior" -Value 2 -Verbose
 
     # Disable Windows 11 new context menu
     # Write-Host "Disabling Windows 11 Context Menu..."
