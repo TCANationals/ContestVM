@@ -141,6 +141,9 @@ Write-Output "Clearing Files"
     "$ENV:ALLUSERSPROFILE\Microsoft\Windows\WER\ReportQueue"
 ) | ForceFullyDelete-Path -LogFile "$PackerLogs\clean-basefiles.log"
 
+# clear log from above (can be over 75 MB)
+Remove-Item -Force -Path "$PackerLogs\clean-basefiles.log"
+
 # Clearing Logs
 Write-Output "Clearing Logs"
 wevtutil clear-log Application
