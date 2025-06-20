@@ -49,6 +49,3 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Na
 Write-Host "Downloading ContestVM repo"
 cd $PackerStaging
 git clone https://github.com/TCANationals/ContestVM vm
-
-# Auto-load TCA env into powershell
-Set-Content -Path $PsHome\Profile.ps1 -Force -Value '. C:\Packer\Scripts\tca-env.ps1'
