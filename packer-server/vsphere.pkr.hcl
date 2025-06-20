@@ -104,7 +104,9 @@ source "vsphere-iso" "win_2022_sysprep" {
     "tca-uri.ps1" = templatefile("../unattended/tca-uri.ps1.tpl", {
       private_url = var.tca_private_url
     })
-    "autounattend.xml" = templatefile("../unattended/${var.unattended_file}", {})
+    "autounattend.xml" = templatefile("../unattended/${var.unattended_file}", {
+      computer_name = var.vm_name
+    })
   }
 
   boot_wait = "3s"
