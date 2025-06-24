@@ -23,6 +23,7 @@ Choco-Install -PackageName sql-server-management-studio
 Choco-Install -PackageName python -ArgumentList "--version=3.10.8", "--params", '"/NoLockdown"'
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName r
+Choco-Install -PackageName cutepdf
 
 # Install office from TCA cache since MS keeps changing the URL
 #$OfficeDeploymentFilename = "officedeploymenttool_16501-20196.exe"
@@ -88,4 +89,4 @@ DISM.exe /Online /add-capability /CapabilityName:Rsat.ActiveDirectory.DS-LDS.Too
 DISM.exe /Online /add-capability /CapabilityName:Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0
 
 # PowerAutomate at the end since it restarts the PC
-Choco-Install -PackageName powerautomatedesktop -ArgumentList "--ignore-checksums"
+#Choco-Install -PackageName powerautomatedesktop -ArgumentList "--ignore-checksums"
