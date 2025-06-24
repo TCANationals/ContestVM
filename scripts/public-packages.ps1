@@ -24,6 +24,7 @@ Choco-Install -PackageName python -ArgumentList "--version=3.10.8", "--params", 
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName r
 Choco-Install -PackageName cutepdf
+#Choco-Install -PackageName microsoft-windows-terminal
 
 # Install office from TCA cache since MS keeps changing the URL
 #$OfficeDeploymentFilename = "officedeploymenttool_16501-20196.exe"
@@ -66,6 +67,11 @@ Remove-Item -Path "$PackerDownloads\$TableauFilename"
 Download-File "https://download.microsoft.com/download/8/8/0/880BCA75-79DD-466A-927D-1ABF1F5454B0/PBIDesktopSetup_x64.exe" "$PackerDownloads\PBIDesktopSetup_x64.exe"
 Start-Process -Wait -FilePath "$PackerDownloads\PBIDesktopSetup_x64.exe" -ArgumentList "-quiet -norestart ACCEPT_EULA=1"
 Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
+
+# Install Windows Terminal from GitHub
+# Leave file behind for future installs
+Download-File "https://github.com/microsoft/terminal/releases/download/v1.22.11141.0/Microsoft.WindowsTerminal_1.22.11141.0_8wekyb3d8bbwe.msixbundle" "$PackerDownloads\WindowsTerminal.msixbundle"
+Add-AppxProvisionedPackage -Online -SkipLicense -PackagePath "$PackerDownloads\WindowsTerminal.msixbundle"
 
 # Install from other sources
 # Get latest timer desktop release from GitHub
