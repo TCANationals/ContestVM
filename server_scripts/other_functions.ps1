@@ -26,6 +26,9 @@ Install-ADDSForest `
 # MANUAL: Setup CA & User template
 #     https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/jj129701(v=ws.11)
 
+# Orientation
+# https://docs.google.com/presentation/d/1SUUMAX8E7nMuTkbZK0JPm9S8mZ23-NCoOckCA_Jdaxk/edit
+
 # Add KDS key to AD
 Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
 
