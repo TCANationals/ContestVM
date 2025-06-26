@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Drives clsid="{8FDDCC1A-0C3C-43cd-A6B4-71A6DF20DA8C}"><Drive clsid="{935D1B74-9CB8-4e3c-9914-7DD559B7A417}" name="P:" status="P:" image="2" changed="2023-06-14 02:24:03" uid="{FFAB34F1-2397-4120-8E68-6A855C6DEBBE}"><Properties action="U" thisDrive="NOCHANGE" allDrives="NOCHANGE" userName="" path="\\tca-ad1\Public" label="Public" persistent="1" useLetter="1" letter="P"/></Drive>
-	<Drive clsid="{935D1B74-9CB8-4e3c-9914-7DD559B7A417}" name="U:" status="U:" image="2" changed="2023-06-14 03:47:01" uid="{6B3D4DBA-71FC-4B55-9B7B-33ADDE05D3A4}"><Properties action="U" thisDrive="NOCHANGE" allDrives="NOCHANGE" userName="" path="\\TCA-AD1\Users$\%username%\Profile" label="User Files" persistent="1" useLetter="1" letter="U"/></Drive>
+	<Drive clsid="{935D1B74-9CB8-4e3c-9914-7DD559B7A417}" name="U:" status="U:" image="2" changed="2025-06-13 22:04:21" uid="{89ADE60C-35EE-4B0F-99DC-2046F22B75AB}"><Properties action="U" thisDrive="NOCHANGE" allDrives="NOCHANGE" userName="" path="\\TCA-AD1\Users$\%username%\Profile" label="User Files" persistent="1" useLetter="1" letter="U"/></Drive>
 </Drives>
