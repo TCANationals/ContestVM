@@ -27,7 +27,7 @@ Choco-Install -PackageName winrar
 Choco-Install -PackageName googlechrome -ArgumentList "--ignore-checksums"
 Choco-Install -PackageName notepadplusplus
 Choco-Install -PackageName sysinternals -ArgumentList "--ignore-checksums"
-Choco-Install -PackageName python -ArgumentList "--version=3.10.8"
+Choco-Install -PackageName python -ArgumentList "--version=3.14.4"
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName vcredist-all
 

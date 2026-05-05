@@ -4,9 +4,13 @@ $ErrorActionPreference = "Stop"
 Import-Module Packer -DisableNameChecking
 Import-Module TCA -DisableNameChecking
 
+if (-not (TCA-PrivateUrlSupported)) {
+    Exit 0
+}
+
 # Install the base system apps (before Horizon)
 #$VmwareFilename = "VMware-player-17.5.2-23775571.exe"
-$VmwareFilename = "VMware-workstation-full-17.6.3-24583834.exe"
+$VmwareFilename = "VMware-Workstation-Full-25H2u1-25219725.exe"
 TCA-DownloadFile "$VmwareFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$VmwareFilename" -ArgumentList "/s /v/qn EULAS_AGREED=1 AUTOSOFTWAREUPDATE=0 DATACOLLECTION=0 REBOOT=ReallySuppress"
 Remove-Item -Path "$PackerDownloads\$VmwareFilename"

@@ -11,13 +11,13 @@ if (-not (TCA-PrivateUrlSupported)) {
 }
 
 # VMware DEM to ensure profiles are stored on central server
-$DEMFilename = "Omnissa-DEM-Enterprise-2412-10.14-x64.msi"
+$DEMFilename = "Omnissa-DEM-Enterprise-2603-10.19-x64.msi"
 TCA-DownloadFile "$DEMFilename"
 #msiexec.exe /i "$PackerDownloads\$DEMFilename" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMFilename"" /qn ADDLOCAL=FlexEngine,FlexProfilesSelfSupport,FlexManagementConsole"
 Remove-Item -Path "$PackerDownloads\$DEMFilename"
 
-$DEMHDFilename = "Omnissa-DEM-Helpdesk-Support-Tool-2412-10.14-x64.msi"
+$DEMHDFilename = "Omnissa-DEM-Helpdesk-Support-Tool-2503-10.15-x64.msi"
 TCA-DownloadFile "$DEMHDFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$DEMHDFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$DEMHDFilename"

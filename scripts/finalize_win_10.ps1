@@ -5,7 +5,7 @@ Import-Module Packer -DisableNameChecking
 Import-Module TCA -DisableNameChecking
 
 try {
-    Download-File "https://files.tcanationals.com/packer_tools/OmnissaHorizonOSOptimizationTool-x86_64-1.2.2503.14374004267.exe"  "C:\Packer\Downloads\OSOT.exe"
+    Download-File "https://files.tcanationals.com/packer_tools/OmnissaHorizonOSOptimizationTool-x86_64-1.2.2603.23605577104.exe"  "C:\Packer\Downloads\OSOT.exe"
     Download-File "https://files.tcanationals.com/packer_tools/LGPO.exe"  "C:\Packer\Downloads\LGPO.exe"
     Download-File "https://files.tcanationals.com/packer_tools/sdelete64.exe"  "C:\Packer\Downloads\sdelete64.exe"
 
@@ -82,13 +82,13 @@ try {
     Create-Shortcut -Name "Visual Studio Code" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Microsoft VS Code\Code.exe"
     Create-Shortcut -Name "VMware Workstation" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Workstation\vmware.exe"
     Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
-    Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2025.1\bin\tableau.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2026.1\bin\tableau.exe"
     Create-Shortcut -Name "Power Automate" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\Power Automate Desktop\PAD.Console.Host.exe"
     Create-Shortcut -Name "Disconnect" -shortcuts "CommonDesktop" -TargetPath "$Env:WinDir\System32\tsdiscon.exe" -IconLocation "$Env:WinDir\System32\shell32.dll,131"
 
     # Add start menu shortcuts
     Create-Shortcut -Name "Self-Support" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Omnissa\DEM\Flex+ Self-Support.exe"
-    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2025.1\bin\tableau.exe"
+    Create-Shortcut -Name "Tableau" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2026.1\bin\tableau.exe"
     Create-Shortcut -Name "Performance Monitor" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\Omnissa\Horizon\Agent\Horizon Performance Tracker\Horizon.PerformanceTracker.exe"
     Create-Shortcut -Name "Zoom" -shortcuts "CommonStartMenu" -TargetPath "$env:ProgramFiles\ZoomVDI\bin\Zoom.exe"
 

@@ -20,7 +20,7 @@ Choco-Install -PackageName vscode
 Choco-Install -PackageName speedtest
 Choco-Install -PackageName speedtest-by-ookla
 Choco-Install -PackageName sql-server-management-studio
-Choco-Install -PackageName python -ArgumentList "--version=3.10.8", "--params", '"/NoLockdown"'
+Choco-Install -PackageName python -ArgumentList "--version=3.14.4", "--params", '"/NoLockdown"'
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName r
 Choco-Install -PackageName cutepdf
@@ -38,7 +38,7 @@ Choco-Install -PackageName cutepdf
 Set-DirectoryUserAcls "C:\tools"
 
 # Grant all users access to python directory
-TCA-AuthUserFullAccess 'C:\Python310'
+TCA-AuthUserFullAccess 'C:\Python314'
 
 # Install BgAssist to refresh background in VDI
 #Download-File "https://files.tcanationals.com/deps/BgAssist.exe" "$PackerDownloads\BgAssist.exe"
@@ -59,7 +59,7 @@ Remove-Item -Path "$PackerDownloads\$ChromeFilename"
 
 # Tableau Desktop - update shortcut when version changes
 $TableauFilename = "TableauDesktopSetup.exe"
-Download-File "https://files.tcanationals.com/cache/TableauDesktop-64bit-2025-1-2.exe" "$PackerDownloads\$TableauFilename"
+Download-File "https://files.tcanationals.com/cache/TableauDesktop-64bit-2026-1-1.exe" "$PackerDownloads\$TableauFilename"
 Start-Process -Wait -FilePath "$PackerDownloads\$TableauFilename" -ArgumentList "/quiet /norestart ACCEPTEULA=1 AUTOUPDATE=0 SENDTELEMETRY=0"
 Remove-Item -Path "$PackerDownloads\$TableauFilename"
 
@@ -70,8 +70,8 @@ Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
 
 # Install Windows Terminal from GitHub
 # Leave file behind for future installs
-Download-File "https://github.com/microsoft/terminal/releases/download/v1.22.11141.0/Microsoft.WindowsTerminal_1.22.11141.0_8wekyb3d8bbwe.msixbundle" "$PackerDownloads\WindowsTerminal.msixbundle"
-Add-AppxProvisionedPackage -Online -SkipLicense -PackagePath "$PackerDownloads\WindowsTerminal.msixbundle"
+# Download-File "https://github.com/microsoft/terminal/releases/download/v1.22.11141.0/Microsoft.WindowsTerminal_1.22.11141.0_8wekyb3d8bbwe.msixbundle" "$PackerDownloads\WindowsTerminal.msixbundle"
+# Add-AppxProvisionedPackage -Online -SkipLicense -PackagePath "$PackerDownloads\WindowsTerminal.msixbundle"
 
 # Install from other sources
 # Get latest timer desktop release from GitHub
@@ -84,7 +84,7 @@ Remove-Item -Path "$PackerDownloads\$Timer7zFile"
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
-Download-File "https://zoom.us/download/vdi/6.4.10.26150/ZoomInstallerVDI.msi?archType=x64" "$PackerDownloads\$ZoomFilename"
+Download-File "https://zoom.us/download/vdi/6.6.14.26970/ZoomInstallerVDI.msi?archType=x64" "$PackerDownloads\$ZoomFilename"
 Start-Process -Wait -FilePath msiexec.exe -ArgumentList "/i ""$PackerDownloads\$ZoomFilename"" /qn"
 Remove-Item -Path "$PackerDownloads\$ZoomFilename"
 
