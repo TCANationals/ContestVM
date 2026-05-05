@@ -75,12 +75,10 @@ Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
 
 # Install from other sources
 # Get latest timer desktop release from GitHub
-Get-GithubLatestRelease "TCANationals/timer-desktop" "TCA-Timer-Web-Setup" "TimerSetup.exe"
-$Timer7zFile = Get-GithubLatestRelease "TCANationals/timer-desktop" 'tca-timer-desktop-.*-x64.nsis.7z$' ""
+Get-GithubLatestRelease "TCANationals/contest-app" 'TCA.Timer_*_x64-setup.exe' "TimerSetup.exe"
 Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/s'
-New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\TCA Timer.exe" -ea SilentlyContinue -wa SilentlyContinue
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\tca-timer-desktop.exe" -ea SilentlyContinue -wa SilentlyContinue
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
-Remove-Item -Path "$PackerDownloads\$Timer7zFile"
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
