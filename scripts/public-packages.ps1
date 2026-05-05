@@ -23,7 +23,7 @@ Choco-Install -PackageName sql-server-management-studio
 Choco-Install -PackageName python -ArgumentList "--version=3.14.4", "--params", '"/NoLockdown"'
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName r
-Choco-Install -PackageName cutepdf
+Choco-Install -PackageName dopdf -ArgumentList "--params=`"'/NoTelemetry'`""
 #Choco-Install -PackageName microsoft-windows-terminal
 
 # Install office from TCA cache since MS keeps changing the URL
