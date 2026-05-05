@@ -76,7 +76,7 @@ Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
 # Install from other sources
 # Get latest timer desktop release from GitHub
 Get-GithubLatestRelease "TCANationals/contest-app" 'TCA.Timer_.*_x64-setup.exe$' "TimerSetup.exe"
-Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/s'
+Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/S'
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\tca-timer-desktop.exe" -ea SilentlyContinue -wa SilentlyContinue
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
 
