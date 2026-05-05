@@ -35,6 +35,7 @@ variable "vcenter_datacenter" {
 variable "vcenter_host" {
   description = "Which ESXi host to select from the vCenter datacentre."
   type        = string
+  default = null
 }
 variable "vcenter_datastore" {
   description = "Which datastore to select from the ESXI host."
