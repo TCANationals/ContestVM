@@ -8,7 +8,8 @@ if (-not (TCA-PrivateUrlSupported)) {
     Exit 0
 }
 
-$HorizonAgentExe = "Omnissa-Horizon-Agent-x86_64-2603-8.18.0-24273927036.exe"
+$HorizonAgentExe = "Omnissa-Horizon-Agent-x86_64-2503-8.15.0-14304348675.exe"
+#$HorizonAgentExe = "Omnissa-Horizon-Agent-x86_64-2603-8.18.0-24273927036.exe"
 
 TCA-DownloadFile "$HorizonAgentExe"
 

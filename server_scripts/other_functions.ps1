@@ -57,6 +57,7 @@ TCA-DownloadFile "Teacher_91050.msi"
 
 # Download Horizon installer
 TCA-DownloadFile "Omnissa-Horizon-Connection-Server-x86_64-2603-8.18.0-24169897839.exe"
+TCA-DownloadFile "Omnissa-Horizon-Connection-Server-x86_64-2503-8.15.0-14365030791.exe"
 
 # Setup LAPS
 Update-LapsADSchema
