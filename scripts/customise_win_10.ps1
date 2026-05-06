@@ -77,6 +77,11 @@ try {
     Write-Host "Disable VMware Workstation tray icon..."
     Set-Itemproperty -Path "HKU:\.DEFAULT\Software\VMware, Inc.\VMware Tray" -Name "TrayBehavior" -Value 2 -Verbose
 
+    # Hide store icon in taskbar
+    Write-Host "Disable Store tray icon..."
+    Set-Itemproperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name "NoPinningStoreToTaskbar" -Value 1 -Verbose
+    Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Policies\Microsoft\Windows\Explorer" -Name "NoPinningStoreToTaskbar" -Value 1 -Verbose
+
     # Disable Windows 11 new context menu
     # Write-Host "Disabling Windows 11 Context Menu..."
     # if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID")){
