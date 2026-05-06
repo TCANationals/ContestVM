@@ -116,3 +116,7 @@ variable "vTPM" {
   type    = bool
   default = false
 }
+variable "room_code" {
+  type = string
+  default = ""
+}

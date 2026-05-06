@@ -238,6 +238,9 @@ build {
     elevated_password = "AdminPass123"
     script            = "scripts/public-packages.ps1"
     timeout           = "1h"
+    env = {
+      TCA_ROOM_CODE = var.room_code
+    }
   }
 
   provisioner "windows-restart" { # Settle after choco install (to allow deps to finish)

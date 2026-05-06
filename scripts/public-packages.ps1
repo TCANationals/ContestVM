@@ -80,6 +80,17 @@ Start-Process -Wait -FilePath "$PackerDownloads\TimerSetup.exe" -ArgumentList '/
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "TCA Timer" -Value "C:\Program Files\TCA Timer\tca-timer-desktop.exe" -ea SilentlyContinue -wa SilentlyContinue
 Remove-Item -Path "$PackerDownloads\TimerSetup.exe"
 
+# Setup Timer config
+if(-not (Test-Path -Path "HKLM:\Software\TCANationals")){
+    # code to create new key
+    New-Item "HKLM:\Software" -Name "TCANationals" -Force
+}
+if(-not (Test-Path -Path "HKLM:\Software\TCANationals\Timer")){
+    # code to create new key
+    New-Item "HKLM:\Software\TCANationals" -Name "Timer" -Force
+}
+New-ItemProperty -Path "HKLM:\Software\TCANationals\Timer" -Name "RoomKey" -Value $env:TCA_ROOM_CODE -ea SilentlyContinue -wa SilentlyContinue
+
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
 Download-File "https://zoom.us/download/vdi/6.6.14.26970/ZoomInstallerVDI.msi?archType=x64" "$PackerDownloads\$ZoomFilename"
