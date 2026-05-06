@@ -83,7 +83,7 @@ try {
     Create-Shortcut -Name "VMware Workstation" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\VMware\VMware Workstation\vmware.exe"
     Create-Shortcut -Name "Compass" -shortcuts "CommonDesktop" -TargetPath "C:\Certiport\Compass\CompassPreLoader.exe"
     Create-Shortcut -Name "Tableau" -shortcuts "CommonDesktop" -TargetPath "$env:ProgramFiles\Tableau\Tableau 2026.1\bin\tableau.exe"
-    Create-Shortcut -Name "Power Automate" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\Power Automate Desktop\PAD.Console.Host.exe"
+    #Create-Shortcut -Name "Power Automate" -shortcuts "CommonDesktop" -TargetPath "${Env:ProgramFiles(x86)}\Power Automate Desktop\PAD.Console.Host.exe"
     Create-Shortcut -Name "Disconnect" -shortcuts "CommonDesktop" -TargetPath "$Env:WinDir\System32\tsdiscon.exe" -IconLocation "$Env:WinDir\System32\shell32.dll,131"
 
     # Add start menu shortcuts
