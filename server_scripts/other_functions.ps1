@@ -55,6 +55,9 @@ New-ADGroup -Name "LanSchool Teachers" -GroupScope Global -DisplayName "LanSchoo
 # Download teacher file
 TCA-DownloadFile "Teacher_91050.msi"
 
+# Download Horizon installer
+TCA-DownloadFile "Omnissa-Horizon-Connection-Server-x86_64-2603-8.18.0-24169897839.exe"
+
 # Setup LAPS
 Update-LapsADSchema
 Set-LapsADComputerSelfPermission -Identity "Computers"
