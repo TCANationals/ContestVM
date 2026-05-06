@@ -79,8 +79,8 @@ try {
 
     # Hide store icon in taskbar
     Write-Host "Disable Store tray icon..."
-    Set-Itemproperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Name "NoPinningStoreToTaskbar" -Value 1 -Verbose
-    Set-Itemproperty -Path "HKU:\.DEFAULT\Software\Policies\Microsoft\Windows\Explorer" -Name "NoPinningStoreToTaskbar" -Value 1 -Verbose
+    & reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v NoPinningStoreToTaskbar /t REG_DWORD /d 1 /f
+    & reg add "HKEY_USERS\.DEFAULT\Software\Policies\Microsoft\Windows\Explorer" /v NoPinningStoreToTaskbar /t REG_DWORD /d 1 /f
 
     # Disable Windows 11 new context menu
     # Write-Host "Disabling Windows 11 Context Menu..."
