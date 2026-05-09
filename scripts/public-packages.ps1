@@ -75,9 +75,9 @@ Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
 
 # Install from other sources
 # Setup tool to show all taskbar icons
-Download-File "https://github.com/Aemony/NotifyIconPromote/releases/download/1.6/NotifyIconPromote_Setup.exe" "$PackerDownloads\NotifyIcon.exe"
-Start-Process -Wait -FilePath "$PackerDownloads\NotifyIcon.exe" -ArgumentList '/SILENT /SUPPRESSMSGBOXES /NORESTART'
-Remove-Item -Path "$PackerDownloads\NotifyIcon.exe"
+#Download-File "https://github.com/Aemony/NotifyIconPromote/releases/download/1.6/NotifyIconPromote_Setup.exe" "$PackerDownloads\NotifyIcon.exe"
+#Start-Process -Wait -FilePath "$PackerDownloads\NotifyIcon.exe" -ArgumentList '/SILENT /SUPPRESSMSGBOXES /NORESTART'
+#Remove-Item -Path "$PackerDownloads\NotifyIcon.exe"
 
 # Get latest timer desktop release from GitHub
 Get-GithubLatestRelease "TCANationals/contest-app" 'TCA.Timer_.*_x64-setup.exe$' "TimerSetup.exe"
