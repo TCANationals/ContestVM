@@ -90,6 +90,7 @@ if(-not (Test-Path -Path "HKLM:\Software\TCANationals\Timer")){
     New-Item "HKLM:\Software\TCANationals" -Name "Timer" -Force
 }
 New-ItemProperty -Path "HKLM:\Software\TCANationals\Timer" -Name "RoomKey" -Value $env:TCA_ROOM_CODE -ea SilentlyContinue -wa SilentlyContinue
+New-ItemProperty -Path "HKLM:\Software\TCANationals\Timer" -Name "DisplayChangeCommand" -PropertyType MultiString -Value "C:\ProgramData\chocolatey\lib\sysinternals\tools\Bginfo64.exe", "$PackerConfig\logon.bgi", "/timer:0", "/silent", "/nolicprompt" -ea SilentlyContinue -wa SilentlyContinue
 
 # Zoom VDI (requires plugin on the client)
 $ZoomFilename = "ZoomInstallerVDI.msi"
