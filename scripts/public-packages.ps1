@@ -64,9 +64,9 @@ Start-Process -Wait -FilePath "$PackerDownloads\$TableauFilename" -ArgumentList 
 Remove-Item -Path "$PackerDownloads\$TableauFilename"
 
 # MS PowerBI
-Download-File "https://download.microsoft.com/download/8/8/0/880BCA75-79DD-466A-927D-1ABF1F5454B0/PBIDesktopSetup_x64.exe" "$PackerDownloads\PBIDesktopSetup_x64.exe"
-Start-Process -Wait -FilePath "$PackerDownloads\PBIDesktopSetup_x64.exe" -ArgumentList "-quiet -norestart ACCEPT_EULA=1"
-Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
+# Download-File "https://download.microsoft.com/download/8/8/0/880BCA75-79DD-466A-927D-1ABF1F5454B0/PBIDesktopSetup_x64.exe" "$PackerDownloads\PBIDesktopSetup_x64.exe"
+# Start-Process -Wait -FilePath "$PackerDownloads\PBIDesktopSetup_x64.exe" -ArgumentList "-quiet -norestart ACCEPT_EULA=1"
+# Remove-Item -Path "$PackerDownloads\PBIDesktopSetup_x64.exe"
 
 # Install Windows Terminal from GitHub
 # Leave file behind for future installs
