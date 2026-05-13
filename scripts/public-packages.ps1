@@ -19,7 +19,7 @@ Choco-Install -PackageName microsoft-office-deployment -ArgumentList "--params=`
 Choco-Install -PackageName vscode
 Choco-Install -PackageName speedtest
 Choco-Install -PackageName speedtest-by-ookla
-Choco-Install -PackageName sql-server-management-studio
+Choco-Install -PackageName sql-server-management-studio -ArgumentList "--params=`"'--add Microsoft.SqlServer.Workload.SSMS.BI'`""
 Choco-Install -PackageName python -ArgumentList "--version=3.14.4", "--params", '"/NoLockdown"'
 Choco-Install -PackageName nodejs-lts
 Choco-Install -PackageName r
