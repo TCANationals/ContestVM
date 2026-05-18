@@ -82,6 +82,17 @@ try {
     & reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v NoPinningStoreToTaskbar /t REG_DWORD /d 1 /f
     & reg add "HKEY_USERS\.DEFAULT\Software\Policies\Microsoft\Windows\Explorer" /v NoPinningStoreToTaskbar /t REG_DWORD /d 1 /f
 
+    # Use a solid black desktop background (no wallpaper image) for the current admin and the .DEFAULT/system hive
+    Write-Host "Setting desktop background to solid black..."
+    & reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v "Wallpaper" /t REG_SZ /d "" /f
+    & reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v "WallpaperStyle" /t REG_SZ /d "0" /f
+    & reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v "TileWallpaper" /t REG_SZ /d "0" /f
+    & reg add "HKEY_CURRENT_USER\Control Panel\Colors" /v "Background" /t REG_SZ /d "0 0 0" /f
+    & reg add "HKEY_USERS\.DEFAULT\Control Panel\Desktop" /v "Wallpaper" /t REG_SZ /d "" /f
+    & reg add "HKEY_USERS\.DEFAULT\Control Panel\Desktop" /v "WallpaperStyle" /t REG_SZ /d "0" /f
+    & reg add "HKEY_USERS\.DEFAULT\Control Panel\Desktop" /v "TileWallpaper" /t REG_SZ /d "0" /f
+    & reg add "HKEY_USERS\.DEFAULT\Control Panel\Colors" /v "Background" /t REG_SZ /d "0 0 0" /f
+
     # Disable Windows 11 new context menu
     # Write-Host "Disabling Windows 11 Context Menu..."
     # if(-not (Test-Path -Path "HKU:\.DEFAULT\Software\Classes\CLSID")){
