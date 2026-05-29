@@ -86,6 +86,7 @@ source "vsphere-iso" "win_2022_sysprep" {
     "unattended/defaultassociations.xml",
     "unattended/logon.bgi",
     "unattended/nextdns_ca.crt",
+    "unattended/nocodb.ico",
     "unattended/provision-autounattend.ps1",
     "unattended/provision-guest-tools-qemu-kvm.ps1",
     "unattended/provision-openssh.ps1",

@@ -56,6 +56,9 @@ if (-not (Test-Path "$PackerConfig\defaultassociations.xml" )) {
 if (-not (Test-Path "$PackerConfig\logon.bgi" )) {
   Copy-Item A:\logon.bgi $PackerConfig\logon.bgi
 }
+if (-not (Test-Path "$PackerConfig\nocodb.ico" )) {
+  Copy-Item A:\nocodb.ico $PackerConfig\nocodb.ico
+}
 if (-not (Test-Path "$PackerConfig\susa_black.bmp" )) {
   Copy-Item A:\susa_black.bmp $PackerConfig\susa_black.bmp
 }
