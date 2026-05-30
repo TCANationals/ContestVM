@@ -69,7 +69,7 @@ try {
     # Show all taskbar notifications
     reg add "HKU\temp\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "EnableAutoTray" /t REG_DWORD /d 0 /f
     # Use a solid black desktop background for new user profiles (no wallpaper image)
-    reg add "HKU\temp\Control Panel\Desktop" /v "Wallpaper" /t REG_SZ /d "" /f
+    # reg add "HKU\temp\Control Panel\Desktop" /v "Wallpaper" /t REG_SZ /d "" /f
     reg add "HKU\temp\Control Panel\Desktop" /v "WallpaperStyle" /t REG_SZ /d "0" /f
     reg add "HKU\temp\Control Panel\Desktop" /v "TileWallpaper" /t REG_SZ /d "0" /f
     reg add "HKU\temp\Control Panel\Colors" /v "Background" /t REG_SZ /d "0 0 0" /f
