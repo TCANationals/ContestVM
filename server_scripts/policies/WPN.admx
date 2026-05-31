@@ -113,16 +113,5 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
-
-    <policy name="ExpandedToastNotifications" class="User" displayName="$(string.ExpandedToastNotifications)" explainText="$(string.ExpandedToastNotificationsExplain)" key="SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" valueName="EnableExpandedToastNotifications">
-      <parentCategory ref="NotificationsCategory" />
-      <supportedOn ref="windows:SUPPORTED_Windows_10_0_VB_Only_NOSERVER" />
-      <enabledValue>
-        <decimal value="1" />
-      </enabledValue>
-      <disabledValue>
-        <decimal value="0" />
-      </disabledValue>
-    </policy>
   </policies>
 </policyDefinitions>

@@ -147,5 +147,39 @@
         <decimal value="0" />
       </disabledValue>
     </policy>
+    <policy 
+        class="Machine"
+        displayName="$(string.Pol_AuditClientDoesNotSupportSigning_Name)"
+        explainText="$(string.Pol_AuditClientDoesNotSupportSigning_Help)"
+        key="Software\Policies\Microsoft\Windows\LanmanServer"
+        name="Pol_AuditClientDoesNotSupportSigning"
+        valueName="AuditClientDoesNotSupportSigning"
+        >
+      <parentCategory ref="Cat_LanmanServer" />
+      <supportedOn ref="windows:SUPPORTED_Windows7" />
+      <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
+    <policy 
+        class="Machine"
+        displayName="$(string.Pol_AuditClientSpnSupport_Name)"
+        explainText="$(string.Pol_AuditClientSpnSupport_Help)"
+        key="Software\Policies\Microsoft\Windows\LanmanServer"
+        name="Pol_AuditClientSpnSupport"
+        valueName="AuditClientSpnSupport"
+        >
+      <parentCategory ref="Cat_LanmanServer" />
+      <supportedOn ref="windows:SUPPORTED_Windows7" />
+      <enabledValue>
+        <decimal value="1" />
+      </enabledValue>
+      <disabledValue>
+        <decimal value="0" />
+      </disabledValue>
+    </policy>
   </policies>
 </policyDefinitions>
