@@ -1,6 +1,11 @@
 Import-Module ADDSDeployment
 Import-Module ADFS
 
+Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+Install-Package System.Security.Cryptography.Pkcs
+
+Install-Module -Name PSPKI -RequiredVersion 4.3.0
+
 
 # Setup AD
 Install-ADDSForest `
@@ -83,7 +88,7 @@ Set-Acl F:\Shares $acl
 
 # Setup public share and give everyone read-only access
 force-mkdir F:\Shares\Public\_Judges
-New-SmbShare -Name Public -Path "F:\Shares\Public" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
+New-SmbShare -Name Public -Path "F:\Shares\Public" -ChangeAccess "Everyone" -FullAccess 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\Public
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
@@ -100,7 +105,7 @@ Set-Acl F:\Shares\Public\_Judges $acl
 
 # DEM Config share
 force-mkdir F:\Shares\DEM
-New-SmbShare -Name DEM$ -Path "F:\Shares\DEM" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
+New-SmbShare -Name DEM$ -Path "F:\Shares\DEM" -ChangeAccess "Everyone" -FullAccess 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\DEM
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
     $authenticatedUsers, 'Read, ReadAndExecute, ListDirectory', 'ContainerInherit, ObjectInherit', 'None', 'Allow'
@@ -109,7 +114,7 @@ Set-Acl F:\Shares\DEM $acl
 
 # Users share, permission for users to create their own directory (from DEM on login)
 force-mkdir F:\Shares\Users
-New-SmbShare -Name Users$ -Path "F:\Shares\Users" -ChangeAccess "Everyone" -FullAccess = 'TCA\Domain Admins'
+New-SmbShare -Name Users$ -Path "F:\Shares\Users" -ChangeAccess "Everyone" -FullAccess 'TCA\Domain Admins'
 $acl = Get-Acl F:\Shares\Users
 # All auth users can list directory (fix issue with Office)
 $acl.SetAccessRule((New-Object System.Security.AccessControl.FileSystemAccessRule (
@@ -129,6 +134,7 @@ Set-Acl F:\Shares\Users $acl
 
 # Setup exchange certificate
 # Run on AD server with Exchange tools installed
+Install-Module -Name PSPKI
 Get-Command -Module PSPKI
 . 'C:\Program Files\Microsoft\Exchange Server\V15\bin\RemoteExchange.ps1'
 Connect-ExchangeServer -auto
