@@ -10,9 +10,9 @@ What it does:
 5) Optional (shared mode): creates per-user dedicated bases from a template base.
 
 Examples:
-  python scripts/provision_users_workspaces_ai.py \
+  python scripts/noco_setup.py \
     --base-url http://localhost:8080 \
-    --token "$NC_TOKEN" \
+    --jwt-token "$NC_JWT_TOKEN" \
     --emails-file ./emails.txt \
     --workspace-mode per-user \
     --workspace-name-template "{email_local} Workspace" \
@@ -21,9 +21,9 @@ Examples:
     --api-key "$OPENAI_API_KEY" \
     --models gpt-4.1-mini,gpt-4o-mini
 
-  python scripts/provision_users_workspaces_ai.py \
+  python scripts/noco_setup.py \
     --base-url http://localhost:8080 \
-    --token "$NC_TOKEN" \
+    --jwt-token "$NC_JWT_TOKEN" \
     --emails alice@example.com,bob@example.com \
     --workspace-mode shared \
     --shared-workspace-title "Contest Workspace" \
@@ -31,9 +31,9 @@ Examples:
     --integration-config-file ./anthropic-config.json \
     --update-existing-integration
 
-  python scripts/provision_users_workspaces_ai.py \
+  python scripts/noco_setup.py \
     --base-url http://localhost:8080 \
-    --token "$NC_TOKEN" \
+    --jwt-token "$NC_JWT_TOKEN" \
     --emails-file ./emails.txt \
     --workspace-mode shared \
     --shared-workspace-title "Contest Workspace" \
@@ -136,8 +136,7 @@ DATA_COPY_EXCLUDED_FIELD_TYPES = (
 @dataclass
 class NocoClient:
     base_url: str
-    token: str
-    use_bearer: bool = False
+    jwt_token: str
     timeout_seconds: float = 30.0
     verify_ssl: bool = True
     session: requests.Session = field(default_factory=requests.Session)
@@ -145,10 +144,7 @@ class NocoClient:
     def __post_init__(self) -> None:
         self.base_url = _normalize_base_url(self.base_url)
         self.session.headers.update({"Accept": "application/json"})
-        if self.use_bearer:
-            self.session.headers["Authorization"] = f"Bearer {self.token}"
-        else:
-            self.session.headers["xc-token"] = self.token
+        self.session.headers["xc-auth"] = self.jwt_token
 
     def _request(
         self,
@@ -213,17 +209,30 @@ class NocoClient:
     def list_workspace_members(self, workspace_id: str) -> list[dict[str, Any]]:
         payload = self._request(
             "GET",
-            f"/api/v3/meta/workspaces/{workspace_id}/members",
+            f"/api/v1/workspaces/{workspace_id}/users",
         )
-        return _extract_list(payload, ("list", "workspace_members", "members"))
+        return _extract_list(payload, ("list", "workspace_members", "members", "users"))
 
     def add_workspace_members(self, workspace_id: str, members: list[dict[str, str]]) -> Any:
-        return self._request(
-            "POST",
-            f"/api/v3/meta/workspaces/{workspace_id}/members",
-            json_body=members,
-            expected=(200, 201),
-        )
+        results: list[Any] = []
+        # workspace-users.controller.ts defines invite as one payload per request:
+        # { "email": "...", "roles": "workspace-level-creator" }
+        for member in members:
+            email = member.get("email")
+            role = member.get("workspace_role") or member.get("roles")
+            if not email or not role:
+                raise ValueError(
+                    f"Invalid member payload for workspace invite: {member!r}"
+                )
+            results.append(
+                self._request(
+                    "POST",
+                    f"/api/v1/workspaces/{workspace_id}/invitations",
+                    json_body={"email": email, "roles": role},
+                    expected=(200, 201),
+                )
+            )
+        return results
 
     def list_available_integrations(self) -> list[dict[str, Any]]:
         payload = self._request("GET", "/api/v2/integrations")
@@ -541,11 +550,10 @@ def parse_args() -> argparse.Namespace:
         description="Provision NocoDB workspaces, users, and AI integrations."
     )
     parser.add_argument("--base-url", required=True, help="NocoDB base URL, e.g. http://localhost:8080")
-    parser.add_argument("--token", required=True, help="NocoDB auth token (xc-token or bearer)")
     parser.add_argument(
-        "--use-bearer",
-        action="store_true",
-        help="Use Authorization: Bearer <token> instead of xc-token header.",
+        "--jwt-token",
+        required=True,
+        help="NocoDB JWT auth token sent as xc-auth header.",
     )
     parser.add_argument(
         "--insecure-skip-verify",
@@ -583,8 +591,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--reuse-existing-workspace",
+        dest="reuse_existing_workspace",
         action="store_true",
-        help="Reuse existing workspace by exact title instead of creating duplicates.",
+        default=True,
+        help="Reuse existing workspace by exact title instead of creating duplicates (default: enabled).",
+    )
+    parser.add_argument(
+        "--no-reuse-existing-workspace",
+        dest="reuse_existing_workspace",
+        action="store_false",
+        help="Disable workspace reuse and always create a new workspace.",
     )
     parser.add_argument(
         "--shared-template-base-id",
@@ -721,8 +737,7 @@ def main() -> int:
 
     client = NocoClient(
         base_url=args.base_url,
-        token=args.token,
-        use_bearer=args.use_bearer,
+        jwt_token=args.jwt_token,
         timeout_seconds=args.timeout_seconds,
         verify_ssl=not args.insecure_skip_verify,
     )
