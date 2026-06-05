@@ -37,9 +37,12 @@ Install-ADDSForest `
 # Add KDS key to AD
 Add-KdsRootKey -EffectiveTime (Get-Date).AddHours(-10)
 
+# get web server cert for ADFS
+Get-Certificate -Template "WebServer" -Subject "CN=TCA-AD1.tcalocal.com,OU=IT,O=TCA" -Dnsname "TCA-AD1.tcalocal.com","TCA-AD1" -url ldap: -CertStoreLocation cert:\LocalMachine\My
+
 Install-AdfsFarm `
 -CertificateThumbprint:"145DD3E4F539FF5686DC14867FCF220544512526" `
--FederationServiceDisplayName:"TCA 2023" `
+-FederationServiceDisplayName:"TCA 2027" `
 -FederationServiceName:"TCA-AD1.tcalocal.com" `
 -GroupServiceAccountIdentifier:"TCA\adfs_svc_acct`$"
 
